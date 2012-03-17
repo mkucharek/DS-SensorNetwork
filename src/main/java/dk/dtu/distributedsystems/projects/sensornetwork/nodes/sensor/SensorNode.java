@@ -1,8 +1,8 @@
-package dk.dtu.distributedsystems.projects.sensornetwork.nodes.sink;
+package dk.dtu.distributedsystems.projects.sensornetwork.nodes.sensor;
 
 import dk.dtu.distributedsystems.projects.sensornetwork.nodes.AbstractNode;
 
-public class Sink extends AbstractNode {
+public class SensorNode extends AbstractNode {
 
 	@Override
 	public void run() {

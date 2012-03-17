@@ -1,5 +1,5 @@
 package dk.dtu.distributedsystems.projects.sensornetwork.nodes.sensor;
 
-public class Sensor {
+public class Transreceiver {
 
 }

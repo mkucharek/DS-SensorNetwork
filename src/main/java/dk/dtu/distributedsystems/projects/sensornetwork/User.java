@@ -1,8 +1,8 @@
 package dk.dtu.distributedsystems.projects.sensornetwork;
 
-import dk.dtu.distributedsystems.projects.sensornetwork.nodes.admin.Admin;
-import dk.dtu.distributedsystems.projects.sensornetwork.nodes.sensor.Sensor;
-import dk.dtu.distributedsystems.projects.sensornetwork.nodes.sink.Sink;
+import dk.dtu.distributedsystems.projects.sensornetwork.nodes.admin.AdminNode;
+import dk.dtu.distributedsystems.projects.sensornetwork.nodes.sensor.SensorNode;
+import dk.dtu.distributedsystems.projects.sensornetwork.nodes.sink.SinkNode;
 
 /**
  * Main project class
@@ -10,11 +10,11 @@ import dk.dtu.distributedsystems.projects.sensornetwork.nodes.sink.Sink;
  */
 public class User 
 {
-	private Admin adminNode;
+	private AdminNode adminNode;
 	
-	private Sink sinkNode;
+	private SinkNode sinkNode;
 	
-	private Sensor[] sensorNodeArray;
+	private SensorNode[] sensorNodeArray;
 	
 	
     public static void main( String[] args )

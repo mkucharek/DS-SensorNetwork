@@ -2,7 +2,7 @@ package dk.dtu.distributedsystems.projects.sensornetwork.nodes.admin;
 
 import dk.dtu.distributedsystems.projects.sensornetwork.nodes.AbstractNode;
 
-public class Admin extends AbstractNode {
+public class AdminNode extends AbstractNode {
 
 	@Override
 	public void run() {
