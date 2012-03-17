@@ -1,0 +1,12 @@
+.project
+.classpath
+.settings
+.springBeans
+target
+*.iml
+*.ipr
+*.iws
+.idea /*
+MANIFEST.MF
+.DS_Store
+ 
