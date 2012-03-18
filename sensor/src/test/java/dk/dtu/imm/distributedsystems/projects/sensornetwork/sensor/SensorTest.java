@@ -10,5 +10,10 @@ public class SensorTest {
 	public void test() {
 		assertTrue(3>2);
 	}
+	
+	@Test
+	public void test2() {
+		assertTrue(4>3);
+	}
 
 }
