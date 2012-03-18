@@ -9,6 +9,8 @@ public class AdminTest {
 	@Test
 	public void test() {
 		assertTrue(3>2);
+		
+		assertTrue(5<6);
 	}
 
 }
