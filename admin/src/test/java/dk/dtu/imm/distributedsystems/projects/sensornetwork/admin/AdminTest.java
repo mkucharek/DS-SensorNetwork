@@ -11,6 +11,8 @@ public class AdminTest {
 		assertTrue(3>2);
 		
 		assertTrue(5<6);
+		
+		assertTrue(5<7);
 	}
 
 }
