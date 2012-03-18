@@ -8,7 +8,7 @@ public class SensorTest {
 
 	@Test
 	public void test() {
-//		fail("Not yet implemented");
+		assertTrue(3>2);
 	}
 
 }
