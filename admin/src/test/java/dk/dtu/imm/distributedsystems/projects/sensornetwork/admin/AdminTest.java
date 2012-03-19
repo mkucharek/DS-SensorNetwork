@@ -11,7 +11,8 @@ public class AdminTest {
 	
 	@Before
 	public void setup() {
-		admin = new Admin("C:\\Users\\Wojtek\\Documents\\Git Repositories\\ds-sensornetwork\\admin\\src\\test\\java\\dk\\dtu\\imm\\distributedsystems\\projects\\sensornetwork\\admin\\admin.properties");
+		admin = new Admin("admin.properties");
+		// C:\\Users\\Wojtek\\Documents\\Git Repositories\\ds-sensornetwork\\admin\\src\\test\\java\\dk\\dtu\\imm\\distributedsystems\\projects\\sensornetwork\\admin\\
 	}
 	
 	@Test
