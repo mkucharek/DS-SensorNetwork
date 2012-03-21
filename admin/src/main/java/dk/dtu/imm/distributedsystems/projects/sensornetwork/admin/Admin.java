@@ -13,16 +13,10 @@ public class Admin
     String sinkIP;
     int sinkPort;
 	
-    public Admin(String s) {
-		Properties properties = new Properties();
-		try {
-		    properties.load(new FileInputStream(s));
-		} catch (IOException e) {
-		}
-		
-		port = Integer.parseInt(properties.getProperty("PORT"));
-		sinkIP = properties.getProperty("SINK_IP");
-		sinkPort = Integer.parseInt(properties.getProperty("SINK_PORT"));
+    public Admin(int pport, String psinkIP, int psinkPort) {	
+		port = pport;
+		sinkIP = psinkIP;
+		sinkPort = psinkPort;
     }
     
 	public static void main(String[] args)
