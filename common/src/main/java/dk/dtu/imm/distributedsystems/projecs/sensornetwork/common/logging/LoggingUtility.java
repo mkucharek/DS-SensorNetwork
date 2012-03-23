@@ -1,6 +1,13 @@
 package dk.dtu.imm.distributedsystems.projecs.sensornetwork.common.logging;
 
+import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class LoggingUtility {
+	
+	private Logger logger = LoggerFactory.getLogger(LoggingUtility.class);
 
 	/* Here is the instance of the Singleton */
 	private static LoggingUtility instance_;
@@ -30,35 +37,27 @@ public class LoggingUtility {
 		return instance_;
 	}
 	
-	public String getLogMessage(String id, String remote, String messageType, String packetType, String value) {
+	public void logMessage(Logger logger, Object[] parameters) {
 		
-		StringBuffer sbuf = new StringBuffer(128);
-	    sbuf.append(id);
-	    sbuf.append(" ");
-	    sbuf.append(this.getLogMessage(remote, messageType, packetType, value));
-	    return sbuf.toString();
-	    
+		StringBuffer buf = new StringBuffer();
+		
+		for (Object parameter : parameters) {
+			buf.append("%10s");
+		}
+
+		logger.info(String.format(buf.toString(),parameters));
+		
 	}
 	
-    public String getLogMessage(String remote, String messageType, String packetType, String value) {
+	public void logMessage(Object[] parameters) {
 		
-		StringBuffer sbuf = new StringBuffer(128);
-	    sbuf.append(remote);
-	    sbuf.append(" ");
-	    sbuf.append(this.getLogMessage(messageType, packetType, value));
-	    return sbuf.toString();
-	    
-	}
-	
-	public String getLogMessage(String messageType, String packetType, String value) {
+		StringBuffer buf = new StringBuffer();
 		
-		StringBuffer sbuf = new StringBuffer(128);
-	    sbuf.append(messageType);
-	    sbuf.append(" ");
-	    sbuf.append(packetType);
-	    sbuf.append(" ");
-	    sbuf.append(value);
-	    return sbuf.toString();
-	    
+		for (Object parameter : parameters) {
+			buf.append("%12s");
+		}
+
+		this.logger.info(String.format(buf.toString(),parameters));
+		
 	}
 }

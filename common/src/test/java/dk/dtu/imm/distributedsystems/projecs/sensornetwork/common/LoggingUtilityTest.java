@@ -12,15 +12,36 @@ public class LoggingUtilityTest {
 	
 	Logger logger = LoggerFactory.getLogger(LoggingUtilityTest.class);
 
-	@Test
-	public void test() {
-		
-		logger.debug(LoggingUtility.getInstance().getLogMessage("messageType", "packetType", "valu"));
-		logger.debug(LoggingUtility.getInstance().getLogMessage("messageTyp", "packtType", "valuesss"));
-		logger.debug(LoggingUtility.getInstance().getLogMessage("messageTe", "pactType", "alue"));
-		logger.debug(LoggingUtility.getInstance().getLogMessage("messaype", "petType", "vue"));
-		logger.debug(LoggingUtility.getInstance().getLogMessage("mgeType", "ckType", "value"));
+//	@Test
+//	public void test() {
+//	
+//		LoggingUtility.getInstance().logMessage(logger, "id", "remo", "mes", "pac", "value");
+//		LoggingUtility.getInstance().logMessage(logger, "id", "remo", "mes", "pac", "value");
+//		LoggingUtility.getInstance().logMessage(logger, "id", "remo", "mes", "pac", "value");
+//		LoggingUtility.getInstance().logMessage(logger, "id", "remo", "mes", "pac", "value");
+//		LoggingUtility.getInstance().logMessage(logger, "id", "remo", "mes", "pac", "value");
+//
+//		
+//	}
 	
+	@Test
+	public void test2() {
+		
+		Object[] parameters = {"logger","id", "remo", "mes", "pac", "value"};
+		
+		for (int i=1; i<10; i++) {
+			LoggingUtility.getInstance().logMessage(logger,parameters);
+		}
+	}
+	
+	@Test
+	public void test3() {
+		
+		Object[] parameters = {"logger","id", "remo", "mes", "pac", "value"};
+		
+		for (int i=1; i<10; i++) {
+			LoggingUtility.getInstance().logMessage(parameters);
+		}
 	}
 
 }
