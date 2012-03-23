@@ -7,12 +7,20 @@ import dk.dtu.imm.distributedsystems.projecs.sensornetwork.common.logging.Loggin
 public class LoggingTest {
 
 	@Test
-	public void testLogging() {
+	public void testLowLevelLogging() {
 		
-		Object[] parameters = {"logger","id", "remo", "mes", "pac", "value"};
+		Object[] parameters = {"msg", "pck", "VAL"};
 		
 		for (int i=1; i<10; i++) {
 			LoggingUtility.logMessage(parameters);
+		}
+	}
+	
+	@Test
+	public void testSensorLogging() {
+		
+		for (int i=1; i<10; i++) {
+			AdminUtility.logMessage("msg", "pck", "VAL");
 		}
 	}
 

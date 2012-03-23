@@ -1,7 +1,5 @@
 package dk.dtu.imm.distributedsystems.projects.sensornetwork.admin;
 
-import java.io.*;
-import java.util.Properties;
 
 /**
  * Admin Node for Sensor Network

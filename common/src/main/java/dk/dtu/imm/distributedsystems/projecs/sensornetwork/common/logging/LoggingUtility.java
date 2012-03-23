@@ -1,7 +1,5 @@
 package dk.dtu.imm.distributedsystems.projecs.sensornetwork.common.logging;
 
-import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,6 +35,7 @@ public class LoggingUtility {
 		return instance_;
 	}
 	
+	@SuppressWarnings("unused")
 	public static void logMessage(Object[] parameters) {
 		
 		StringBuffer buf = new StringBuffer();
