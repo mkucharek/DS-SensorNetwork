@@ -44,7 +44,7 @@ public class LoggingUtility {
 			buf.append("%12s");
 		}
 
-		LoggingUtility.getInstance().logger.info(String.format(buf.toString(),parameters));
+		LoggingUtility.getInstance().logger.trace(String.format(buf.toString(),parameters));
 		
 	}
 }
