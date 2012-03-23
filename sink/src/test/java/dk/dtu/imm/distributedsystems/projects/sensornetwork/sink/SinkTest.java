@@ -1,35 +1,23 @@
 package dk.dtu.imm.distributedsystems.projects.sensornetwork.sink;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
+import java.io.FileNotFoundException;
 import java.util.Properties;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import dk.dtu.imm.distributedsystems.projecs.sensornetwork.common.GlobalUtility;
 
 public class SinkTest {
 
 	private Sink sink;
 	
 	@Before
-	public void setup() {
-		URI uri;
-		Properties properties = new Properties();
+	public void setup() throws FileNotFoundException {
 		
-		try {
-			uri = new URI(this.getClass().getResource("/sink.properties")
-					.toString());
-
-			properties.load(new FileInputStream(uri.getPath()));
-		} catch (URISyntaxException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			System.out.println("Configuration file not available.");
-		}
+		Properties properties = GlobalUtility.getProperties("sink.properties");
 
 		sink = new Sink(Integer.parseInt(properties.getProperty("ID")),
 						Integer.parseInt(properties.getProperty("LEFT_PORT")),

@@ -1,15 +1,14 @@
 package dk.dtu.imm.distributedsystems.projects.sensornetwork.sensor;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
+import java.io.FileNotFoundException;
 import java.util.Properties;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import dk.dtu.imm.distributedsystems.projecs.sensornetwork.common.GlobalUtility;
 
 public class SensorTest {
 
@@ -17,20 +16,10 @@ public class SensorTest {
 	private Sensor sensor21;
 	
 	@Before
-	public void setupSensor11() {
-		URI uri;
-		Properties properties = new Properties();
+	public void setupSensor11() throws FileNotFoundException {
 		
-		try {
-			uri = new URI(this.getClass().getResource("/sensor11.properties")
-					.toString());
+		Properties properties = GlobalUtility.getProperties("sensor11.properties");
 
-			properties.load(new FileInputStream(uri.getPath()));
-		} catch (URISyntaxException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			System.out.println("Configuration file not available.");
-		}
 
 		sensor11 = new Sensor(	Integer.parseInt(properties.getProperty("ID")),
 								Integer.parseInt(properties.getProperty("PERIOD")),
@@ -46,20 +35,9 @@ public class SensorTest {
 	}
 	
 	@Before
-	public void setupSensor21() {
-		URI uri;
-		Properties properties = new Properties();
+	public void setupSensor21() throws FileNotFoundException {
 		
-		try {
-			uri = new URI(this.getClass().getResource("/sensor21.properties")
-					.toString());
-
-			properties.load(new FileInputStream(uri.getPath()));
-		} catch (URISyntaxException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			System.out.println("Configuration file not available.");
-		}	
+		Properties properties = GlobalUtility.getProperties("sensor21.properties");	
 		
 		sensor21 = new Sensor(	Integer.parseInt(properties.getProperty("ID")),
 								Integer.parseInt(properties.getProperty("PERIOD")),

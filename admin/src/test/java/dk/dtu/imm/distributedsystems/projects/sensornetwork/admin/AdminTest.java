@@ -2,14 +2,13 @@ package dk.dtu.imm.distributedsystems.projects.sensornetwork.admin;
 
 import static org.junit.Assert.assertEquals;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
+import java.io.FileNotFoundException;
 import java.util.Properties;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import dk.dtu.imm.distributedsystems.projecs.sensornetwork.common.GlobalUtility;
 
 public class AdminTest {
 
@@ -18,18 +17,12 @@ public class AdminTest {
 	@Before
 	public void setup() {
 		
-		URI uri;
 		Properties properties = new Properties();
-		
 		try {
-			uri = new URI(this.getClass().getResource("/admin.properties")
-					.toString());
-
-			properties.load(new FileInputStream(uri.getPath()));
-		} catch (URISyntaxException e) {
+			properties = GlobalUtility.getProperties("admin.properties");
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} catch (IOException e) {
-			System.out.println("Configuration file not available.");
 		}
 
 		admin = new Admin(	Integer.parseInt(properties.getProperty("PORT")), 
