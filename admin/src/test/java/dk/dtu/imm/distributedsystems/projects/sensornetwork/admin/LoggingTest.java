@@ -12,7 +12,7 @@ public class LoggingTest {
 		Object[] parameters = {"logger","id", "remo", "mes", "pac", "value"};
 		
 		for (int i=1; i<10; i++) {
-			LoggingUtility.getInstance().logMessage(parameters);
+			LoggingUtility.logMessage(parameters);
 		}
 	}
 

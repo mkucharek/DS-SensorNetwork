@@ -37,19 +37,7 @@ public class LoggingUtility {
 		return instance_;
 	}
 	
-	public void logMessage(Logger logger, Object[] parameters) {
-		
-		StringBuffer buf = new StringBuffer();
-		
-		for (Object parameter : parameters) {
-			buf.append("%10s");
-		}
-
-		logger.info(String.format(buf.toString(),parameters));
-		
-	}
-	
-	public void logMessage(Object[] parameters) {
+	public static void logMessage(Object[] parameters) {
 		
 		StringBuffer buf = new StringBuffer();
 		
@@ -57,7 +45,7 @@ public class LoggingUtility {
 			buf.append("%12s");
 		}
 
-		this.logger.info(String.format(buf.toString(),parameters));
+		LoggingUtility.getInstance().logger.info(String.format(buf.toString(),parameters));
 		
 	}
 }
