@@ -1,6 +1,11 @@
 package dk.dtu.imm.distributedsystems.projects.sensornetwork.sensor;
 
+
 import java.util.Arrays;
+
+import dk.dtu.imm.distributedsystems.projects.sensornetwork.sensor.components.SensorComponent;
+import dk.dtu.imm.distributedsystems.projects.sensornetwork.sensor.components.TimerComponent;
+import dk.dtu.imm.distributedsystems.projects.sensornetwork.sensor.components.TransreceiverComponent;
 
 /**
  * Sensor Node for Sensor Network
@@ -22,6 +27,12 @@ public class Sensor
 	int[] rightChannelIDs;
 	String[] rightChannelIPs;
 	int[] rightChannelPorts;
+	
+	TransreceiverComponent transceiver;
+	SensorComponent sensor;
+	
+	TimerComponent sensorTimer;
+	TimerComponent transceiverTimer;
 	
     public Sensor(	int id, int period,	int threshold,	
 					int leftPort, int rightPort,
