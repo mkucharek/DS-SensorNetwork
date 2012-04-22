@@ -15,9 +15,13 @@ public class RightUdpPortListener extends Thread {
 
 	private Logger logger = LoggerFactory.getLogger(RightUdpPortListener.class);
 	
+	private final int PACKET_SIZE = 512;
+	
 	private int portNumber;
 	
 	private TransceiverComponent relatedTransceiver;
+	
+	private DatagramSocket serverSocket;
 	
 	public RightUdpPortListener(TransceiverComponent relatedTransceiver, int portNumber) {
 		this.relatedTransceiver = relatedTransceiver;
@@ -29,13 +33,13 @@ public class RightUdpPortListener extends Thread {
 		try	{
 
 			// Create a Datagram socket on port PORT
-			DatagramSocket serverSocket = new DatagramSocket(portNumber);
+			serverSocket = new DatagramSocket(portNumber);
 
 			byte[] receiveData = null;
 
 			while(true) {
 
-				receiveData = new byte[512];
+				receiveData = new byte[PACKET_SIZE];
 
 				// Create a new Datagram packet for the client message
 				DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);

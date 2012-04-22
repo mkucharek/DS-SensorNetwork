@@ -36,5 +36,11 @@ public class TransceiverComponent extends AbstractComponent {
 	public synchronized void sendToSensor(Packet packet) {
 		
 	}
+
+	@Override
+	public void run() {
+		// TODO Auto-generated method stub
+		
+	}
 	
 }

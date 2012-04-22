@@ -1,7 +1,5 @@
 package dk.dtu.imm.distributedsystems.projects.sensornetwork.sensor.components;
 
-import dk.dtu.imm.distributedsystems.projects.sensornetwork.common;
-
 import java.util.Random;
 
 public class SensorComponent extends AbstractComponent {
