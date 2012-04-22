@@ -10,11 +10,11 @@ import java.util.Properties;
 public class GlobalUtility {
 	
 	/* Here is the instance of the Singleton */
-	private static GlobalUtility instance_;
+	private static GlobalUtility instance;
 
 	/* Need the following object to synchronize */
 	/* a block */
-	private static Object syncObject_ = new Object();
+	private static Object syncObject = new Object();
 
 	/* Prevent direct access to the constructor */
 	private GlobalUtility() {
@@ -27,14 +27,14 @@ public class GlobalUtility {
 		 * be executed, and the
 		 */
 		/* thread could be immediately swapped out */
-		if (instance_ == null) {
-			synchronized (syncObject_) {
-				if (instance_ == null) {
-					instance_ = new GlobalUtility();
+		if (instance == null) {
+			synchronized (syncObject) {
+				if (instance == null) {
+					instance = new GlobalUtility();
 				}
 			}
 		}
-		return instance_;
+		return instance;
 	}
 	
     public static Properties getProperties(String filename) throws FileNotFoundException {
