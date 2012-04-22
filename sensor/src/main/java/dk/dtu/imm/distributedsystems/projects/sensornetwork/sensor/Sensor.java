@@ -4,8 +4,9 @@ package dk.dtu.imm.distributedsystems.projects.sensornetwork.sensor;
 import java.util.Arrays;
 
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.sensor.components.SensorComponent;
-import dk.dtu.imm.distributedsystems.projects.sensornetwork.sensor.components.TimerComponent;
-import dk.dtu.imm.distributedsystems.projects.sensornetwork.sensor.components.TransreceiverComponent;
+import dk.dtu.imm.distributedsystems.projects.sensornetwork.sensor.components.TransceiverComponent;
+import dk.dtu.imm.distributedsystems.projects.sensornetwork.sensor.listener.LeftUdpPortListener;
+import dk.dtu.imm.distributedsystems.projects.sensornetwork.sensor.listener.RightUdpPortListener;
 
 /**
  * Sensor Node for Sensor Network
@@ -13,6 +14,10 @@ import dk.dtu.imm.distributedsystems.projects.sensornetwork.sensor.components.Tr
  */
 public class Sensor 
 {
+	TransceiverComponent transceiverComponent;
+	SensorComponent sensorComponent;
+	
+	
 	int id;
 	int period;
 	int threshold;
@@ -38,6 +43,10 @@ public class Sensor
 					int leftPort, int rightPort,
 					int[] leftChannelIDs, String[] leftChannelIPs, int[] leftChannelPorts,
 					int[] rightChannelIDs, String[] rightChannelIPs, int[] rightChannelPorts) {	
+    	
+    	this.transceiverComponent = new TransceiverComponent(this);
+    	this.sensorComponent = new SensorComponent(this.transceiverComponent);
+    	
     	this.id = id;
     	this.period = period;
     	this.threshold = threshold;
@@ -56,6 +65,14 @@ public class Sensor
 	
 	public static void main(String[] args)
     {
-
+		
+		System.out.println("Hello Sensor!");
+		
     }
+
+	public SensorComponent getSensorComponent() {
+		return sensorComponent;
+	}
+	
+	
 }
