@@ -19,6 +19,8 @@ public class Admin
     
 	public static void main(String[] args)
     {
-	
+		AdminUtility.logMessage("msg", "pck", "VAL");
+		
+		System.out.println("Hello Admin!");
     }
 }
