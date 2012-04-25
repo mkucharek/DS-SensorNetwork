@@ -10,11 +10,10 @@ import dk.dtu.imm.distributedsystems.projecs.sensornetwork.common.packet.Packet;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.sensor.components.TransceiverComponent;
 
 public final class RightUdpPortListener extends UdpPortListener {
-
-	private TransceiverComponent relatedTransceiver;
-
-	public RightUdpPortListener(TransceiverComponent relatedTransceiver,
-			int portNumber) {
+	
+	private TransceiverComponent relatedTransceiver; // to powinno byc w PortListner, bo we wszystkich listnerach, ale paczka common nie widzi innych paczek (WP)
+	
+	public RightUdpPortListener(TransceiverComponent relatedTransceiver, int portNumber) {
 		super(LoggerFactory.getLogger(RightUdpPortListener.class), portNumber);
 		this.relatedTransceiver = relatedTransceiver;
 	}
@@ -25,5 +24,4 @@ public final class RightUdpPortListener extends UdpPortListener {
 		// TODO Auto-generated method stub
 		
 	}
-
 }
