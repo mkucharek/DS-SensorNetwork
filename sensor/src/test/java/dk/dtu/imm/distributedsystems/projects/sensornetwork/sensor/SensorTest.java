@@ -31,7 +31,8 @@ public class SensorTest {
 								convertStringArraytoIntArray(properties.getProperty("LEFT_CHANNEL_PORT").split(";")),
 								convertStringArraytoIntArray(properties.getProperty("RIGHT_CHANNEL_ID").split(";")),
 								properties.getProperty("RIGHT_CHANNEL_IP").split(";"),
-								convertStringArraytoIntArray(properties.getProperty("RIGHT_CHANNEL_PORT").split(";")));
+								convertStringArraytoIntArray(properties.getProperty("RIGHT_CHANNEL_PORT").split(";")),
+								1000);
 	}
 	
 	@Before
@@ -49,7 +50,8 @@ public class SensorTest {
 								convertStringArraytoIntArray(properties.getProperty("LEFT_CHANNEL_PORT").split(";")),
 								convertStringArraytoIntArray(properties.getProperty("RIGHT_CHANNEL_ID").split(";")),
 								properties.getProperty("RIGHT_CHANNEL_IP").split(";"),
-								convertStringArraytoIntArray(properties.getProperty("RIGHT_CHANNEL_PORT").split(";")));	
+								convertStringArraytoIntArray(properties.getProperty("RIGHT_CHANNEL_PORT").split(";")),
+								1000);	
 	}
 	
 	@Test

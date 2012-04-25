@@ -34,10 +34,13 @@ public class Sensor
 	String[] rightChannelIPs;
 	int[] rightChannelPorts;
 	
+	int ackTimeout;
+	
     public Sensor(	int id, int period,	int threshold,	
 					int leftPort, int rightPort,
 					int[] leftChannelIDs, String[] leftChannelIPs, int[] leftChannelPorts,
-					int[] rightChannelIDs, String[] rightChannelIPs, int[] rightChannelPorts) {	
+					int[] rightChannelIDs, String[] rightChannelIPs, int[] rightChannelPorts,
+					int ackTimeout) {	
     	
     	this.transceiverComponent = new TransceiverComponent(this);
     	this.sensorComponent = new SensorComponent(this.transceiverComponent, period, threshold);
@@ -56,8 +59,18 @@ public class Sensor
     	this.rightChannelIDs = Arrays.copyOf(rightChannelIDs, rightChannelIDs.length);
     	this.rightChannelIPs = Arrays.copyOf(rightChannelIPs, rightChannelIPs.length);
     	this.rightChannelPorts = Arrays.copyOf(rightChannelPorts,  rightChannelPorts.length);
+    	
+    	this.ackTimeout = ackTimeout;
     }
 	
+	public SensorComponent getSensorComponent() {
+		return sensorComponent;
+	}
+	
+	public int getAckTimeout() {
+		return ackTimeout;
+	}
+
 	public static void main(String[] args)
     {
 		
@@ -65,9 +78,6 @@ public class Sensor
 		
     }
 
-	public SensorComponent getSensorComponent() {
-		return sensorComponent;
-	}
-	
+
 	
 }
