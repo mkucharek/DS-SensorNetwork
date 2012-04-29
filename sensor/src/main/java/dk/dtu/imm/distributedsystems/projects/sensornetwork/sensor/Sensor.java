@@ -78,6 +78,28 @@ public class Sensor
 		
     }
 
+	public int[] getLeftChannelIDs() {
+		return leftChannelIDs;
+	}
 
+	public String[] getLeftChannelIPs() {
+		return leftChannelIPs;
+	}
+
+	public int[] getLeftChannelPorts() {
+		return leftChannelPorts;
+	}
+
+	public int[] getRightChannelIDs() {
+		return rightChannelIDs;
+	}
+
+	public String[] getRightChannelIPs() {
+		return rightChannelIPs;
+	}
+
+	public int[] getRightChannelPorts() {
+		return rightChannelPorts;
+	}
 	
 }

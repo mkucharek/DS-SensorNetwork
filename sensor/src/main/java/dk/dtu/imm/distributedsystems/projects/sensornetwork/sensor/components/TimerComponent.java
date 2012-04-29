@@ -10,21 +10,19 @@ public class TimerComponent extends AbstractComponent {
 		time = new AtomicInteger(periodInSeconds*1000);
 	}
 	
+	@Override
 	public void run() {
 		try {
 			while (true) {
 				if (time.decrementAndGet() <= 0) {
-					// notify about timeout
-					return;
+					return; // Timeout or period expired, kill thread
 				}
 
 				Thread.sleep(1);
 			}
 		} catch (InterruptedException e) {	
-			// finish counting and kill thread
-			
-			return;
-		}
+			return; // Packet ACK received before timeout, kill thread
+		}	
 	}
 	
 }

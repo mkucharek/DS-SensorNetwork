@@ -20,6 +20,8 @@ public class TransceiverComponent extends AbstractComponent {
 	private TimerComponent transceiverTimer;
 	
 	int ackTimeout;
+	
+	Packet currentPacketWaitingForAck;
 			
 	public TransceiverComponent(Sensor sensor) {
 		this.sensor = sensor;
@@ -45,16 +47,32 @@ public class TransceiverComponent extends AbstractComponent {
 	 */
 	public synchronized void forwardPacketUnicast(Packet packet, Direction direction, boolean retransmit) {
 		
+		for (int channel = 0; channel < sensor.getLeftChannelIDs().length; channel++) {
+			transceiverTimer = new TimerComponent(ackTimeout);
+			transceiverTimer.start(); // create Timer and set it
+		
+			currentPacketWaitingForAck = packet;	
+			
+			Packet packetFromLeftChannel = leftListner.getCurrentPacket();
+			
+			
+		}
+		
+		if (retransmit) {
+			forwardPacketUnicast(packet, direction, false);
+		} else {
+			return; // packet dropped
+		}
 	}
 	
-	/**
-	 * Sends CMD packet over control channel
-	 * 
-	 * @param packet
-	 */
-	public synchronized void sendToSensor(Packet packet) {
-		relatedSensor.setCurrentPacket(packet);
-	}
+//	/**
+//	 * Sends CMD packet over control channel
+//	 * 
+//	 * @param packet
+//	 */
+//	public synchronized void sendToSensor(Packet packet) {
+//		relatedSensor.setCurrentPacket(packet);
+//	}
 
 	@Override
 	public void run() {
@@ -70,15 +88,33 @@ public class TransceiverComponent extends AbstractComponent {
 			
 			if (packetFromSensor.getGroup() == PacketGroup.COMMAND) {
 				if (packetFromSensor.getType() == PacketType.DAT) { 
-					forwardPacketUnicast(packetFromSensor, Direction.LEFT, false);
+					if (!(transceiverTimer.isAlive())) {
+						forwardPacketUnicast(packetFromSensor, Direction.LEFT, false);
+					} else {
 					
-					transceiverTimer = new TimerComponent(ackTimeout);
-					transceiverTimer.start(); // create Timer and set it
+					/*
+					 * what happens when packet from sensor wants to take timer,
+					 * but cannot because some other packet is waiting for timeout
+					 */
+					
+					}
 				} else if (packetFromSensor.getType() == PacketType.ALM) { // ALARM_DATA
-					forwardPacketUnicast(packetFromSensor, Direction.LEFT, true); // once again to all if no ACKs were received from any of the left
-					// how to implement retransmit?
-					transceiverTimer = new TimerComponent(ackTimeout);
-					transceiverTimer.start(); // create Timer and set it
+					if (!(transceiverTimer.isAlive())) {
+							
+						/*
+						 * retransmit: once again to all if no ACKs were received from any of the left
+						 * 
+						 * how to implement retransmit?
+						 */
+						
+						forwardPacketUnicast(packetFromSensor, Direction.LEFT, true); 
+						
+	
+						transceiverTimer = new TimerComponent(ackTimeout);
+						transceiverTimer.start(); // create Timer and set it
+					} else {
+						
+					}
 				} else {
 					System.err.println("Sensor node - Transceiver: Wrong type of packet received on sensor channel");
 				}
@@ -88,6 +124,7 @@ public class TransceiverComponent extends AbstractComponent {
 			/*
 			 *  fetch packet from left listener
 			 *  packet group: CMD - push to sensor and forward multicast to right channel
+			 *  packet type: ACK
 			 */
 			
 			Packet packetFromLeftChannel = leftListner.getCurrentPacket();
@@ -96,8 +133,29 @@ public class TransceiverComponent extends AbstractComponent {
 				relatedSensor.setCurrentPacket(packetFromLeftChannel);
 				
 				forwardPacketMulticast(packetFromLeftChannel, Direction.RIGHT);
-			} else if (packetFromLeftChannel.getGroup() == PacketGroup.ACKNOWLEDGEMENT) { // ACK
-				transceiverTimer.interrupt(); // reset Timer
+			} else if (packetFromLeftChannel.getType() == PacketType.ACK) {	
+				if (packetFromLeftChannel.equals(currentPacketWaitingForAck)) {
+					
+					/*
+					 * should compare seq numbers, not whole packages
+					 * 
+					 * need some way to differentiate between unique packages: seq numbers
+					 * 
+					 * the seq number of ACK packet should agree
+					 * with the one that transceiver waits for
+					 * before timer reset
+					 */
+//					if (transceiverTimer.isAlive()) { // This will never happen
+						transceiverTimer.interrupt(); // reset Timer
+//					} else {
+//						// ACK arrived to late, drop it
+//						packetFromLeftChannel = null;
+//					}
+				} else {
+					// wrong ACK arrived, drop it
+					packetFromLeftChannel = null;
+				}
+
 			} else {
 				System.err.println("Sensor node - Transceiver: Wrong type of packet received on left channel");
 			}
@@ -112,26 +170,38 @@ public class TransceiverComponent extends AbstractComponent {
 			if (packetFromRightChannel.getGroup() == PacketGroup.SENSOR_DATA) {
 				forwardPacketUnicast(new Packet(PacketType.ACK), Direction.RIGHT, false);
 				
-				if (packetFromSensor.getType() == PacketType.DAT) { 
-					forwardPacketUnicast(packetFromRightChannel, Direction.LEFT, false);
+				if (packetFromRightChannel.getType() == PacketType.DAT) { 
+					if (!(transceiverTimer.isAlive())) {
+						forwardPacketUnicast(packetFromRightChannel, Direction.LEFT, false);
 					
-					transceiverTimer = new TimerComponent(ackTimeout);
-					transceiverTimer.start(); // create Timer and set it
+
+					} else {
+						
+					}
 					
-					// to musi by inny timer - to co ma byc kilka timerow na raz?
+					// to musi byc inny timer - to co ma byc kilka timerow na raz?
 					// ma jeden czekac az drugi skonczy zanim zaczac?
-				} else if (packetFromSensor.getType() == PacketType.ALM) { // ALARM_DATA
-					forwardPacketUnicast(packetFromSensor, Direction.LEFT, true); // once again to all if no ACKs were received from any of the left
-					// how to implement retransmit?
 					
-					transceiverTimer = new TimerComponent(ackTimeout);
-					transceiverTimer.start(); // create Timer and set it
+					
+				} else if (packetFromRightChannel.getType() == PacketType.ALM) { // ALARM_DATA
+					if (!(transceiverTimer.isAlive())) {
+						forwardPacketUnicast(packetFromRightChannel, Direction.LEFT, true); 
+						
+						transceiverTimer = new TimerComponent(ackTimeout);
+						transceiverTimer.start(); // create Timer and set it
+						
+						currentPacketWaitingForAck = packetFromRightChannel;
+						
+						// if unsuccessful on all channels forward once again with retransmit = false
+						// forwardPacketUnicast(packetFromSensor, Direction.LEFT, false); 
+						
+						
+					}
+					
 				} else {
 					System.err.println("Sensor node - Transceiver: Wrong type of packet received on right channel");
 				}
 			}
-		
-		// get somehow the notification from Timer that time has passed
 		}
 		
 	}

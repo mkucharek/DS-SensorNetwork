@@ -11,7 +11,8 @@ import dk.dtu.imm.distributedsystems.projects.sensornetwork.sensor.components.Tr
 
 public final class RightUdpPortListener extends UdpPortListener {
 	
-	private TransceiverComponent relatedTransceiver; // to powinno byc w PortListner, bo we wszystkich listnerach, ale paczka common nie widzi innych paczek (WP)
+	private TransceiverComponent relatedTransceiver; 
+	
 	
 	public RightUdpPortListener(TransceiverComponent relatedTransceiver, int portNumber) {
 		super(LoggerFactory.getLogger(RightUdpPortListener.class), portNumber);
@@ -22,6 +23,10 @@ public final class RightUdpPortListener extends UdpPortListener {
 	protected void handleIncomingPacket(Packet packet,
 			InetAddress fromIpAddress, int fromPortNumber) throws IOException {
 		// TODO Auto-generated method stub
+		
+		/*
+		 * would be good to save the number of channel the packet came from
+		 */
 		
 	}
 }

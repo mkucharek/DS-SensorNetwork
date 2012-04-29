@@ -12,6 +12,8 @@ public class SensorComponent extends AbstractComponent {
 	
 	Packet currentOutPacket;
 	Packet currentInPacket;
+	
+	boolean newInPacketArrived;
 
 	private TransceiverComponent relatedTransceiver;
 	private TimerComponent sensorTimer;
@@ -21,6 +23,9 @@ public class SensorComponent extends AbstractComponent {
 	
 		this.period = period;
 		this.threshold = threshold;
+		
+		this.sensorTimer = new TimerComponent(period);
+		sensorTimer.start();
 	}
 	
 	private int getTemperature() {
@@ -37,8 +42,9 @@ public class SensorComponent extends AbstractComponent {
 		return currentOutPacket;
 	}
 	
-	public void setCurrentPacket(Packet currentInPacket) {
+	public synchronized void setCurrentPacket(Packet currentInPacket) {
 		this.currentInPacket = currentInPacket;
+		this.newInPacketArrived = true;
 	}
 
 //	void setPeriod(int p) {
@@ -57,34 +63,52 @@ public class SensorComponent extends AbstractComponent {
 			while (true) {
 				
 				/*
-				 * TODO if new CMD packet arrived to sensor - flag changed?
+				 * if new CMD packet arrived to sensor - for now: flag changed
 				 * read the contents of packet and change period or threshold value, respectively
+				 * 
+				 * mimics TCP for now, packets + flag
 				 */
 				
-				if (currentInPacket.getType() == PacketType.PRD) {
-					period = Integer.parseInt(currentInPacket.getValue());
-				} else if (currentInPacket.getType() == PacketType.THR) {
-					threshold = Integer.parseInt(currentInPacket.getValue());
-				} else {
-					System.err.println("Sensor node - Sensor: Wrong type of packet received on sensor channel");
+				if (newInPacketArrived) {
+					newInPacketArrived = false;
+					
+					if (currentInPacket.getType() == PacketType.PRD) {
+						period = Integer.parseInt(currentInPacket.getValue());
+					} else if (currentInPacket.getType() == PacketType.THR) {
+						threshold = Integer.parseInt(currentInPacket.getValue());
+					} else {
+						System.err.println("Sensor node - Sensor: Wrong type of packet received on control channel");
+					}
+					
 				}
-						
+				
 				/*
-				 * TODO if Timer thread notified that waiting period is over ( or ask timer for time in every iteration)
+				 * if Timer is finished, waiting period is over (check if timer is alive in every iteration)
 				 * measure and send data
+				 * 
+				 * Is it energy-efficient to create and start a new thread every time period is over?
+				 * For small number of packets received it is better, because 
+				 * 
+				 * Maybe interrupts are a preferred solution?
+				 * 
+				 * Or Timer thread should be created once and send information about timeout every time period is over and sleep?
+				 * Preferred solution for counting period for sensor as it has to constantly count period.
 				 */
 				
-				measurement = getTemperature();
+				if(!(sensorTimer.isAlive())) {
 				
-				if (measurement > threshold) {
-					currentOutPacket = new Packet(PacketType.ALM, Integer.toString(measurement));
+					measurement = getTemperature();
+					
+					if (measurement > threshold) {
+						currentOutPacket = new Packet(PacketType.ALM, Integer.toString(measurement));
+					}
+					else {
+						currentOutPacket = new Packet(PacketType.DAT, Integer.toString(measurement));
+					}
+					
+					sensorTimer = new TimerComponent(period);
+					sensorTimer.start();
 				}
-				else {
-					currentOutPacket = new Packet(PacketType.DAT, Integer.toString(measurement));
-				}
-				
-				
-
 			}
 
 		} catch (Exception e) {
