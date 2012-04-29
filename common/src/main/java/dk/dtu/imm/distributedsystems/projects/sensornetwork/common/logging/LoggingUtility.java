@@ -1,4 +1,4 @@
-package dk.dtu.imm.distributedsystems.projecs.sensornetwork.common.logging;
+package dk.dtu.imm.distributedsystems.projects.sensornetwork.common.logging;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

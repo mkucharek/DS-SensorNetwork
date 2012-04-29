@@ -5,8 +5,8 @@ import java.net.InetAddress;
 
 import org.slf4j.LoggerFactory;
 
-import dk.dtu.imm.distributedsystems.projecs.sensornetwork.common.listener.UdpPortListener;
-import dk.dtu.imm.distributedsystems.projecs.sensornetwork.common.packet.Packet;
+import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.listener.UdpPortListener;
+import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.Packet;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.sensor.components.TransceiverComponent;
 
 public final class RightUdpPortListener extends UdpPortListener {

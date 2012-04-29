@@ -8,6 +8,9 @@ import junit.framework.Assert;
 
 import org.junit.Test;
 
+import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.Packet;
+import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.PacketType;
+
 public class TestPacket {
 
 	@Test

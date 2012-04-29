@@ -1,9 +1,9 @@
 package dk.dtu.imm.distributedsystems.projects.sensornetwork.sensor.components;
 
-import dk.dtu.imm.distributedsystems.projecs.sensornetwork.common.direction.Direction;
-import dk.dtu.imm.distributedsystems.projecs.sensornetwork.common.packet.Packet;
-import dk.dtu.imm.distributedsystems.projecs.sensornetwork.common.packet.PacketGroup;
-import dk.dtu.imm.distributedsystems.projecs.sensornetwork.common.packet.PacketType;
+import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.direction.Direction;
+import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.Packet;
+import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.PacketGroup;
+import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.PacketType;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.sensor.Sensor;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.sensor.listener.LeftUdpPortListener;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.sensor.listener.RightUdpPortListener;

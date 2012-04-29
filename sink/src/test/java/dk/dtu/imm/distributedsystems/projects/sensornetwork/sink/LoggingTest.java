@@ -2,7 +2,7 @@ package dk.dtu.imm.distributedsystems.projects.sensornetwork.sink;
 
 import org.junit.Test;
 
-import dk.dtu.imm.distributedsystems.projecs.sensornetwork.common.logging.LoggingUtility;
+import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.logging.LoggingUtility;
 
 public class LoggingTest {
 

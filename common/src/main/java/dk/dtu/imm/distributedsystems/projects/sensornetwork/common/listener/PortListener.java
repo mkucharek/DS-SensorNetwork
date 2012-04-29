@@ -1,6 +1,6 @@
-package dk.dtu.imm.distributedsystems.projecs.sensornetwork.common.listener;
+package dk.dtu.imm.distributedsystems.projects.sensornetwork.common.listener;
 
-import dk.dtu.imm.distributedsystems.projecs.sensornetwork.common.packet.Packet;
+import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.Packet;
 
 
 public abstract class PortListener extends Thread {

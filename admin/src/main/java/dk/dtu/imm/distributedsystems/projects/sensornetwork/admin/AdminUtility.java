@@ -1,6 +1,6 @@
 package dk.dtu.imm.distributedsystems.projects.sensornetwork.admin;
 
-import dk.dtu.imm.distributedsystems.projecs.sensornetwork.common.logging.LoggingUtility;
+import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.logging.LoggingUtility;
 
 public class AdminUtility {
 	

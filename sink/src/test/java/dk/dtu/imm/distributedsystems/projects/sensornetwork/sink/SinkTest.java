@@ -8,7 +8,7 @@ import java.util.Properties;
 import org.junit.Before;
 import org.junit.Test;
 
-import dk.dtu.imm.distributedsystems.projecs.sensornetwork.common.GlobalUtility;
+import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.GlobalUtility;
 
 public class SinkTest {
 

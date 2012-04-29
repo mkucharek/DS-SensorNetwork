@@ -1,4 +1,4 @@
-package dk.dtu.imm.distributedsystems.projecs.sensornetwork.common.listener;
+package dk.dtu.imm.distributedsystems.projects.sensornetwork.common.listener;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -13,8 +13,8 @@ import java.net.SocketException;
 
 import org.slf4j.Logger;
 
-import dk.dtu.imm.distributedsystems.projecs.sensornetwork.common.packet.Packet;
-import dk.dtu.imm.distributedsystems.projecs.sensornetwork.common.packet.PacketType;
+import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.Packet;
+import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.PacketType;
 
 /**
  * The standard Udp Port Listener thread that listens on the provided

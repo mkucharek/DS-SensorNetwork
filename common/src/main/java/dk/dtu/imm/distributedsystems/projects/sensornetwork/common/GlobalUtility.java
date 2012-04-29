@@ -1,4 +1,4 @@
-package dk.dtu.imm.distributedsystems.projecs.sensornetwork.common;
+package dk.dtu.imm.distributedsystems.projects.sensornetwork.common;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
