@@ -9,6 +9,8 @@ import java.util.Properties;
 
 public class GlobalUtility {
 	
+	public static final int ACK_TIMEOUT_MS = 1000;
+	
 	/* Here is the instance of the Singleton */
 	private static GlobalUtility instance;
 
@@ -55,5 +57,19 @@ public class GlobalUtility {
 		
 		return properties;
     }
+    
+    public static int[] convertStringArraytoIntArray(String[] sarray) {
+		int intarray[] = new int[sarray.length];
+		
+		if (sarray[0].length() == 0) {
+			intarray[0] = -1;
+		} else {
+			for (int i = 0; i < sarray.length; i++) {
+				intarray[i] = Integer.parseInt(sarray[i]);
+			}
+		}
+		
+		return intarray;
+	}
     
 }

@@ -5,7 +5,7 @@
 		<file>log.txt</file>
 
 		<encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
-			<layout class="dk.dtu.imm.distributedsystems.projecs.sensornetwork.common.logging.NodeOutputLayout" />
+			<layout class="dk.dtu.imm.distributedsystems.projects.sensornetwork.common.logging.NodeOutputLayout" />
 		</encoder>
 		
 		<filter class="ch.qos.logback.classic.filter.LevelFilter">
@@ -21,8 +21,9 @@
 		</layout>
 	</appender>
 
-	<logger name="dk.dtu.imm.distributedsystems.projecs.sensornetwork.common.logging" level="TRACE">
+	<logger name="dk.dtu.imm.distributedsystems.projects.sensornetwork.common.logging" level="TRACE">
 		<appender-ref ref="FILE" />
+		<appender-ref ref="STDOUT" />
 	</logger>
 
 	<root level="DEBUG">

@@ -1,8 +1,11 @@
 package dk.dtu.imm.distributedsystems.projects.sensornetwork.sensor;
 
 
+import java.io.FileNotFoundException;
 import java.util.Arrays;
+import java.util.Properties;
 
+import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.GlobalUtility;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.sensor.components.SensorComponent;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.sensor.components.TimerComponent;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.sensor.components.TransceiverComponent;
@@ -44,7 +47,7 @@ public class Sensor
     	
     	this.transceiverComponent = new TransceiverComponent(this);
     	this.sensorComponent = new SensorComponent(this.transceiverComponent, period, threshold);
-    	
+    	this.sensorComponent.start();
     	this.id = id;
     	this.period = period;
     	this.threshold = threshold;
@@ -63,43 +66,104 @@ public class Sensor
     	this.ackTimeout = ackTimeout;
     }
 	
+	
+	public TransceiverComponent getTransceiverComponent() {
+		return transceiverComponent;
+	}
+
+
 	public SensorComponent getSensorComponent() {
 		return sensorComponent;
 	}
-	
-	public int getAckTimeout() {
-		return ackTimeout;
+
+
+	public TimerComponent getSensorTimer() {
+		return sensorTimer;
 	}
 
-	public static void main(String[] args)
-    {
-		
-		System.out.println("Hello Sensor!");
-		
-    }
+
+	public TimerComponent getTransceiverTimer() {
+		return transceiverTimer;
+	}
+
+
+	public int getId() {
+		return id;
+	}
+
+
+	public int getPeriod() {
+		return period;
+	}
+
+
+	public int getThreshold() {
+		return threshold;
+	}
+
+
+	public int getLeftPort() {
+		return leftPort;
+	}
+
+
+	public int getRightPort() {
+		return rightPort;
+	}
+
 
 	public int[] getLeftChannelIDs() {
 		return leftChannelIDs;
 	}
 
+
 	public String[] getLeftChannelIPs() {
 		return leftChannelIPs;
 	}
+
 
 	public int[] getLeftChannelPorts() {
 		return leftChannelPorts;
 	}
 
+
 	public int[] getRightChannelIDs() {
 		return rightChannelIDs;
 	}
+
 
 	public String[] getRightChannelIPs() {
 		return rightChannelIPs;
 	}
 
+
 	public int[] getRightChannelPorts() {
 		return rightChannelPorts;
 	}
+
+
+	public int getAckTimeout() {
+		return ackTimeout;
+	}
+
+	public static void main(String[] args) {
+		
+		if(args.length != 1) {
+			System.out.println("Please provide only one parameter - a suitable property file");
+			return;
+		}
+		
+		Sensor sensor = null;
+		
+		try {
+			sensor = SensorUtility.getSensorInstance(args[1]);
+		} catch (FileNotFoundException e) {
+			System.out.println("Property file does not exist");
+			return;
+		}
+		
+		
+		
+    }
 	
 }
