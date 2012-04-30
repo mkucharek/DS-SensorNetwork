@@ -12,7 +12,7 @@ import dk.dtu.imm.distributedsystems.projects.sensornetwork.sensor.components.Tr
 
 public final class LeftUdpPortListener extends UdpPortListener {
 
-	private Transceiver relatedTransceiver;  // to powinno byc w PortListner, bo we wszystkich listnerach, ale paczka common nie widzi innych paczek (u mnie - WP)
+	private Transceiver relatedTransceiver;
 	
 	public LeftUdpPortListener(Transceiver relatedTransceiver, int portNumber) {
 		super(LoggerFactory.getLogger(LeftUdpPortListener.class), portNumber);
@@ -25,6 +25,7 @@ public final class LeftUdpPortListener extends UdpPortListener {
 		
 		this.sendAck(fromIpAddress, fromPortNumber);
 		
+		relatedTransceiver.handlePacket(packet);
 		
 	}
 }

@@ -3,13 +3,9 @@ package dk.dtu.imm.distributedsystems.projects.sensornetwork.sensor;
 
 import java.io.FileNotFoundException;
 import java.util.Arrays;
-import java.util.Properties;
 
-import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.GlobalUtility;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.sensor.components.SensorComponent;
-import dk.dtu.imm.distributedsystems.projects.sensornetwork.sensor.components.TimerComponent;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.sensor.components.TransceiverComponent;
-import dk.dtu.imm.distributedsystems.projects.sensornetwork.sensor.sender.Sender;
 
 /**
  * Sensor Node for Sensor Network

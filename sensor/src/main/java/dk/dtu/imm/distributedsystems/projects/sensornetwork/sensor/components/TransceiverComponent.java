@@ -32,26 +32,28 @@ public class TransceiverComponent implements Transceiver {
 	}
 	
 	@Override
-	public synchronized void handlePacket(Packet p) {
+	public synchronized void handlePacket(Packet packet) {
 		
-		if (p.getGroup() == PacketGroup.COMMAND) {
-			if (p.getType() == PacketType.PRD) {
-				sensor.getSensorComponent().setPeriod(Integer.parseInt(p.getValue()));
-			} else if (p.getType() == PacketType.THR) {
-				sensor.getSensorComponent().setThreshold(Integer.parseInt(p.getValue()));
+		if (packet.getGroup() == PacketGroup.COMMAND) {
+			if (packet.getType() == PacketType.PRD) {
+				sensor.getSensorComponent().setPeriod(Integer.parseInt(packet.getValue()));
+			} else if (packet.getType() == PacketType.THR) {
+				sensor.getSensorComponent().setThreshold(Integer.parseInt(packet.getValue()));
 			} else {
-				System.err.println("Wrong type of Command Package Received");
+				System.err.println("Wrong type of Command Packet Received");
 			}
-		} else if (p.getGroup() == PacketGroup.SENSOR_DATA) {
+		} else if (packet.getGroup() == PacketGroup.SENSOR_DATA) {
 //			if (packetFromSensor.getType() == PacketType.DAT) {
-			sender.addToBuffer(p);
+			sender.addToBuffer(packet);
 //			} else if (packetFromSensor.getType() == PacketType.ALM) {
 //				sender.addToBuffer(p);
 //			} else {
 //				System.err.println("Wrong type of Sensor Data Package Received");
 //			}
-		} else if (p.getGroup() == PacketGroup.ACKNOWLEDGEMENT) {
+		} else if (packet.getGroup() == PacketGroup.ACKNOWLEDGEMENT) {
 			sender.passAck();
-		}	
+		} else {
+			System.err.println("Wrong type group of Packet Received");
+		}
 	}
 }

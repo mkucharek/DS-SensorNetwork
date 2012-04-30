@@ -24,5 +24,6 @@ public final class RightUdpPortListener extends UdpPortListener {
 		
 		this.sendAck(fromIpAddress, fromPortNumber);
 		
+		relatedTransceiver.handlePacket(packet);
 	}
 }

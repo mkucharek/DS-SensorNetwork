@@ -66,7 +66,7 @@ public class SensorComponent extends AbstractComponent {
 				 }
 			 }
 			
-			 this.relatedTransceiver.handlePacket(outPacket);
+			 relatedTransceiver.handlePacket(outPacket);
 		}
 		
 	}
