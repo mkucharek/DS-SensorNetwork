@@ -37,16 +37,22 @@ public class TransceiverComponent implements Transceiver {
 		if (packet.getGroup() == PacketGroup.COMMAND) {
 			if (packet.getType() == PacketType.PRD) {
 				sensor.getSensorComponent().setPeriod(Integer.parseInt(packet.getValue()));
+				
+				// TODO Log setting Period - PRD
 			} else if (packet.getType() == PacketType.THR) {
 				sensor.getSensorComponent().setThreshold(Integer.parseInt(packet.getValue()));
+				
+				// TODO Log setting Period - PRD
 			} else {
 				System.err.println("Wrong type of Command Packet Received");
 			}
 		} else if (packet.getGroup() == PacketGroup.SENSOR_DATA) {
-//			if (packetFromSensor.getType() == PacketType.DAT) {
 			sender.addToBuffer(packet);
-//			} else if (packetFromSensor.getType() == PacketType.ALM) {
-//				sender.addToBuffer(p);
+			
+//			if (packet.getType() == PacketType.DAT) {
+//				// TODO Log generating DAT packet
+//			} else if (packet.getType() == PacketType.ALM) {
+//				// TODO Log generating ALM packet
 //			} else {
 //				System.err.println("Wrong type of Sensor Data Package Received");
 //			}

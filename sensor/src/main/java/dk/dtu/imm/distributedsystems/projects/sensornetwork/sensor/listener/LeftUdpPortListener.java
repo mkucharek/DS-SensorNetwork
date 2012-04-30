@@ -22,10 +22,10 @@ public final class LeftUdpPortListener extends UdpPortListener {
 	@Override
 	protected void handleIncomingPacket(Packet packet,
 			InetAddress fromIpAddress, int fromPortNumber) throws IOException {
+			
+		// TODO Log received packets - ACK; CMD: THR, PRD
 		
-		this.sendAck(fromIpAddress, fromPortNumber);
-		
-		relatedTransceiver.handlePacket(packet);
+		relatedTransceiver.handlePacket(packet); 
 		
 	}
 }

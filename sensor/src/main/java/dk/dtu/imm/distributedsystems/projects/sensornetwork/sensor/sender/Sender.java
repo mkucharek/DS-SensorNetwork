@@ -47,7 +47,7 @@ public class Sender extends Thread {
 	private void sendPacketOverUDP(Packet packet, InetAddress toIpAddress, int toPortNumber) throws IOException {
 		
 		// TODO Implement UDP Connection
-		
+
 		ByteArrayOutputStream bStream = new ByteArrayOutputStream();
 		ObjectOutput oo = new ObjectOutputStream(bStream);
 		oo.writeObject(packet);
@@ -65,6 +65,7 @@ public class Sender extends Thread {
 				serializedPacket.length, toIpAddress, toPortNumber);
 
 		serverSocket.send(sendPacket);
+		
 	}
 	
 	private boolean sendUnicastLeft(Packet packet) {
@@ -90,6 +91,8 @@ public class Sender extends Thread {
 //
 //			}
 			
+			// TODO Log packets sent - SENSOR_DATA: DAT, ALM
+			
 			synchronized (this) {
 				try {
 					
@@ -97,6 +100,7 @@ public class Sender extends Thread {
 				
 				} catch (InterruptedException e) {
 					// ACK received - packet received
+					
 					++successfulSends;
 					return true;
 				}
@@ -119,8 +123,7 @@ public class Sender extends Thread {
 			try {
 				currentRightChannelIP = InetAddress.getByName((sensor.getRightChannelIPs())[channelIndex]);
 			
-				// TODO Should the Addresses in Sensor Class be already InetAddresses
-				// when they are read form properties files?
+				// TODO Should the Addresses in Sensor Class be already InetAddresses when they are read form properties files?
 			} catch (UnknownHostException e) {
 
 			}
@@ -132,6 +135,8 @@ public class Sender extends Thread {
 			} catch (IOException e) {
 
 			}
+			
+			// TODO Log packets sent - CMD: THR, PRD
 		}
 
 	}

@@ -24,6 +24,10 @@ public final class RightUdpPortListener extends UdpPortListener {
 		
 		this.sendAck(fromIpAddress, fromPortNumber);
 		
+		// TODO Log ACK sent
+		
+		// TODO Log received packets - SENSOR_DATA: DAT, ALM
+		
 		relatedTransceiver.handlePacket(packet);
 	}
 }
