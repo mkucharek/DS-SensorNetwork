@@ -9,6 +9,7 @@ import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.GlobalUtility
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.sensor.components.SensorComponent;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.sensor.components.TimerComponent;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.sensor.components.TransceiverComponent;
+import dk.dtu.imm.distributedsystems.projects.sensornetwork.sensor.sender.Sender;
 
 /**
  * Sensor Node for Sensor Network
@@ -18,10 +19,7 @@ public class Sensor
 {
 	TransceiverComponent transceiverComponent;
 	SensorComponent sensorComponent;
-	
-	TimerComponent sensorTimer;
-	TimerComponent transceiverTimer;
-	
+
 	int id;
 	int period;
 	int threshold;
@@ -75,17 +73,6 @@ public class Sensor
 	public SensorComponent getSensorComponent() {
 		return sensorComponent;
 	}
-
-
-	public TimerComponent getSensorTimer() {
-		return sensorTimer;
-	}
-
-
-	public TimerComponent getTransceiverTimer() {
-		return transceiverTimer;
-	}
-
 
 	public int getId() {
 		return id;

@@ -56,10 +56,11 @@ public class Sender extends Thread {
 						}
 						
 					} else {
-						System.err.println("Sensor node - Transceiver: Wrong type of packet received on right channel");
+						System.err.println("");
 					}
+				} else if (packet.getGroup() == PacketGroup.COMMAND) {
+					sendMulticastRight(packet);
 				}
-				
 			}
 			
 			synchronized (this) {
@@ -68,7 +69,7 @@ public class Sender extends Thread {
 					this.wait();
 				
 				} catch (InterruptedException e) {
-					// ack passed - continue
+					// ACK passed - continue
 				}
 			}
 		}
@@ -78,6 +79,8 @@ public class Sender extends Thread {
 	private boolean sendUnicastLeft(Packet packet) {
 		
 		for (int channel = 0; channel < sensor.getLeftChannelIDs().length; channel++) {
+			
+			// send Packet to left channel - UDP Connection
 			
 			synchronized (this) {
 				try {
@@ -91,10 +94,19 @@ public class Sender extends Thread {
 				}
 			}
 			
-			// timeout passed - transimt to the next one
+			// timeout passed - transmit to the next one
 			
 		}
 		// packet not sent
+		
 		return false;
+	}
+	
+	private void sendMulticastRight(Packet packet) {
+		
+		for (int channel = 0; channel < sensor.getRightChannelIDs().length; channel++) {
+			// send Packet to right channel - UDP Connection
+		}
+
 	}
 }
