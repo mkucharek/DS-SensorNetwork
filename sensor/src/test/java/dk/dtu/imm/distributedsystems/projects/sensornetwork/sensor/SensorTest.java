@@ -1,87 +1,59 @@
 package dk.dtu.imm.distributedsystems.projects.sensornetwork.sensor;
 
 import static org.junit.Assert.assertEquals;
+import junit.framework.Assert;
 
-import java.io.FileNotFoundException;
-import java.util.Properties;
-
-import org.junit.Before;
 import org.junit.Test;
 
-import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.GlobalUtility;
+import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.exceptions.NodeInitializationException;
+import dk.dtu.imm.distributedsystems.projects.sensornetwork.sensor.sender.Sender;
 
 public class SensorTest {
-
-	private Sensor sensor11;
-	private Sensor sensor21;
-	
-	@Before
-	public void setupSensor11() throws FileNotFoundException {
-		
-		Properties properties = GlobalUtility.getProperties("sensor11.properties");
-
-
-		sensor11 = new Sensor(	Integer.parseInt(properties.getProperty("ID")),
-								Integer.parseInt(properties.getProperty("PERIOD")),
-								Integer.parseInt(properties.getProperty("THRESHOLD")),
-								Integer.parseInt(properties.getProperty("LEFT_PORT")),
-								Integer.parseInt(properties.getProperty("RIGHT_PORT")),
-								convertStringArraytoIntArray(properties.getProperty("LEFT_CHANNEL_ID").split(";")),
-								properties.getProperty("LEFT_CHANNEL_IP").split(";"),
-								convertStringArraytoIntArray(properties.getProperty("LEFT_CHANNEL_PORT").split(";")),
-								convertStringArraytoIntArray(properties.getProperty("RIGHT_CHANNEL_ID").split(";")),
-								properties.getProperty("RIGHT_CHANNEL_IP").split(";"),
-								convertStringArraytoIntArray(properties.getProperty("RIGHT_CHANNEL_PORT").split(";")),
-								1000);
-	}
-	
-	@Before
-	public void setupSensor21() throws FileNotFoundException {
-		
-		Properties properties = GlobalUtility.getProperties("sensor21.properties");	
-		
-		sensor21 = new Sensor(	Integer.parseInt(properties.getProperty("ID")),
-								Integer.parseInt(properties.getProperty("PERIOD")),
-								Integer.parseInt(properties.getProperty("THRESHOLD")),
-								Integer.parseInt(properties.getProperty("LEFT_PORT")),
-								Integer.parseInt(properties.getProperty("RIGHT_PORT")),
-								convertStringArraytoIntArray(properties.getProperty("LEFT_CHANNEL_ID").split(";")),
-								properties.getProperty("LEFT_CHANNEL_IP").split(";"),
-								convertStringArraytoIntArray(properties.getProperty("LEFT_CHANNEL_PORT").split(";")),
-								convertStringArraytoIntArray(properties.getProperty("RIGHT_CHANNEL_ID").split(";")),
-								properties.getProperty("RIGHT_CHANNEL_IP").split(";"),
-								convertStringArraytoIntArray(properties.getProperty("RIGHT_CHANNEL_PORT").split(";")),
-								1000);	
-	}
 	
 	@Test
 	public void testPropertiesSensor11() {
-		assertEquals(sensor11.id, 11);
-		assertEquals(sensor11.period, 10);
-		assertEquals(sensor11.threshold, 40);
 		
-		assertEquals(sensor11.leftPort, 20111);
-		assertEquals(sensor11.rightPort, 21111);
+		Sensor sensor11 = null;
+		try {
+			sensor11 = SensorUtility.getSensorInstance("sensor11.properties");
+		} catch (NodeInitializationException e) {
+			Assert.fail();
+		}
 		
-		assertEquals(sensor11.getLeftChannels()[0].getId(), "0");
-		assertEquals(sensor11.getLeftChannels()[0].getIpAddress(), "192.168.1.100");
-		assertEquals(sensor11.getLeftChannels()[0].getPortNumber(), 21100);
+		assertEquals("11", sensor11.getId());
+		assertEquals(10, sensor11.getSensorComponent().getPeriod());
+		assertEquals(40, sensor11.getSensorComponent().getThreshold());
 		
-		assertEquals(sensor11.getRightChannels()[0].getId(), "21");
-		assertEquals(sensor11.getRightChannels()[1].getId(), "22");
-		assertEquals(sensor11.getRightChannels()[2].getId(), "23");
+		assertEquals(9911, sensor11.getTransceiverComponent().getLeftPortListener().getPortNumber());
+		assertEquals(9912, sensor11.getTransceiverComponent().getRightPortListener().getPortNumber());
 		
-		assertEquals(sensor11.getRightChannels()[0].getIpAddress(), "192.168.1.121");
-		assertEquals(sensor11.getRightChannels()[1].getIpAddress(), "192.168.1.122");
-		assertEquals(sensor11.getRightChannels()[2].getIpAddress(), "192.168.1.123");
+		assertEquals(9910, sensor11.getTransceiverComponent().getPortSender().getPortNumber());
 		
-		assertEquals(sensor11.getRightChannels()[0].getPortNumber(), 20121);
-		assertEquals(sensor11.getRightChannels()[1].getPortNumber(), 20122);
-		assertEquals(sensor11.getRightChannels()[2].getPortNumber(), 20123);
+		assertEquals("0", (((Sender) sensor11.getTransceiverComponent().getPortSender()).getLeftChannels()[0].getId()));
+		
+		assertEquals("localhost", (((Sender) sensor11.getTransceiverComponent().getPortSender()).getLeftChannels()[0].getIpAddress()));
+		
+		assertEquals(9901, (((Sender) sensor11.getTransceiverComponent().getPortSender()).getLeftChannels()[0].getPortNumber()));
+		
+		assertEquals("21", (((Sender) sensor11.getTransceiverComponent().getPortSender()).getRightChannels()[0].getId()));
+		assertEquals("22", (((Sender) sensor11.getTransceiverComponent().getPortSender()).getRightChannels()[1].getId()));
+		assertEquals("23", (((Sender) sensor11.getTransceiverComponent().getPortSender()).getRightChannels()[2].getId()));
+		
+		assertEquals("localhost", (((Sender) sensor11.getTransceiverComponent().getPortSender()).getRightChannels()[0].getIpAddress()));
+		assertEquals("localhost", (((Sender) sensor11.getTransceiverComponent().getPortSender()).getRightChannels()[1].getIpAddress()));
+		assertEquals("localhost", (((Sender) sensor11.getTransceiverComponent().getPortSender()).getRightChannels()[2].getIpAddress()));
+		
+		assertEquals(9921, (((Sender) sensor11.getTransceiverComponent().getPortSender()).getRightChannels()[0].getPortNumber()));
+		assertEquals(9922, (((Sender) sensor11.getTransceiverComponent().getPortSender()).getRightChannels()[1].getPortNumber()));
+		assertEquals(9923, (((Sender) sensor11.getTransceiverComponent().getPortSender()).getRightChannels()[2].getPortNumber()));
+
 	}
 	
 //	@Test
 //	public void testPropertiesSensor21() {
+//		
+//		Sensor sensor21 = SensorUtility.getSensorInstance("sensor11.properties");
+//		
 //		assertEquals(sensor21.id, 21);
 //		assertEquals(sensor21.period, 10);
 //		assertEquals(sensor21.threshold, 40);
@@ -108,30 +80,5 @@ public class SensorTest {
 //		assertEquals(sensor21.rightChannelPorts[0], -1);
 //
 //	}
-//	
-//	@Test
-//	public void testConnections11to21() {
-//		assertEquals(sensor11.rightChannelIDs[0], sensor21.id);
-//		assertEquals(sensor11.rightChannelIPs[0], "192.168.1.121");
-//		assertEquals(sensor11.rightChannelPorts[0], sensor21.leftPort);
-//		
-//		assertEquals(sensor21.leftChannelIDs[0], sensor11.id);
-//		assertEquals(sensor21.leftChannelIPs[0], "192.168.1.111");
-//		assertEquals(sensor21.leftChannelPorts[0], sensor11.rightPort);
-//	}
-	
-	private int[] convertStringArraytoIntArray(String[] sarray) {
-		int intarray[] = new int[sarray.length];
-		
-		if (sarray[0].length() == 0) {
-			intarray[0] = -1;
-		} else {
-			for (int i = 0; i < sarray.length; i++) {
-				intarray[i] = Integer.parseInt(sarray[i]);
-			}
-		}
-		
-		return intarray;
-	}
 
 }

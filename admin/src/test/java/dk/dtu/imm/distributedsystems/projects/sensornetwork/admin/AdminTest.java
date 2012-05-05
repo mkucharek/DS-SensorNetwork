@@ -3,6 +3,8 @@ package dk.dtu.imm.distributedsystems.projects.sensornetwork.admin;
 import static org.junit.Assert.assertEquals;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.Properties;
 
 import org.junit.Before;
@@ -21,6 +23,12 @@ public class AdminTest {
 		try {
 			properties = GlobalUtility.getProperties("admin.properties");
 		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (URISyntaxException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

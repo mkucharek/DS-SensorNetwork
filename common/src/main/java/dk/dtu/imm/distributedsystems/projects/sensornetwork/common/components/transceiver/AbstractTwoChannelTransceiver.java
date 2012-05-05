@@ -30,7 +30,7 @@ public abstract class AbstractTwoChannelTransceiver extends AbstractTransceiver 
 	 *
 	 * @return the left port listener
 	 */
-	protected AbstractPortListener getLeftPortListener() {
+	public AbstractPortListener getLeftPortListener() {
 		return super.getAllListeners()[0];
 	}
 
@@ -39,7 +39,7 @@ public abstract class AbstractTwoChannelTransceiver extends AbstractTransceiver 
 	 *
 	 * @return the right port listener
 	 */
-	protected AbstractPortListener getRightPortListener() {
+	public AbstractPortListener getRightPortListener() {
 		return super.getAllListeners()[1];
 	}
 

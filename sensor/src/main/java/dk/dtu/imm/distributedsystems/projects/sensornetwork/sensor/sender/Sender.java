@@ -24,7 +24,7 @@ public class Sender extends AbstractUdpPortSender {
 	
 	/** The right channels. */
 	private Channel[] rightChannels;
-	
+
 	/** The successful sends. */
 	public int successfulSends; // TODO to be deleted; implemented for SenderTest purposes
 	
@@ -45,6 +45,24 @@ public class Sender extends AbstractUdpPortSender {
 		this.rightChannels = rightChannels;
 		
 		this.successfulSends = 0;
+	}
+	
+	/**
+	 * Gets the left channels.
+	 *
+	 * @return the left channels
+	 */
+	public Channel[] getLeftChannels() {
+		return leftChannels;
+	}
+
+	/**
+	 * Gets the right channels.
+	 *
+	 * @return the right channels
+	 */
+	public Channel[] getRightChannels() {
+		return rightChannels;
 	}
 
 	/* (non-Javadoc)

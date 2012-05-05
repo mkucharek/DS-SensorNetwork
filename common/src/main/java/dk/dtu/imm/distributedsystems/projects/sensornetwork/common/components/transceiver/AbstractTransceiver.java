@@ -43,7 +43,7 @@ public abstract class AbstractTransceiver {
 	 *
 	 * @return the port sender
 	 */
-	protected AbstractPortSender getPortSender() {
+	public AbstractPortSender getPortSender() {
 		return sender;
 	}
 

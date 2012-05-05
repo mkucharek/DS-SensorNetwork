@@ -19,7 +19,7 @@ public abstract class AbstractPortHandler extends Thread {
 	
 	/** The port number. */
 	protected int portNumber;
-	
+
 	/**
 	 * Instantiates a new abstract port handler.
 	 *
@@ -28,6 +28,15 @@ public abstract class AbstractPortHandler extends Thread {
 	protected AbstractPortHandler(int portNumber) {
 		this.portNumber = portNumber;
 		this.start();
+	}
+	
+	/**
+	 * Gets the port number.
+	 *
+	 * @return the port number
+	 */
+	public int getPortNumber() {
+		return portNumber;
 	}
 	
 	/**

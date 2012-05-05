@@ -7,6 +7,8 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Properties;
 
+import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.channels.Channel;
+
 /**
  * The Class GlobalUtility.
  *
@@ -19,33 +21,47 @@ public class GlobalUtility {
 
 	/** The Constant UDP_PACKET_SIZE. */
 	public static final int UDP_PACKET_SIZE = 512;
+	
+	public static final String TEMPLATE_PROPERTIES_FILE_NAME = "template.properties";
+	
+	public static final String VALUE_DELIMITER = ";";
 
 	/**
 	 * Gets the properties.
 	 *
 	 * @param filename the filename
 	 * @return the properties
+	 * @throws IOException 
 	 * @throws FileNotFoundException the file not found exception
+	 * @throws URISyntaxException 
 	 */
-	public static Properties getProperties(String filename)
-			throws FileNotFoundException {
+	public static Properties getProperties(String filename) throws FileNotFoundException, IOException, URISyntaxException {
 
 		URI uri;
 		Properties properties = new Properties();
 
-		try {
-			uri = new URI(GlobalUtility.class.getResource("/" + filename)
-					.toString());
-			properties.load(new FileInputStream(uri.getPath()));
-		} catch (URISyntaxException e) {
-			// File could not be reached
-			throw new FileNotFoundException(e.getLocalizedMessage());
-		} catch (IOException e) {
-			// File could not be reached
-			throw new FileNotFoundException(e.getLocalizedMessage());
-		}
+		uri = new URI(GlobalUtility.class.getResource("/" + filename).toString());
+		properties.load(new FileInputStream(uri.getPath()));
 
 		return properties;
+	}
+	
+	public static Channel[] getChannelArray(String[] ids, String[] ips, String[] portNumbers) {
+		
+		if(ids.length != ips.length || ips.length != portNumbers.length) {
+			throw new IllegalStateException("Cannot construct Channel array - different number of provided parameters");
+		}
+		
+		Channel[] channels = new Channel[ids.length];
+		
+		for(int i=0; i<ids.length; ++i) {
+			channels[i] = new Channel(ids[i], 
+    				ips[i], 
+    				Integer.parseInt(portNumbers[i]));
+    	}
+		
+		return channels;
+   
 	}
 
 	/**

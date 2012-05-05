@@ -5,6 +5,8 @@ import static org.junit.Assert.assertEquals;
 import java.io.FileNotFoundException;
 import java.util.Properties;
 
+import junit.framework.Assert;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -17,7 +19,12 @@ public class SinkTest {
 	@Before
 	public void setup() throws FileNotFoundException {
 		
-		Properties properties = GlobalUtility.getProperties("sink.properties");
+		Properties properties = null;
+		try {
+			properties = GlobalUtility.getProperties("sink.properties");
+		} catch (Exception e) {
+			Assert.fail();
+		}
 
 		sink = new Sink(Integer.parseInt(properties.getProperty("ID")),
 						Integer.parseInt(properties.getProperty("LEFT_PORT")),

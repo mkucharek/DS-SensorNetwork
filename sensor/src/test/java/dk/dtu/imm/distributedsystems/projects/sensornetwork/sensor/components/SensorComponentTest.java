@@ -30,7 +30,7 @@ public class SensorComponentTest {
 		// setting up a dummy transceiver with no listeners nor sender
 		this.transceiver = new DummyTransceiver(null, null);
 		
-		this.sensorComponent = new SensorComponent(this.transceiver, PERIOD, THRESHOLD);
+		
 	}
 	
 	@Test
@@ -40,7 +40,8 @@ public class SensorComponentTest {
 		
 		int measurementCount = rng.nextInt(MAX_COUNT-1) + 1;
 		
-		this.sensorComponent.start();
+//		this.sensorComponent.start();
+		this.sensorComponent = new SensorComponent(this.transceiver, PERIOD, THRESHOLD);
 		
 		try {
 			Thread.sleep(PERIOD * measurementCount);
@@ -60,7 +61,8 @@ public class SensorComponentTest {
 		
 		int measurementCount = MAX_COUNT;
 		
-		this.sensorComponent.start();
+//		this.sensorComponent.start();
+		this.sensorComponent = new SensorComponent(this.transceiver, PERIOD, THRESHOLD);
 		
 		try {
 			Thread.sleep(PERIOD/10);

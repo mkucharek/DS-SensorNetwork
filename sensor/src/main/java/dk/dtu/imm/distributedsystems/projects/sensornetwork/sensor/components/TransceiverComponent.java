@@ -2,6 +2,7 @@ package dk.dtu.imm.distributedsystems.projects.sensornetwork.sensor.components;
 
 import java.util.LinkedList;
 
+import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.channels.Channel;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.components.sender.udp.AbstractUdpPortSender;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.components.transceiver.AbstractTwoChannelTransceiver;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.Packet;
@@ -17,13 +18,18 @@ public class TransceiverComponent extends AbstractTwoChannelTransceiver {
 
 	private Sensor sensor;
 			
-	public TransceiverComponent(Sensor sensor) {
-		super(null, null, new Sender(sensor.getSenderPort(), new LinkedList<Packet>(), sensor.getLeftChannels(), sensor.getRightChannels(), sensor.getAckTimeout()));
-		this.sensor = sensor;
-		
+	public TransceiverComponent(int leftPortNumber, int rightPortNumber,
+			int senderPortNumber, Channel[] leftChannels,
+			Channel[] rightChannels, int ackTimeout) {
+		super(null, null, new Sender(senderPortNumber,
+				new LinkedList<Packet>(), leftChannels, rightChannels,
+				ackTimeout));
+
 		// manually set listeners
-		this.getAllListeners()[0] = new LeftUdpPortListener(this, sensor.getLeftPort());
-		this.getAllListeners()[1] = new RightUdpPortListener(this, sensor.getRightPort());
+		this.getAllListeners()[0] = new LeftUdpPortListener(this,
+				leftPortNumber);
+		this.getAllListeners()[1] = new RightUdpPortListener(this,
+				rightPortNumber);
 	}
 	
 	@Override
