@@ -1,4 +1,4 @@
-package dk.dtu.imm.distributedsystems.projects.sensornetwork.sensor.sender;
+package dk.dtu.imm.distributedsystems.projects.sensornetwork.sink.listeners;
 
 import java.io.IOException;
 import java.util.Queue;
@@ -11,6 +11,11 @@ import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.Packet
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.PacketGroup;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.PacketType;
 
+/**
+ * The Class Sender.
+ *
+ * @author Maciej Kucharek <a href="mailto:s091828 (at) student.dtu.dk">s091828 (at) student.dtu.dk</a>
+ */
 public class UdpPortSender extends AbstractNodeUdpPortSender {
 	
 	/**
@@ -25,8 +30,6 @@ public class UdpPortSender extends AbstractNodeUdpPortSender {
 	public UdpPortSender(int portNumber, Queue<Packet> buffer, Channel[] leftChannels,
 			Channel[] rightChannels, int ackTimeout) {
 		super(portNumber, buffer, leftChannels, rightChannels, ackTimeout);
-		this.leftChannels = leftChannels;
-		this.rightChannels = rightChannels;
 		
 	}
 	
@@ -53,6 +56,8 @@ public class UdpPortSender extends AbstractNodeUdpPortSender {
 	 */
 	@Override
 	protected void handleOutgoingPacket(Packet packet) throws ConnectionHandlerException, InterruptedException {
+		
+		// TODO: Check implementation
 		
 		try {
 			if (packet.getGroup() == PacketGroup.SENSOR_DATA) {
