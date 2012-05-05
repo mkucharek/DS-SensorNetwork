@@ -35,7 +35,9 @@ public class Timer extends Thread {
 		} catch (InterruptedException e) {
 			return;
 		}
-
-		holder.notify();
+		
+		synchronized (holder) {
+			holder.notify();
+		}
 	}
 }

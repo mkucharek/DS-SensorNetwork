@@ -11,7 +11,7 @@ import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.Packet
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.sensor.Sensor;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.sensor.listener.LeftUdpPortListener;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.sensor.listener.RightUdpPortListener;
-import dk.dtu.imm.distributedsystems.projects.sensornetwork.sensor.sender.SensorNodeUdpPortSender;
+import dk.dtu.imm.distributedsystems.projects.sensornetwork.sensor.sender.UdpPortSender;
 
 
 public class TransceiverComponent extends AbstractTwoChannelTransceiver {
@@ -21,7 +21,7 @@ public class TransceiverComponent extends AbstractTwoChannelTransceiver {
 	public TransceiverComponent(int leftPortNumber, int rightPortNumber,
 			int senderPortNumber, Channel[] leftChannels,
 			Channel[] rightChannels, int ackTimeout) {
-		super(null, null, new SensorNodeUdpPortSender(senderPortNumber,
+		super(null, null, new UdpPortSender(senderPortNumber,
 				new LinkedList<Packet>(), leftChannels, rightChannels,
 				ackTimeout));
 

@@ -10,21 +10,33 @@ import java.util.Date;
 public class LoggingUtility {
 
 	/**
-	 * Log message.
+	 * Actually logs the desired message to STDOUT.
 	 *
 	 * @param parameters the parameters
 	 */
 	public static synchronized void logMessage(Object[] parameters) {
 
+		System.out.println(getLogMessage(parameters));
+	}
+	
+	/**
+	 * Gets the formatted log message, but does not print it to STDOUT.
+	 *
+	 * @param parameters the parameters
+	 * @return the log message
+	 */
+	public static synchronized String getLogMessage(Object[] parameters) {
+		
 		StringBuffer buf = new StringBuffer();
 
 		buf.append(new Date().getTime());
 
 		for (@SuppressWarnings("unused")
 		Object parameter : parameters) {
-			buf.append("%10s");
+//			buf.append("%10s");
+			buf.append("\t%s");
 		}
-
-		System.out.println(String.format(buf.toString(), parameters));
+		
+		return String.format(buf.toString(), parameters);
 	}
 }

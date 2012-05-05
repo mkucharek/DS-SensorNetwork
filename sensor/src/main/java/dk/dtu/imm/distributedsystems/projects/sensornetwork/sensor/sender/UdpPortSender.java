@@ -17,7 +17,7 @@ import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.Packet
  *
  * @author Maciej Kucharek <a href="mailto:s091828 (at) student.dtu.dk">s091828 (at) student.dtu.dk</a>
  */
-public class SensorNodeUdpPortSender extends AbstractUdpPortSender {
+public class UdpPortSender extends AbstractUdpPortSender {
 	
 	/** The left channels. */
 	protected Channel[] leftChannels;
@@ -34,7 +34,7 @@ public class SensorNodeUdpPortSender extends AbstractUdpPortSender {
 	 * @param rightChannels the right channels
 	 * @param ackTimeout the ack timeout
 	 */
-	public SensorNodeUdpPortSender(int portNumber, Queue<Packet> buffer, Channel[] leftChannels,
+	public UdpPortSender(int portNumber, Queue<Packet> buffer, Channel[] leftChannels,
 			Channel[] rightChannels, int ackTimeout) {
 		super(portNumber, buffer, ackTimeout);
 		this.leftChannels = leftChannels;

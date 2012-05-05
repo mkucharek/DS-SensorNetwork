@@ -17,9 +17,9 @@ import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.exceptions.Wr
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.Packet;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.PacketType;
 
-public class SensorNodeUdpPortSenderTest {
+public class UdpPortSenderTest {
 	
-	TestableSensorNodeUdpPortSender sender;
+	TestableUdpPortSender sender;
 	
 	private static final int SLEEPVAL = 500;
 	
@@ -33,7 +33,7 @@ public class SensorNodeUdpPortSenderTest {
 		leftChannels = new Channel[] {new Channel("0", "localhost", 9990) };
 		rightChannels = new Channel[] {new Channel("21", "localhost", 9900) };
 		
-		this.sender = new TestableSensorNodeUdpPortSender(9000, new LinkedList<Packet>(), leftChannels, rightChannels, GlobalUtility.ACK_TIMEOUT_MS);
+		this.sender = new TestableUdpPortSender(9000, new LinkedList<Packet>(), leftChannels, rightChannels, GlobalUtility.ACK_TIMEOUT_MS);
 	}
 	
 	@After
@@ -181,16 +181,62 @@ public class SensorNodeUdpPortSenderTest {
 		Assert.assertEquals(0, sender.getSuccessfulSends());
 		
 	}
+	
+	/**
+	 * Test whether receiveing more than one ACK signal is handled properly
+	 * by the Sender - i.e. additional ack should be dropped.
+	 */
+	@Test
+	public void testDataMultipleACK() {
+		
+		Assert.assertTrue(sender.isAlive());
+		
+		Packet packet = new Packet(PacketType.DAT);
+		
+		sender.addToBuffer(packet);
+		
+		try {
+			Thread.sleep(SLEEPVAL/4);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			Assert.fail();
+			e.printStackTrace();
+		}
+		
+		sender.passAck();
+		
+		try {
+			Thread.sleep(SLEEPVAL/4);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			Assert.fail();
+			e.printStackTrace();
+		}
+		
+		sender.passAck();
+		
+		try {
+			Thread.sleep(SLEEPVAL/4);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			Assert.fail();
+			e.printStackTrace();
+		}
+		
+		Assert.assertEquals(State.WAITING, sender.getState());
+		Assert.assertEquals(1, sender.getSuccessfulSends());
+		
+	}
 
 }
 
-class TestableSensorNodeUdpPortSender extends SensorNodeUdpPortSender {
+class TestableUdpPortSender extends UdpPortSender {
 
 	private int successfulSends;
 	
 	private int multicastSends;
 	
-	public TestableSensorNodeUdpPortSender(int portNumber, Queue<Packet> buffer,
+	public TestableUdpPortSender(int portNumber, Queue<Packet> buffer,
 			Channel[] leftChannels, Channel[] rightChannels, int ackTimeout) {
 		super(portNumber, buffer, leftChannels, rightChannels, ackTimeout);
 		
