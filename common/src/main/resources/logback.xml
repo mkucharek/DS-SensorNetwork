@@ -3,8 +3,7 @@
 
 	<appender name="STDERR" class="ch.qos.logback.core.ConsoleAppender">
 		<encoder>
-			<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n
-			</pattern>
+			<pattern>%-20d{HH:mm:ss.SSS} %-15thread %-10level %-45logger{40} %-40msg%n</pattern>
 		</encoder>
 		<target>System.err</target>
 	</appender>
