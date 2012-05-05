@@ -21,6 +21,7 @@ public class SensorComponentTest {
 	
 	private static final int MAX_COUNT = 25;
 	
+	@SuppressWarnings("unused")
 	private SensorComponent sensorComponent;
 	
 	private DummyTransceiver transceiver;
@@ -40,7 +41,6 @@ public class SensorComponentTest {
 		
 		int measurementCount = rng.nextInt(MAX_COUNT-1) + 1;
 		
-//		this.sensorComponent.start();
 		this.sensorComponent = new SensorComponent(this.transceiver, PERIOD, THRESHOLD);
 		
 		try {
@@ -51,8 +51,8 @@ public class SensorComponentTest {
 			e.printStackTrace();
 		}
 		
-		Assert.assertEquals(true, this.transceiver.callCounter >= measurementCount - 1);
-		Assert.assertEquals(true, this.transceiver.callCounter <= measurementCount + 1);
+		Assert.assertEquals(true, this.transceiver.getCallCounter() >= measurementCount - 1);
+		Assert.assertEquals(true, this.transceiver.getCallCounter() <= measurementCount + 1);
 		
 	}
 	
@@ -61,7 +61,6 @@ public class SensorComponentTest {
 		
 		int measurementCount = MAX_COUNT;
 		
-//		this.sensorComponent.start();
 		this.sensorComponent = new SensorComponent(this.transceiver, PERIOD, THRESHOLD);
 		
 		try {
@@ -80,9 +79,9 @@ public class SensorComponentTest {
 				Assert.fail();
 				e.printStackTrace();
 			}
-			Assert.assertNotNull(transceiver.lastPacket);
-			Assert.assertTrue(Double.parseDouble(this.transceiver.lastPacket.getValue()) >= SensorUtility.MEASUREMENT_MEAN - SensorUtility.MEASUREMENT_STD);
-			Assert.assertTrue(Double.parseDouble(this.transceiver.lastPacket.getValue()) <= SensorUtility.MEASUREMENT_MEAN + SensorUtility.MEASUREMENT_STD);
+			Assert.assertNotNull(transceiver.getLastPacket());
+			Assert.assertTrue(Double.parseDouble(this.transceiver.getLastPacket().getValue()) >= SensorUtility.MEASUREMENT_MEAN - SensorUtility.MEASUREMENT_STD);
+			Assert.assertTrue(Double.parseDouble(this.transceiver.getLastPacket().getValue()) <= SensorUtility.MEASUREMENT_MEAN + SensorUtility.MEASUREMENT_STD);
 			
 		}
 		
@@ -92,16 +91,26 @@ public class SensorComponentTest {
 
 class DummyTransceiver extends AbstractTransceiver {
 
+	private int callCounter;
+	
+	private Packet lastPacket;
+	
 	protected DummyTransceiver(AbstractPortListener[] listeners,
 			AbstractPortSender sender) {
 		super(listeners, sender);
-		// TODO Auto-generated constructor stub
+		
+		this.callCounter = 0;
+		this.lastPacket = null;
+	}
+	
+	public int getCallCounter() {
+		return callCounter;
 	}
 
-	public int callCounter;
-	
-	public Packet lastPacket;
-	
+	public Packet getLastPacket() {
+		return lastPacket;
+	}
+
 	@Override
 	public void handlePacket(Packet packet) {
 		this.lastPacket = packet;

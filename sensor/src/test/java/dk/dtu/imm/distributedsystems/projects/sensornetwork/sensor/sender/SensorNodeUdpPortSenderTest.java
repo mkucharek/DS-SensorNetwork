@@ -1,7 +1,9 @@
 package dk.dtu.imm.distributedsystems.projects.sensornetwork.sensor.sender;
 
+import java.io.IOException;
 import java.lang.Thread.State;
 import java.util.LinkedList;
+import java.util.Queue;
 
 import junit.framework.Assert;
 
@@ -11,15 +13,13 @@ import org.junit.Test;
 
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.GlobalUtility;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.channels.Channel;
+import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.exceptions.WrongPacketSizeException;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.Packet;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.PacketType;
-import dk.dtu.imm.distributedsystems.projects.sensornetwork.sensor.Sensor;
 
-public class SenderTest {
-
-	Sensor sensor;
+public class SensorNodeUdpPortSenderTest {
 	
-	Sender sender;
+	TestableSensorNodeUdpPortSender sender;
 	
 	private static final int SLEEPVAL = 500;
 	
@@ -33,7 +33,7 @@ public class SenderTest {
 		leftChannels = new Channel[] {new Channel("0", "localhost", 9990) };
 		rightChannels = new Channel[] {new Channel("21", "localhost", 9900) };
 		
-		this.sender = new Sender(9000, new LinkedList<Packet>(), leftChannels, rightChannels, GlobalUtility.ACK_TIMEOUT_MS);
+		this.sender = new TestableSensorNodeUdpPortSender(9000, new LinkedList<Packet>(), leftChannels, rightChannels, GlobalUtility.ACK_TIMEOUT_MS);
 	}
 	
 	@After
@@ -70,7 +70,7 @@ public class SenderTest {
 		}
 		
 		Assert.assertEquals(State.WAITING, sender.getState());
-		Assert.assertEquals(1, sender.successfulSends);
+		Assert.assertEquals(1, sender.getSuccessfulSends());
 		
 	}
 	
@@ -93,7 +93,7 @@ public class SenderTest {
 		
 		sender.passAck();
 		
-		Assert.assertEquals(0, sender.successfulSends);
+		Assert.assertEquals(0, sender.getSuccessfulSends());
 		
 	}
 	
@@ -124,7 +124,7 @@ public class SenderTest {
 			e.printStackTrace();
 		}
 		
-		Assert.assertEquals(1, sender.successfulSends);
+		Assert.assertEquals(1, sender.getSuccessfulSends());
 		
 	}
 	
@@ -155,7 +155,7 @@ public class SenderTest {
 			e.printStackTrace();
 		}
 		
-		Assert.assertEquals(1, sender.successfulSends);
+		Assert.assertEquals(1, sender.getSuccessfulSends());
 		
 	}
 	
@@ -178,8 +178,50 @@ public class SenderTest {
 		
 		sender.passAck();
 		
-		Assert.assertEquals(0, sender.successfulSends);
+		Assert.assertEquals(0, sender.getSuccessfulSends());
 		
 	}
 
+}
+
+class TestableSensorNodeUdpPortSender extends SensorNodeUdpPortSender {
+
+	private int successfulSends;
+	
+	private int multicastSends;
+	
+	public TestableSensorNodeUdpPortSender(int portNumber, Queue<Packet> buffer,
+			Channel[] leftChannels, Channel[] rightChannels, int ackTimeout) {
+		super(portNumber, buffer, leftChannels, rightChannels, ackTimeout);
+		
+		this.successfulSends = 0;
+		this.multicastSends = 0;
+	}
+
+	public int getSuccessfulSends() {
+		return successfulSends;
+	}
+	
+	public int getMulticastSends() {
+		return multicastSends;
+	}
+
+	@Override
+	protected boolean sendUnicastLeft(Packet packet) throws WrongPacketSizeException, IOException, InterruptedException {
+		
+		if(super.sendUnicastLeft(packet)) {
+			++successfulSends;
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	@Override
+	protected void sendMulticastRight(Packet packet) throws WrongPacketSizeException, IOException {
+		
+		super.sendMulticastRight(packet);
+		++multicastSends;
+	}
+	
 }

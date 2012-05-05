@@ -6,7 +6,7 @@ import junit.framework.Assert;
 import org.junit.Test;
 
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.exceptions.NodeInitializationException;
-import dk.dtu.imm.distributedsystems.projects.sensornetwork.sensor.sender.Sender;
+import dk.dtu.imm.distributedsystems.projects.sensornetwork.sensor.sender.SensorNodeUdpPortSender;
 
 public class SensorTest {
 	
@@ -29,23 +29,23 @@ public class SensorTest {
 		
 		assertEquals(9910, sensor11.getTransceiverComponent().getPortSender().getPortNumber());
 		
-		assertEquals("0", (((Sender) sensor11.getTransceiverComponent().getPortSender()).getLeftChannels()[0].getId()));
+		assertEquals("0", (((SensorNodeUdpPortSender) sensor11.getTransceiverComponent().getPortSender()).getLeftChannels()[0].getId()));
 		
-		assertEquals("localhost", (((Sender) sensor11.getTransceiverComponent().getPortSender()).getLeftChannels()[0].getIpAddress()));
+		assertEquals("localhost", (((SensorNodeUdpPortSender) sensor11.getTransceiverComponent().getPortSender()).getLeftChannels()[0].getIpAddress()));
 		
-		assertEquals(9901, (((Sender) sensor11.getTransceiverComponent().getPortSender()).getLeftChannels()[0].getPortNumber()));
+		assertEquals(9901, (((SensorNodeUdpPortSender) sensor11.getTransceiverComponent().getPortSender()).getLeftChannels()[0].getPortNumber()));
 		
-		assertEquals("21", (((Sender) sensor11.getTransceiverComponent().getPortSender()).getRightChannels()[0].getId()));
-		assertEquals("22", (((Sender) sensor11.getTransceiverComponent().getPortSender()).getRightChannels()[1].getId()));
-		assertEquals("23", (((Sender) sensor11.getTransceiverComponent().getPortSender()).getRightChannels()[2].getId()));
+		assertEquals("21", (((SensorNodeUdpPortSender) sensor11.getTransceiverComponent().getPortSender()).getRightChannels()[0].getId()));
+		assertEquals("22", (((SensorNodeUdpPortSender) sensor11.getTransceiverComponent().getPortSender()).getRightChannels()[1].getId()));
+		assertEquals("23", (((SensorNodeUdpPortSender) sensor11.getTransceiverComponent().getPortSender()).getRightChannels()[2].getId()));
 		
-		assertEquals("localhost", (((Sender) sensor11.getTransceiverComponent().getPortSender()).getRightChannels()[0].getIpAddress()));
-		assertEquals("localhost", (((Sender) sensor11.getTransceiverComponent().getPortSender()).getRightChannels()[1].getIpAddress()));
-		assertEquals("localhost", (((Sender) sensor11.getTransceiverComponent().getPortSender()).getRightChannels()[2].getIpAddress()));
+		assertEquals("localhost", (((SensorNodeUdpPortSender) sensor11.getTransceiverComponent().getPortSender()).getRightChannels()[0].getIpAddress()));
+		assertEquals("localhost", (((SensorNodeUdpPortSender) sensor11.getTransceiverComponent().getPortSender()).getRightChannels()[1].getIpAddress()));
+		assertEquals("localhost", (((SensorNodeUdpPortSender) sensor11.getTransceiverComponent().getPortSender()).getRightChannels()[2].getIpAddress()));
 		
-		assertEquals(9921, (((Sender) sensor11.getTransceiverComponent().getPortSender()).getRightChannels()[0].getPortNumber()));
-		assertEquals(9922, (((Sender) sensor11.getTransceiverComponent().getPortSender()).getRightChannels()[1].getPortNumber()));
-		assertEquals(9923, (((Sender) sensor11.getTransceiverComponent().getPortSender()).getRightChannels()[2].getPortNumber()));
+		assertEquals(9921, (((SensorNodeUdpPortSender) sensor11.getTransceiverComponent().getPortSender()).getRightChannels()[0].getPortNumber()));
+		assertEquals(9922, (((SensorNodeUdpPortSender) sensor11.getTransceiverComponent().getPortSender()).getRightChannels()[1].getPortNumber()));
+		assertEquals(9923, (((SensorNodeUdpPortSender) sensor11.getTransceiverComponent().getPortSender()).getRightChannels()[2].getPortNumber()));
 
 	}
 	

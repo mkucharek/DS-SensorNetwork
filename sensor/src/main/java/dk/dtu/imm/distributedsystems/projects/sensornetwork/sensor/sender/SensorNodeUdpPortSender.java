@@ -17,17 +17,13 @@ import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.Packet
  *
  * @author Maciej Kucharek <a href="mailto:s091828 (at) student.dtu.dk">s091828 (at) student.dtu.dk</a>
  */
-public class Sender extends AbstractUdpPortSender {
+public class SensorNodeUdpPortSender extends AbstractUdpPortSender {
 	
 	/** The left channels. */
-	private Channel[] leftChannels;
+	protected Channel[] leftChannels;
 	
 	/** The right channels. */
-	private Channel[] rightChannels;
-
-	/** The successful sends. */
-	public int successfulSends; // TODO to be deleted; implemented for SenderTest purposes
-	
+	protected Channel[] rightChannels;
 
 	/**
 	 * Instantiates a new sender.
@@ -38,13 +34,12 @@ public class Sender extends AbstractUdpPortSender {
 	 * @param rightChannels the right channels
 	 * @param ackTimeout the ack timeout
 	 */
-	public Sender(int portNumber, Queue<Packet> buffer, Channel[] leftChannels,
+	public SensorNodeUdpPortSender(int portNumber, Queue<Packet> buffer, Channel[] leftChannels,
 			Channel[] rightChannels, int ackTimeout) {
 		super(portNumber, buffer, ackTimeout);
 		this.leftChannels = leftChannels;
 		this.rightChannels = rightChannels;
 		
-		this.successfulSends = 0;
 	}
 	
 	/**
@@ -108,7 +103,7 @@ public class Sender extends AbstractUdpPortSender {
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 * @throws InterruptedException 
 	 */
-	private boolean sendUnicastLeft(Packet packet) throws WrongPacketSizeException, IOException, InterruptedException {
+	protected boolean sendUnicastLeft(Packet packet) throws WrongPacketSizeException, IOException, InterruptedException {
 		
 		for(Channel channel : this.leftChannels) {
 			
@@ -130,7 +125,6 @@ public class Sender extends AbstractUdpPortSender {
 			
 			synchronized (this.ackObtained) {
 				if(this.ackObtained) {
-					++successfulSends;
 					this.ackObtained = false;
 					return true;
 				}
@@ -152,7 +146,7 @@ public class Sender extends AbstractUdpPortSender {
 	 * @throws WrongPacketSizeException the wrong packet size exception
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
-	private void sendMulticastRight(Packet packet) throws WrongPacketSizeException, IOException {
+	protected void sendMulticastRight(Packet packet) throws WrongPacketSizeException, IOException {
 		
 		for(Channel channel : this.rightChannels) {
 			
