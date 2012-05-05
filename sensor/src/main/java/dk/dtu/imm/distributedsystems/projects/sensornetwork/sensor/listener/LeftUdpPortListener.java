@@ -3,20 +3,17 @@ package dk.dtu.imm.distributedsystems.projects.sensornetwork.sensor.listener;
 import java.io.IOException;
 import java.net.InetAddress;
 
-import org.slf4j.LoggerFactory;
-
-import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.listener.UdpPortListener;
+import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.components.listener.udp.AbstractUdpPortListener;
+import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.components.transceiver.AbstractTransceiver;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.Packet;
-import dk.dtu.imm.distributedsystems.projects.sensornetwork.sensor.SensorUtility;
-import dk.dtu.imm.distributedsystems.projects.sensornetwork.sensor.components.Transceiver;
 
-public final class LeftUdpPortListener extends UdpPortListener {
+public final class LeftUdpPortListener extends AbstractUdpPortListener {
 
-	private Transceiver relatedTransceiver;
+	private AbstractTransceiver transceiver;
 	
-	public LeftUdpPortListener(Transceiver relatedTransceiver, int portNumber) {
-		super(LoggerFactory.getLogger(LeftUdpPortListener.class), portNumber);
-		this.relatedTransceiver = relatedTransceiver;
+	public LeftUdpPortListener(AbstractTransceiver relatedTransceiver, int portNumber) {
+		super(portNumber);
+		this.transceiver = relatedTransceiver;
 	}
 	
 	@Override
@@ -25,7 +22,7 @@ public final class LeftUdpPortListener extends UdpPortListener {
 			
 		// TODO Log received packets - ACK; CMD: THR, PRD
 		
-		relatedTransceiver.handlePacket(packet); 
+		transceiver.handlePacket(packet); 
 		
 	}
 }

@@ -2,6 +2,7 @@ package dk.dtu.imm.distributedsystems.projects.sensornetwork.sensor.components;
 
 import java.util.Random;
 
+import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.components.transceiver.AbstractTransceiver;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.Packet;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.PacketType;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.sensor.SensorUtility;
@@ -11,10 +12,10 @@ public class SensorComponent extends AbstractComponent {
 	int period;
 	int threshold;
 
-	private Transceiver relatedTransceiver;
+	private AbstractTransceiver transceiver;
 	
-	public SensorComponent(Transceiver relatedTransceiver, int period, int threshold) {
-		this.relatedTransceiver = relatedTransceiver;
+	public SensorComponent(AbstractTransceiver relatedTransceiver, int period, int threshold) {
+		this.transceiver = relatedTransceiver;
 	
 		this.period = period;
 		this.threshold = threshold;
@@ -66,7 +67,7 @@ public class SensorComponent extends AbstractComponent {
 				 }
 			 }
 			
-			 relatedTransceiver.handlePacket(outPacket);
+			 transceiver.handlePacket(outPacket);
 		}
 		
 	}

@@ -2,8 +2,8 @@ package dk.dtu.imm.distributedsystems.projects.sensornetwork.sensor;
 
 
 import java.io.FileNotFoundException;
-import java.util.Arrays;
 
+import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.channels.Channel;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.sensor.components.SensorComponent;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.sensor.components.TransceiverComponent;
 
@@ -22,14 +22,13 @@ public class Sensor
 	
 	int leftPort;
 	int rightPort;
+	int senderPort;
 	
-	int[] leftChannelIDs;
-	String[] leftChannelIPs;
-	int[] leftChannelPorts;
-
-	int[] rightChannelIDs;
-	String[] rightChannelIPs;
-	int[] rightChannelPorts;
+	/** The left channels. */
+	private Channel[] leftChannels;
+	
+	/** The right channels. */
+	private Channel[] rightChannels;
 	
 	int ackTimeout;
 	
@@ -39,25 +38,35 @@ public class Sensor
 					int[] rightChannelIDs, String[] rightChannelIPs, int[] rightChannelPorts,
 					int ackTimeout) {	
     	
-    	this.transceiverComponent = new TransceiverComponent(this);
-    	this.sensorComponent = new SensorComponent(this.transceiverComponent, period, threshold);
-    	this.sensorComponent.start();
     	this.id = id;
     	this.period = period;
     	this.threshold = threshold;
     	
     	this.leftPort = leftPort;
     	this.rightPort = rightPort;
+    	this.senderPort = 8888;
     	
-    	this.leftChannelIDs = Arrays.copyOf(leftChannelIDs, leftChannelIDs.length);
-    	this.leftChannelIPs = Arrays.copyOf(leftChannelIPs, leftChannelIPs.length);
-    	this.leftChannelPorts = Arrays.copyOf(leftChannelPorts, leftChannelPorts.length);
-
-    	this.rightChannelIDs = Arrays.copyOf(rightChannelIDs, rightChannelIDs.length);
-    	this.rightChannelIPs = Arrays.copyOf(rightChannelIPs, rightChannelIPs.length);
-    	this.rightChannelPorts = Arrays.copyOf(rightChannelPorts,  rightChannelPorts.length);
+    	this.leftChannels = new Channel[leftChannelIDs.length];
+    	
+    	for(int i=0; i<leftChannelIDs.length; ++i) {
+    		this.leftChannels[i] = new Channel(String.valueOf(leftChannelIDs[i]), 
+    				leftChannelIPs[i], 
+    				leftChannelPorts[i]);
+    	}
+    	
+    	this.rightChannels = new Channel[rightChannelIDs.length];
+    	
+    	for(int i=0; i<rightChannelIDs.length; ++i) {
+    		this.rightChannels[i] = new Channel(String.valueOf(rightChannelIDs[i]), 
+    				rightChannelIPs[i], 
+    				rightChannelPorts[i]);
+    	}
     	
     	this.ackTimeout = ackTimeout;
+    	
+    	this.transceiverComponent = new TransceiverComponent(this);
+    	this.sensorComponent = new SensorComponent(this.transceiverComponent, period, threshold);
+    	this.sensorComponent.start();
     }
 	
 	
@@ -93,35 +102,19 @@ public class Sensor
 	public int getRightPort() {
 		return rightPort;
 	}
-
-
-	public int[] getLeftChannelIDs() {
-		return leftChannelIDs;
+	
+	public int getSenderPort() {
+		return senderPort;
 	}
 
 
-	public String[] getLeftChannelIPs() {
-		return leftChannelIPs;
+	public Channel[] getLeftChannels() {
+		return leftChannels;
 	}
 
 
-	public int[] getLeftChannelPorts() {
-		return leftChannelPorts;
-	}
-
-
-	public int[] getRightChannelIDs() {
-		return rightChannelIDs;
-	}
-
-
-	public String[] getRightChannelIPs() {
-		return rightChannelIPs;
-	}
-
-
-	public int[] getRightChannelPorts() {
-		return rightChannelPorts;
+	public Channel[] getRightChannels() {
+		return rightChannels;
 	}
 
 

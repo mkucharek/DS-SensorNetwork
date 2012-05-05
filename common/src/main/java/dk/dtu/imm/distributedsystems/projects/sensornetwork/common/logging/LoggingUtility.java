@@ -1,50 +1,30 @@
 package dk.dtu.imm.distributedsystems.projects.sensornetwork.common.logging;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.Date;
 
+/**
+ * The Class LoggingUtility.
+ *
+ * @author Maciej Kucharek <a href="mailto:s091828 (at) student.dtu.dk">s091828 (at) student.dtu.dk</a>
+ */
 public class LoggingUtility {
-	
-	private Logger logger = LoggerFactory.getLogger(LoggingUtility.class);
 
-	/* Here is the instance of the Singleton */
-	private static LoggingUtility instance_;
+	/**
+	 * Log message.
+	 *
+	 * @param parameters the parameters
+	 */
+	public static synchronized void logMessage(Object[] parameters) {
 
-	/* Need the following object to synchronize */
-	/* a block */
-	private static Object syncObject_ = new Object();
-
-	/* Prevent direct access to the constructor */
-	private LoggingUtility() {
-		super();
-	}
-
-	public static LoggingUtility getInstance() {
-		/*
-		 * in a non-thread-safe version of a Singleton the following line could
-		 * be executed, and the
-		 */
-		/* thread could be immediately swapped out */
-		if (instance_ == null) {
-			synchronized (syncObject_) {
-				if (instance_ == null) {
-					instance_ = new LoggingUtility();
-				}
-			}
-		}
-		return instance_;
-	}
-	
-	@SuppressWarnings("unused")
-	public static void logMessage(Object[] parameters) {
-		
 		StringBuffer buf = new StringBuffer();
-		
-		for (Object parameter : parameters) {
-			buf.append("%12s");
+
+		buf.append(new Date().getTime());
+
+		for (@SuppressWarnings("unused")
+		Object parameter : parameters) {
+			buf.append("%10s");
 		}
 
-		LoggingUtility.getInstance().logger.trace(String.format(buf.toString(),parameters));
-		
+		System.out.println(String.format(buf.toString(), parameters));
 	}
 }

@@ -1,14 +1,10 @@
 package dk.dtu.imm.distributedsystems.projecs.sensornetwork.common;
 
 import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.logging.LoggingUtility;
 
 public class LoggingUtilityTest {
-	
-	Logger logger = LoggerFactory.getLogger(LoggingUtilityTest.class);
 	
 	@Test
 	public void test3() {

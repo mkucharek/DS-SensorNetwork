@@ -7,45 +7,35 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Properties;
 
+/**
+ * The Class GlobalUtility.
+ *
+ * @author Maciej Kucharek <a href="mailto:s091828 (at) student.dtu.dk">s091828 (at) student.dtu.dk</a>
+ */
 public class GlobalUtility {
-	
+
+	/** The Constant ACK_TIMEOUT_MS. */
 	public static final int ACK_TIMEOUT_MS = 1000;
-	
-	/* Here is the instance of the Singleton */
-	private static GlobalUtility instance;
 
-	/* Need the following object to synchronize */
-	/* a block */
-	private static Object syncObject = new Object();
+	/** The Constant UDP_PACKET_SIZE. */
+	public static final int UDP_PACKET_SIZE = 512;
 
-	/* Prevent direct access to the constructor */
-	private GlobalUtility() {
-		super();
-	}
+	/**
+	 * Gets the properties.
+	 *
+	 * @param filename the filename
+	 * @return the properties
+	 * @throws FileNotFoundException the file not found exception
+	 */
+	public static Properties getProperties(String filename)
+			throws FileNotFoundException {
 
-	public static GlobalUtility getInstance() {
-		/*
-		 * in a non-thread-safe version of a Singleton the following line could
-		 * be executed, and the
-		 */
-		/* thread could be immediately swapped out */
-		if (instance == null) {
-			synchronized (syncObject) {
-				if (instance == null) {
-					instance = new GlobalUtility();
-				}
-			}
-		}
-		return instance;
-	}
-	
-    public static Properties getProperties(String filename) throws FileNotFoundException {
-    	
-    	URI uri;
+		URI uri;
 		Properties properties = new Properties();
-		
+
 		try {
-			uri = new URI(GlobalUtility.getInstance().getClass().getResource("/" + filename).toString());
+			uri = new URI(GlobalUtility.class.getResource("/" + filename)
+					.toString());
 			properties.load(new FileInputStream(uri.getPath()));
 		} catch (URISyntaxException e) {
 			// File could not be reached
@@ -54,13 +44,19 @@ public class GlobalUtility {
 			// File could not be reached
 			throw new FileNotFoundException(e.getLocalizedMessage());
 		}
-		
+
 		return properties;
-    }
-    
-    public static int[] convertStringArraytoIntArray(String[] sarray) {
+	}
+
+	/**
+	 * Convert string arrayto int array.
+	 *
+	 * @param sarray the sarray
+	 * @return the int[]
+	 */
+	public static int[] convertStringArraytoIntArray(String[] sarray) {
 		int intarray[] = new int[sarray.length];
-		
+
 		if (sarray[0].length() == 0) {
 			intarray[0] = -1;
 		} else {
@@ -68,8 +64,8 @@ public class GlobalUtility {
 				intarray[i] = Integer.parseInt(sarray[i]);
 			}
 		}
-		
+
 		return intarray;
 	}
-    
+
 }
