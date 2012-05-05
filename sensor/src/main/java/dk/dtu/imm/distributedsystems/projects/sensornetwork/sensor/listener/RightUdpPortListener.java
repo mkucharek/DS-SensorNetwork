@@ -3,19 +3,17 @@ package dk.dtu.imm.distributedsystems.projects.sensornetwork.sensor.listener;
 import java.io.IOException;
 import java.net.InetAddress;
 
-import org.slf4j.LoggerFactory;
-
-import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.listener.UdpPortListener;
+import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.components.listener.udp.AbstractUdpPortListener;
+import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.components.transceiver.AbstractTransceiver;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.Packet;
-import dk.dtu.imm.distributedsystems.projects.sensornetwork.sensor.components.Transceiver;
 
-public final class RightUdpPortListener extends UdpPortListener {
+public final class RightUdpPortListener extends AbstractUdpPortListener {
 	
-	private Transceiver relatedTransceiver; 
+	private AbstractTransceiver transceiver; 
 	
-	public RightUdpPortListener(Transceiver relatedTransceiver, int portNumber) {
-		super(LoggerFactory.getLogger(RightUdpPortListener.class), portNumber);
-		this.relatedTransceiver = relatedTransceiver;
+	public RightUdpPortListener(AbstractTransceiver relatedTransceiver, int portNumber) {
+		super(portNumber);
+		this.transceiver = relatedTransceiver;
 	}
 
 	@Override
@@ -28,6 +26,6 @@ public final class RightUdpPortListener extends UdpPortListener {
 		
 		// TODO Log received packets - SENSOR_DATA: DAT, ALM
 		
-		relatedTransceiver.handlePacket(packet);
+		transceiver.handlePacket(packet);
 	}
 }

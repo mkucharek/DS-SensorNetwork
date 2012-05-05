@@ -7,6 +7,9 @@ import junit.framework.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.components.listener.AbstractPortListener;
+import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.components.sender.AbstractPortSender;
+import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.components.transceiver.AbstractTransceiver;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.Packet;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.sensor.SensorUtility;
 
@@ -24,7 +27,8 @@ public class SensorComponentTest {
 	
 	@Before
 	public void setUp() {
-		this.transceiver = new DummyTransceiver();
+		// setting up a dummy transceiver with no listeners nor sender
+		this.transceiver = new DummyTransceiver(null, null);
 		
 		this.sensorComponent = new SensorComponent(this.transceiver, PERIOD, THRESHOLD);
 	}
@@ -84,7 +88,13 @@ public class SensorComponentTest {
 
 }
 
-class DummyTransceiver implements Transceiver {
+class DummyTransceiver extends AbstractTransceiver {
+
+	protected DummyTransceiver(AbstractPortListener[] listeners,
+			AbstractPortSender sender) {
+		super(listeners, sender);
+		// TODO Auto-generated constructor stub
+	}
 
 	public int callCounter;
 	

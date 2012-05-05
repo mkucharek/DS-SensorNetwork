@@ -1,107 +1,119 @@
 package dk.dtu.imm.distributedsystems.projects.sensornetwork.sensor.sender;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.ObjectOutput;
-import java.io.ObjectOutputStream;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
 import java.net.InetAddress;
-import java.net.UnknownHostException;
-import java.util.LinkedList;
 import java.util.Queue;
 
-import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.listener.UdpPortListener;
+import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.channels.Channel;
+import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.components.sender.udp.AbstractUdpPortSender;
+import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.exceptions.ConnectionHandlerException;
+import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.exceptions.WrongPacketSizeException;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.Packet;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.PacketGroup;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.PacketType;
-import dk.dtu.imm.distributedsystems.projects.sensornetwork.sensor.Sensor;
 
-public class Sender extends Thread {
-
-	private Sensor sensor;
+/**
+ * The Class Sender.
+ *
+ * @author Maciej Kucharek <a href="mailto:s091828 (at) student.dtu.dk">s091828 (at) student.dtu.dk</a>
+ */
+public class Sender extends AbstractUdpPortSender {
 	
+	/** The left channels. */
+	private Channel[] leftChannels;
+	
+	/** The right channels. */
+	private Channel[] rightChannels;
+	
+	/** The successful sends. */
 	public int successfulSends; // TODO to be deleted; implemented for SenderTest purposes
 	
-	private Queue<Packet> buffer;
-	
-	private DatagramSocket serverSocket;
-	
-	public Sender(Sensor sensor) {
-		this.sensor = sensor;
-		this.buffer = new LinkedList<Packet>();
-		successfulSends = 0;
-	}
-	
-	public synchronized void addToBuffer(Packet packet) {
-		this.buffer.offer(packet);
-		this.notify();
-	}
-	
-	public synchronized void passAck() {
-		this.interrupt();
-	}
-	
-	
-	
-	private void sendPacketOverUDP(Packet packet, InetAddress toIpAddress, int toPortNumber) throws IOException {
-		
-		// TODO Implement UDP Connection
 
-		ByteArrayOutputStream bStream = new ByteArrayOutputStream();
-		ObjectOutput oo = new ObjectOutputStream(bStream);
-		oo.writeObject(packet);
-		oo.close();
+	/**
+	 * Instantiates a new sender.
+	 *
+	 * @param portNumber the port number
+	 * @param buffer the buffer
+	 * @param leftChannels the left channels
+	 * @param rightChannels the right channels
+	 * @param ackTimeout the ack timeout
+	 */
+	public Sender(int portNumber, Queue<Packet> buffer, Channel[] leftChannels,
+			Channel[] rightChannels, int ackTimeout) {
+		super(portNumber, buffer, ackTimeout);
+		this.leftChannels = leftChannels;
+		this.rightChannels = rightChannels;
 		
-		byte[] serializedPacket = bStream.toByteArray();
+		this.successfulSends = 0;
+	}
+
+	/* (non-Javadoc)
+	 * @see dk.dtu.imm.distributedsystems.projects.sensornetwork.common.components.sender.AbstractPortSender#handleOutgoingPacket(dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.Packet)
+	 */
+	@Override
+	protected void handleOutgoingPacket(Packet packet) throws ConnectionHandlerException, InterruptedException {
 		
-		// check if the packet size fits in the default size
-		if (serializedPacket.length > UdpPortListener.PACKET_SIZE) {
-			throw new RuntimeException("Packet " + packet
-					+ "exceeds the default packet size");
+		try {
+			if (packet.getGroup() == PacketGroup.SENSOR_DATA) {
+				
+				if (packet.getType() == PacketType.DAT) { // DATA
+					sendUnicastLeft(packet);
+					
+				} else if (packet.getType() == PacketType.ALM) { // ALARM_DATA
+					
+					if (!sendUnicastLeft(packet)) {
+						sendUnicastLeft(packet); // retransmit
+					}
+					
+				} else {
+					logger.info("Unknown SENSOR_DATA packet type - dropped");
+				}
+			} else if (packet.getGroup() == PacketGroup.COMMAND) {
+				sendMulticastRight(packet);
+			} else {
+				logger.info("Invalid packet received: [Group = '" + packet.getGroup() + "', Type = '" + packet.getType() + "'] - dropped");
+			}
+		} catch (WrongPacketSizeException e) {
+			logger.warn(e.getMessage() + " The actual packet size is: " + e.getActualSize(), e);
+		} catch (IOException e) {
+			throw new ConnectionHandlerException(e, this.getClass());
 		}
 		
-		DatagramPacket sendPacket = new DatagramPacket(serializedPacket,
-				serializedPacket.length, toIpAddress, toPortNumber);
-
-		serverSocket.send(sendPacket);
-		
 	}
 	
-	private boolean sendUnicastLeft(Packet packet) {
+	/**
+	 * Send unicast left.
+	 *
+	 * @param packet the packet
+	 * @return true, if successful
+	 * @throws WrongPacketSizeException the wrong packet size exception
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @throws InterruptedException 
+	 */
+	private boolean sendUnicastLeft(Packet packet) throws WrongPacketSizeException, IOException, InterruptedException {
 		
-		for (int channelIndex = 0; channelIndex < sensor.getLeftChannelIDs().length; channelIndex++) {
+		for(Channel channel : this.leftChannels) {
 			
-//			InetAddress currentLeftChannelIP = null;
-//			
-//			try {
-//				currentLeftChannelIP = InetAddress.getByName((sensor.getLeftChannelIPs())[channelIndex]);
-//			
-//				// TODO Should the Addresses in Sensor Class be already InetAddresses
-//				// when they are read form properties files?
-//			} catch (UnknownHostException e) {
-//
-//			}
-//			
-//			// send Packet to left channel through UDP Connection
-//			
-//			try {
-//				sendPacketOverUDP(packet, currentLeftChannelIP, (sensor.getLeftChannelPorts())[channelIndex]);
-//			} catch (IOException e) {
-//
-//			}
+			InetAddress currentLeftChannelIP = InetAddress.getByName(channel.getIpAddress());
+
+			// TODO Should the Addresses in Sensor Class be already InetAddresses when they are read form properties files?
+			
+			// send Packet to left channel through UDP Connection
+			sendPacket(packet, currentLeftChannelIP, channel.getPortNumber());
+
 			
 			// TODO Log packets sent - SENSOR_DATA: DAT, ALM
 			
+			timer.start();
+			
 			synchronized (this) {
-				try {
-					
-					this.wait(sensor.getAckTimeout());
-				
-				} catch (InterruptedException e) {
-					// ACK received - packet received
-					
+				this.wait();
+			}
+			
+			synchronized (this.ackObtained) {
+				if(this.ackObtained) {
 					++successfulSends;
+					this.ackObtained = false;
 					return true;
 				}
 			}
@@ -109,74 +121,33 @@ public class Sender extends Thread {
 			// timeout passed - transmit to the next one
 			
 		}
+		
 		// packet not sent
 		
 		return false;
 	}
-	
-	private void sendMulticastRight(Packet packet) {
-		
-		for (int channelIndex = 0; channelIndex < sensor.getRightChannelIDs().length; channelIndex++) {
-			
-			InetAddress currentRightChannelIP = null;
-			
-			try {
-				currentRightChannelIP = InetAddress.getByName((sensor.getRightChannelIPs())[channelIndex]);
-			
-				// TODO Should the Addresses in Sensor Class be already InetAddresses when they are read form properties files?
-			} catch (UnknownHostException e) {
 
-			}
+	/**
+	 * Send multicast right.
+	 *
+	 * @param packet the packet
+	 * @throws WrongPacketSizeException the wrong packet size exception
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
+	private void sendMulticastRight(Packet packet) throws WrongPacketSizeException, IOException {
+		
+		for(Channel channel : this.rightChannels) {
+			
+			InetAddress currentLeftChannelIP = InetAddress.getByName(channel.getIpAddress());
+
+			// TODO Should the Addresses in Sensor Class be already InetAddresses when they are read form properties files?
 			
 			// send Packet to right channel through UDP Connection
-			
-			try {
-				sendPacketOverUDP(packet, currentRightChannelIP, (sensor.getRightChannelPorts())[channelIndex]);
-			} catch (IOException e) {
+			sendPacket(packet, currentLeftChannelIP, channel.getPortNumber());
 
-			}
 			
 			// TODO Log packets sent - CMD: THR, PRD
-		}
-
-	}
-	
-	@Override
-	public void run() {
-		
-		while (true) {
-			if (!buffer.isEmpty()) {
-				
-				Packet packet = buffer.poll();
-				
-				if (packet.getGroup() == PacketGroup.SENSOR_DATA) {
-					
-					if (packet.getType() == PacketType.DAT) { // DATA
-						sendUnicastLeft(packet);
-						
-					} else if (packet.getType() == PacketType.ALM) { // ALARM_DATA
-						
-						if (!sendUnicastLeft(packet)) {
-							sendUnicastLeft(packet); // retransmit
-						}
-						
-					} else {
-						System.err.println("");
-					}
-				} else if (packet.getGroup() == PacketGroup.COMMAND) {
-					sendMulticastRight(packet);
-				}
-			}
 			
-			synchronized (this) {
-				try {
-					
-					this.wait();
-				
-				} catch (InterruptedException e) {
-					// ACK passed - continue
-				}
-			}
 		}
 		
 	}
