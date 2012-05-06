@@ -5,6 +5,7 @@ import java.net.SocketException;
 import java.util.LinkedList;
 
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.channels.Channel;
+import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.components.listener.udp.SensorDataUdpPortListener;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.components.sender.udp.AbstractUdpPortSender;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.components.transceiver.AbstractTwoChannelTransceiver;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.Packet;
@@ -12,7 +13,6 @@ import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.Packet
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.PacketType;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.sensor.Sensor;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.sensor.listener.LeftUdpPortListener;
-import dk.dtu.imm.distributedsystems.projects.sensornetwork.sensor.listener.RightUdpPortListener;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.sensor.sender.UdpPortSender;
 
 
@@ -39,7 +39,7 @@ public class TransceiverComponent extends AbstractTwoChannelTransceiver {
 		// manually set listeners
 		this.getAllListeners()[0] = new LeftUdpPortListener(nodeId, this,
 				this.leftSocket);
-		this.getAllListeners()[1] = new RightUdpPortListener(nodeId, this,
+		this.getAllListeners()[1] = new SensorDataUdpPortListener(nodeId, this,
 				this.rightSocket);
 		
 		this.setSender(new UdpPortSender(nodeId, this.leftSocket, this.rightSocket,
