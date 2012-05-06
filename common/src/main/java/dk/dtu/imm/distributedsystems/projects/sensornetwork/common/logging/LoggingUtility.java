@@ -2,6 +2,10 @@ package dk.dtu.imm.distributedsystems.projects.sensornetwork.common.logging;
 
 import java.util.Date;
 
+import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.nodes.NodeType;
+import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.MessageType;
+import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.PacketType;
+
 /**
  * The Class LoggingUtility.
  *
@@ -17,6 +21,23 @@ public class LoggingUtility {
 	public static synchronized void logMessage(Object[] parameters) {
 
 		System.out.println(getLogMessage(parameters));
+	}
+	
+	public static void logMessage(String id, String remoteId, MessageType msgType, PacketType pckType, String value) {
+		
+		if(NodeType.ADMIN.equals(id)) {
+			// ADMIN
+			LoggingUtility.logMessage(new Object[]{ msgType, pckType, value});
+			
+		} else if (NodeType.SINK.equals("id")) {
+			// SINK
+			LoggingUtility.logMessage(new Object[]{remoteId, msgType, pckType, value});
+			
+		} else {
+			// SENSOR
+			LoggingUtility.logMessage(new Object[]{id, remoteId, msgType, pckType, value});
+		}
+		
 	}
 	
 	/**
