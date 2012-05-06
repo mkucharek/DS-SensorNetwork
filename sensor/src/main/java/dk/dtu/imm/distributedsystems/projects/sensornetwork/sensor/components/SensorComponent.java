@@ -7,7 +7,7 @@ import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.Packet
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.PacketType;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.sensor.SensorUtility;
 
-public class SensorComponent extends AbstractComponent {
+public class SensorComponent extends Thread {
 
 	private int period;
 	
