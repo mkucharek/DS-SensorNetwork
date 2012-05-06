@@ -35,6 +35,8 @@ public class TransceiverComponent extends AbstractTwoChannelTransceiver {
 	@Override
 	public synchronized void handlePacket(Packet packet) {
 		
+		logger.debug("Handling " + packet);
+		
 		if (packet.getGroup() == PacketGroup.COMMAND) {
 			if (packet.getType() == PacketType.PRD) {
 				sensor.getSensorComponent().setPeriod(Integer.parseInt(packet.getValue()));
@@ -48,6 +50,7 @@ public class TransceiverComponent extends AbstractTwoChannelTransceiver {
 				System.err.println("Wrong type of Command Packet Received");
 			}
 		} else if (packet.getGroup() == PacketGroup.SENSOR_DATA) {
+			logger.debug("Adding " + packet + " to sender buffer");
 			this.getPortSender().addToBuffer(packet);
 			
 //			if (packet.getType() == PacketType.DAT) {
@@ -58,6 +61,7 @@ public class TransceiverComponent extends AbstractTwoChannelTransceiver {
 //				System.err.println("Wrong type of Sensor Data Package Received");
 //			}
 		} else if (packet.getGroup() == PacketGroup.ACKNOWLEDGEMENT) {
+			logger.debug("Passing ACK to sender");
 			((AbstractUdpPortSender) this.getPortSender()).passAck();
 		} else {
 			System.err.println("Wrong type group of Packet Received");

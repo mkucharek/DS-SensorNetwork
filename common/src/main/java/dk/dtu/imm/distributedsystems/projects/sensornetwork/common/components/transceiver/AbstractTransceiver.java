@@ -1,5 +1,8 @@
 package dk.dtu.imm.distributedsystems.projects.sensornetwork.common.components.transceiver;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.components.listener.AbstractPortListener;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.components.sender.AbstractPortSender;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.Packet;
@@ -11,6 +14,8 @@ import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.Packet
  */
 public abstract class AbstractTransceiver {
 
+	protected final Logger logger = LoggerFactory.getLogger(this.getClass());
+	
 	/** The listeners. */
 	private AbstractPortListener[] listeners;
 

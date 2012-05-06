@@ -21,7 +21,7 @@ public class AdminTest {
 		
 		Properties properties = new Properties();
 		try {
-			properties = GlobalUtility.getProperties("admin.properties");
+			properties = GlobalUtility.getPropertiesFromClasspath("admin.properties");
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

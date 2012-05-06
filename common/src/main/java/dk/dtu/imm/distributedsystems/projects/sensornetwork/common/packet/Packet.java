@@ -66,4 +66,9 @@ public class Packet implements Serializable {
 		return value;
 	}
 
+	@Override
+	public String toString() {
+		return "Packet [type=" + type + ", value=" + value + "]";
+	}
+
 }

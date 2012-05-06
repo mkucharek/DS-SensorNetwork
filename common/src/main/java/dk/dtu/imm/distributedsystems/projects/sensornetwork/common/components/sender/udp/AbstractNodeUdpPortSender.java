@@ -45,12 +45,12 @@ public abstract class AbstractNodeUdpPortSender extends AbstractUdpPortSender {
 	 */
 	protected boolean sendUnicastLeft(Packet packet) throws WrongPacketSizeException, IOException, InterruptedException {
 		
+		logger.debug("Sending unicast left " + packet);
+		
 		for(Channel channel : this.leftChannels) {
 			
 			InetAddress currentLeftChannelIP = InetAddress.getByName(channel.getIpAddress());
 
-			// TODO Should the Addresses in Sensor Class be already InetAddresses when they are read form properties files?
-			
 			// send Packet to left channel through UDP Connection
 			sendPacket(packet, currentLeftChannelIP, channel.getPortNumber());
 
@@ -66,16 +66,16 @@ public abstract class AbstractNodeUdpPortSender extends AbstractUdpPortSender {
 			
 			synchronized (this.ackObtained) {
 				if(this.ackObtained) {
+					logger.debug("ACK received");
 					this.ackObtained = false;
 					return true;
 				}
 			}
 			
-			// timeout passed - transmit to the next one
+			logger.debug("Timeout passed");
+			// timeout passed
 			
 		}
-		
-		// packet not sent
 		
 		return false;
 	}

@@ -21,7 +21,7 @@ public class SinkTest {
 		
 		Properties properties = null;
 		try {
-			properties = GlobalUtility.getProperties("sink.properties");
+			properties = GlobalUtility.getPropertiesFromClasspath("sink.properties");
 		} catch (Exception e) {
 			Assert.fail();
 		}

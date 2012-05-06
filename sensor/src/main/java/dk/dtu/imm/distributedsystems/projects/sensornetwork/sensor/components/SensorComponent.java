@@ -2,12 +2,17 @@ package dk.dtu.imm.distributedsystems.projects.sensornetwork.sensor.components;
 
 import java.util.Random;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.components.transceiver.AbstractTransceiver;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.Packet;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.PacketType;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.sensor.SensorUtility;
 
 public class SensorComponent extends Thread {
+
+	protected final Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	private int period;
 	
@@ -21,6 +26,8 @@ public class SensorComponent extends Thread {
 
 		this.period = period;
 		this.threshold = threshold;
+		
+		logger.debug("Sensor created");
 
 		this.start();
 	}
@@ -69,6 +76,9 @@ public class SensorComponent extends Thread {
 				}
 			}
 
+			logger.debug(outPacket + " created");
+			
+			
 			transceiver.handlePacket(outPacket);
 		}
 

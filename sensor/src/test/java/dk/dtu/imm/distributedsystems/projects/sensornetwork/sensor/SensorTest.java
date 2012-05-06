@@ -15,7 +15,7 @@ public class SensorTest {
 		
 		Sensor sensor11 = null;
 		try {
-			sensor11 = SensorUtility.getSensorInstance("sensor11.properties");
+			sensor11 = SensorUtility.getSensorInstance("sensor11.properties", true);
 		} catch (NodeInitializationException e) {
 			Assert.fail();
 		}

@@ -30,12 +30,20 @@ public class SensorUtility {
 	}
 	
 	public static Sensor getSensorInstance(String propertyFilePath) throws NodeInitializationException {
+		return getSensorInstance(propertyFilePath, false);
+	}
+	
+	public static Sensor getSensorInstance(String propertyFilePath, boolean fromClasspath) throws NodeInitializationException {
 		
 		String errorMsg = "Cannot instanciate a Sensor using " + propertyFilePath + " file.";
 		
 		Properties properties;
 		try {
-			properties = GlobalUtility.getProperties(propertyFilePath);
+			if(fromClasspath) {
+				properties = GlobalUtility.getPropertiesFromClasspath(propertyFilePath);
+			} else {
+				properties = GlobalUtility.getProperties(propertyFilePath);
+			}
 		} catch (FileNotFoundException e) {
 			logger.error(errorMsg);
 			throw new NodeInitializationException(errorMsg, propertyFilePath, e);
@@ -49,9 +57,11 @@ public class SensorUtility {
 
 		Properties defaultProperties;
 		try {
-			defaultProperties = GlobalUtility.getProperties(GlobalUtility.TEMPLATE_PROPERTIES_FILE_NAME);
+			defaultProperties = GlobalUtility.getPropertiesFromClasspath(GlobalUtility.TEMPLATE_PROPERTIES_FILE_NAME);
 		} catch (Exception e) {
+			e.printStackTrace();
 			throw new RuntimeException(GlobalUtility.TEMPLATE_PROPERTIES_FILE_NAME + " file is missing in classpath - application error");
+			
 		}
 		
 		if (!properties.keySet().containsAll(defaultProperties.keySet())) {

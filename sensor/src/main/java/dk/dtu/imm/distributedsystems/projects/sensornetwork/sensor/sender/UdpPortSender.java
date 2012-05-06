@@ -54,6 +54,8 @@ public class UdpPortSender extends AbstractNodeUdpPortSender {
 	@Override
 	protected void handleOutgoingPacket(Packet packet) throws ConnectionHandlerException, InterruptedException {
 		
+		logger.debug("Sending " + packet);
+		
 		try {
 			if (packet.getGroup() == PacketGroup.SENSOR_DATA) {
 				

@@ -17,12 +17,11 @@ public abstract class AbstractTwoChannelTransceiver extends AbstractTransceiver 
 	 * @param rightPortListener the right port listener
 	 * @param sender the sender
 	 */
-	protected AbstractTwoChannelTransceiver(
-			AbstractPortListener leftPortListener,
+	protected AbstractTwoChannelTransceiver(AbstractPortListener leftPortListener,
 			AbstractPortListener rightPortListener, AbstractPortSender sender) {
-		super(
-				new AbstractPortListener[] { leftPortListener,
-						rightPortListener }, sender);
+		super(new AbstractPortListener[] { 
+				leftPortListener,
+				rightPortListener }, sender);
 	}
 
 	/**

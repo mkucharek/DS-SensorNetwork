@@ -3,7 +3,7 @@ package dk.dtu.imm.distributedsystems.projects.sensornetwork.common;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.net.URI;
+import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.util.Properties;
 
@@ -35,13 +35,22 @@ public class GlobalUtility {
 	 * @throws FileNotFoundException the file not found exception
 	 * @throws URISyntaxException 
 	 */
-	public static Properties getProperties(String filename) throws FileNotFoundException, IOException, URISyntaxException {
+	public static Properties getPropertiesFromClasspath(String filename) throws FileNotFoundException, IOException, URISyntaxException {
 
-		URI uri;
+		InputStream is;
 		Properties properties = new Properties();
 
-		uri = new URI(GlobalUtility.class.getResource("/" + filename).toString());
-		properties.load(new FileInputStream(uri.getPath()));
+		is = GlobalUtility.class.getClassLoader().getResourceAsStream(filename);
+		properties.load(is);
+
+		return properties;
+	}
+	
+	public static Properties getProperties(String filename) throws FileNotFoundException, IOException, URISyntaxException {
+
+		Properties properties = new Properties();
+		
+		properties.load(new FileInputStream(filename));
 
 		return properties;
 	}
