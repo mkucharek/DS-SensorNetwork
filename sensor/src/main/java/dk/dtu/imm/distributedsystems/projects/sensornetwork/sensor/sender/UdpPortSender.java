@@ -60,12 +60,12 @@ public class UdpPortSender extends AbstractNodeUdpPortSender {
 		logger.debug("Sending " + packet);
 		
 		try {
-			if (packet.getGroup() == PacketGroup.SENSOR_DATA) {
+			if (packet.getGroup().equals(PacketGroup.SENSOR_DATA)) {
 				
-				if (packet.getType() == PacketType.DAT) { // DATA
+				if (packet.getType().equals(PacketType.DAT)) { // DATA
 					sendUnicastLeft(packet);
 					
-				} else if (packet.getType() == PacketType.ALM) { // ALARM_DATA
+				} else if (packet.getType().equals(PacketType.ALM)) { // ALARM_DATA
 					
 					if (!sendUnicastLeft(packet)) {
 						sendUnicastLeft(packet); // retransmit
@@ -74,7 +74,7 @@ public class UdpPortSender extends AbstractNodeUdpPortSender {
 				} else {
 					logger.info("Unknown SENSOR_DATA packet type - dropped");
 				}
-			} else if (packet.getGroup() == PacketGroup.COMMAND) {
+			} else if (packet.getGroup().equals(PacketGroup.COMMAND)) {
 				sendMulticastRight(packet);
 			} else {
 				logger.info("Invalid packet received: [Group = '" + packet.getGroup() + "', Type = '" + packet.getType() + "'] - dropped");

@@ -54,21 +54,21 @@ public class TransceiverComponent extends AbstractTwoChannelTransceiver {
 		
 		logger.debug("Handling " + packet);
 		
-		if (packet.getGroup() == PacketGroup.COMMAND) {
-			if (packet.getType() == PacketType.PRD) {
+		if (packet.getGroup().equals(PacketGroup.COMMAND)) {
+			if (packet.getType().equals(PacketType.PRD)) {
 				sensor.getSensorComponent().setPeriod(Integer.parseInt(packet.getValue()));
-			} else if (packet.getType() == PacketType.THR) {
+			} else if (packet.getType().equals(PacketType.THR)) {
 				sensor.getSensorComponent().setThreshold(Integer.parseInt(packet.getValue()));
 			} else {
 				logger.info("Wrong type of Command Packet Received");
 			}
 			
 			LoggingUtility.logMessage(sensor.getId(), packet.getSrcNodeId(), MessageType.SET, packet.getType(), packet.getValue());
-		} else if (packet.getGroup() == PacketGroup.SENSOR_DATA) {
+		} else if (packet.getGroup().equals(PacketGroup.SENSOR_DATA)) {
 			this.getPortSender().addToBuffer(packet);
 			
 			LoggingUtility.logMessage(sensor.getId(), packet.getSrcNodeId(), MessageType.GEN, packet.getType(), packet.getValue());
-		} else if (packet.getGroup() == PacketGroup.ACKNOWLEDGEMENT) {
+		} else if (packet.getGroup().equals(PacketGroup.ACKNOWLEDGEMENT)) {
 			logger.debug("Passing ACK to sender");
 			
 			((AbstractUdpPortSender) this.getPortSender()).passAck();
