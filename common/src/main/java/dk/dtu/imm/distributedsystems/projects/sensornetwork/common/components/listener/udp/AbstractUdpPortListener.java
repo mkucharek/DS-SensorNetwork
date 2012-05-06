@@ -11,6 +11,7 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.GlobalUtility;
+import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.channels.Channel;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.components.listener.AbstractPortListener;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.exceptions.ConnectionHandlerException;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.Packet;
@@ -34,13 +35,16 @@ public abstract class AbstractUdpPortListener extends AbstractPortListener {
 
 	/** The received data. */
 	protected byte[] receivedData;
+	
+	/** The associated channels. */
+	protected byte[] associatedChannels;
 
 	/**
 	 * Instantiates a new abstract udp port listener.
 	 *
 	 * @param portNumber the port number
 	 */
-	public AbstractUdpPortListener(String nodeId, DatagramSocket serverSocket) {
+	public AbstractUdpPortListener(String nodeId, DatagramSocket serverSocket, Channel[] associatedChannels) {
 		super(nodeId, serverSocket.getLocalPort());
 		
 		this.serverSocket = serverSocket;
@@ -48,6 +52,10 @@ public abstract class AbstractUdpPortListener extends AbstractPortListener {
 
 	public DatagramSocket getServerSocket() {
 		return serverSocket;
+	}
+
+	public byte[] getAssociatedChannels() {
+		return associatedChannels;
 	}
 
 	/* (non-Javadoc)

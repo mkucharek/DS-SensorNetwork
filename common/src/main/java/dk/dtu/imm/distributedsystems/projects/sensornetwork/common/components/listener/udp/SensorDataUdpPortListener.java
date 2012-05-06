@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 
-import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.components.listener.udp.AbstractUdpPortListener;
+import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.channels.Channel;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.components.transceiver.AbstractTransceiver;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.logging.LoggingUtility;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.MessageType;
@@ -16,8 +16,8 @@ public final class SensorDataUdpPortListener extends AbstractUdpPortListener {
 	
 	protected AbstractTransceiver transceiver; 
 	
-	public SensorDataUdpPortListener(String nodeId, AbstractTransceiver relatedTransceiver, DatagramSocket socket) {
-		super(nodeId, socket);
+	public SensorDataUdpPortListener(String nodeId, AbstractTransceiver relatedTransceiver, DatagramSocket socket, Channel[] associatedChannels) {
+		super(nodeId, socket, associatedChannels);
 		this.transceiver = relatedTransceiver;
 		
 		this.start();

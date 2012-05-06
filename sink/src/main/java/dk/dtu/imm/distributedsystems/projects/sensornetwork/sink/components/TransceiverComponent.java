@@ -25,7 +25,7 @@ public class TransceiverComponent extends AbstractTwoChannelTransceiver {
 		try {
 		// manually set listeners
 		this.getAllListeners()[0] = new LeftUdpPortListener(nodeId, this,
-				new DatagramSocket(leftPortNumber));
+				new DatagramSocket(leftPortNumber), leftChannels);
 		//this.getAllListeners()[1] = new RightUdpPortListener(nodeId, this,
 		//		new DatagramSocket(rightPortNumber));
 		} catch (SocketException e) {
