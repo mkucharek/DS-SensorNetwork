@@ -30,7 +30,6 @@ public class UdpPortSender extends AbstractNodeUdpPortSender {
 		this.rightChannels = rightChannels;
 		
 		this.start();
-		
 	}
 	
 	/**

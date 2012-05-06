@@ -38,6 +38,7 @@ public class AdminUdpPortSender extends AbstractUdpPortSender {
 		this.rightSocket = rightSocket;
 		this.rightChannels = rightChannels;
 		
+		this.start();
 	}
 	
 	/**

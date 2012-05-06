@@ -16,6 +16,8 @@ public final class AdminUdpPortListener extends AbstractUdpPortListener {
 	public AdminUdpPortListener(String nodeId, AbstractTransceiver relatedTransceiver, DatagramSocket socket, Channel[] associatedChannels) {
 		super(nodeId, socket, associatedChannels);
 		this.transceiver = relatedTransceiver;
+		
+		this.start();
 	}
 	
 	@Override

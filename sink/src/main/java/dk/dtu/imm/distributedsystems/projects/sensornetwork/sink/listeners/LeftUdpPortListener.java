@@ -20,6 +20,8 @@ public final class LeftUdpPortListener extends AbstractUdpPortListener {
 	public LeftUdpPortListener(String nodeId, AbstractTransceiver relatedTransceiver, DatagramSocket socket, Channel[] associatedChannels) {
 		super(nodeId, socket, associatedChannels);
 		this.transceiver = relatedTransceiver;
+		
+		this.start();
 	}
 	
 	@Override
