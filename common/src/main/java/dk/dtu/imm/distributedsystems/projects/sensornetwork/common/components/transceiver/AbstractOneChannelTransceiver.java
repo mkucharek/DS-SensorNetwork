@@ -16,9 +16,9 @@ public abstract class AbstractOneChannelTransceiver extends AbstractTransceiver 
 	 * @param portListener the port listener
 	 * @param sender the sender
 	 */
-	protected AbstractOneChannelTransceiver(AbstractPortListener portListener,
+	protected AbstractOneChannelTransceiver(String id, AbstractPortListener portListener,
 			AbstractPortSender sender) {
-		super(new AbstractPortListener[] { portListener }, sender);
+		super(id, new AbstractPortListener[] { portListener }, sender);
 	}
 
 	/**

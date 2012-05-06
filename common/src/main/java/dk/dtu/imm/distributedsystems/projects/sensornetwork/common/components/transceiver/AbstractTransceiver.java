@@ -14,7 +14,11 @@ import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.Packet
  */
 public abstract class AbstractTransceiver {
 
+	/** The logger. */
 	protected final Logger logger = LoggerFactory.getLogger(this.getClass());
+	
+	/** The id. */
+	protected String id;
 	
 	/** The listeners. */
 	private AbstractPortListener[] listeners;
@@ -28,10 +32,20 @@ public abstract class AbstractTransceiver {
 	 * @param listeners the listeners
 	 * @param sender the sender
 	 */
-	protected AbstractTransceiver(AbstractPortListener[] listeners,
+	protected AbstractTransceiver(String id, AbstractPortListener[] listeners,
 			AbstractPortSender sender) {
+		this.id = id;
 		this.listeners = listeners;
 		this.sender = sender;
+	}
+
+	/**
+	 * Gets the id.
+	 *
+	 * @return the id
+	 */
+	public String getId() {
+		return id;
 	}
 
 	/**

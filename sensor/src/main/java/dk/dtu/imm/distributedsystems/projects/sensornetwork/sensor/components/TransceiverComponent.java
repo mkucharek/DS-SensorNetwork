@@ -26,7 +26,7 @@ public class TransceiverComponent extends AbstractTwoChannelTransceiver {
 			
 	public TransceiverComponent(String nodeId, int leftPortNumber, int rightPortNumber, 
 			Channel[] leftChannels, Channel[] rightChannels, int ackTimeout) {
-		super(null, null, null);
+		super(nodeId, null, null, null);
 
 		try {
 			this.leftSocket = new DatagramSocket(leftPortNumber);
