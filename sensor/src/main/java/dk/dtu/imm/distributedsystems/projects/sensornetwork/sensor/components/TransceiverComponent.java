@@ -65,7 +65,6 @@ public class TransceiverComponent extends AbstractTwoChannelTransceiver {
 				logger.info("Wrong type of Command Packet Received");
 			}
 		} else if (packet.getGroup() == PacketGroup.SENSOR_DATA) {
-			logger.debug("Adding " + packet + " to sender buffer");
 			this.getPortSender().addToBuffer(packet);
 			
 //			if (packet.getType() == PacketType.DAT) {
