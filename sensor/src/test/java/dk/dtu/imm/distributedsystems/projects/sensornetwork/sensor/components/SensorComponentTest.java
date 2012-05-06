@@ -31,7 +31,7 @@ public class SensorComponentTest {
 	@Before
 	public void setUp() {
 		// setting up a dummy transceiver with no listeners nor sender
-		this.transceiver = new DummyTransceiver(null, null);
+		this.transceiver = new DummyTransceiver(ID, null, null);
 		
 		
 	}
@@ -97,9 +97,9 @@ class DummyTransceiver extends AbstractTransceiver {
 	
 	private Packet lastPacket;
 	
-	protected DummyTransceiver(AbstractPortListener[] listeners,
+	protected DummyTransceiver(String id, AbstractPortListener[] listeners,
 			AbstractPortSender sender) {
-		super(listeners, sender);
+		super(id, listeners, sender);
 		
 		this.callCounter = 0;
 		this.lastPacket = null;
