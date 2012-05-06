@@ -23,13 +23,13 @@ public enum PacketType {
 	PRD(PacketGroup.COMMAND), 
 	
 	/** The MIN. */
-	MIN(PacketGroup.REQUEST), 
+	MIN(PacketGroup.QUERY), 
 	
 	/** The MAX. */
-	MAX(PacketGroup.REQUEST), 
+	MAX(PacketGroup.QUERY), 
 	
 	/** The AVG. */
-	AVG(PacketGroup.REQUEST);
+	AVG(PacketGroup.QUERY);
 	
 	/** The packet group. */
 	private PacketGroup packetGroup;

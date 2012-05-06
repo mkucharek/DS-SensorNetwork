@@ -7,7 +7,7 @@ package dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet;
  */
 public enum PacketGroup {
 
-	/** The SENSO r_ data. */
+	/** The SENSOR_DATA. */
 	SENSOR_DATA,
 	
 	/** The ACKNOWLEDGEMENT. */
@@ -16,7 +16,7 @@ public enum PacketGroup {
 	/** The COMMAND. */
 	COMMAND,
 	
-	/** The REQUEST. */
-	REQUEST;
+	/** The QUERY. */
+	QUERY;
 
 }

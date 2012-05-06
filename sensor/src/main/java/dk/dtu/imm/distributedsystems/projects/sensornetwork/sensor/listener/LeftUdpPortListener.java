@@ -28,30 +28,27 @@ public final class LeftUdpPortListener extends AbstractUdpPortListener {
 	protected void handleIncomingPacket(Packet packet,
 			InetAddress fromIpAddress, int fromPortNumber) throws IOException {
 		
-		logger.info("Received " + packet);
-
-		if (packet.getType().equals(PacketType.ACK)) {
+		if ((packet.getGroup().equals(PacketGroup.COMMAND) || packet.getGroup().equals(PacketGroup.ACKNOWLEDGEMENT))) {
 			
-			LoggingUtility.logMessage(getAssociatedChannelId(fromIpAddress, fromPortNumber),
-					this.getNodeId(), MessageType.RCV, packet.getType());
-		
-		} else if (packet.getGroup().equals(PacketGroup.COMMAND)) {
-		
-			LoggingUtility.logMessage(getAssociatedChannelId(fromIpAddress, fromPortNumber),
-					this.getNodeId(), MessageType.RCV, packet.getType(), packet.getSrcNodeId() + ":" + packet.getValue());
-		
-		}
-			
-		if(!(packet.getGroup().equals(PacketGroup.COMMAND) || 
-				packet.getGroup().equals(PacketGroup.ACKNOWLEDGEMENT))) {
 			logger.debug(packet + " accepted by listener");
-			transceiver.handlePacket(packet); 
+			transceiver.handlePacket(packet);
+			
+			if (packet.getGroup().equals(PacketGroup.COMMAND)) {
+				
+				LoggingUtility.logMessage(getAssociatedChannelId(fromIpAddress, fromPortNumber),
+						this.getNodeId(), MessageType.RCV, packet.getType(), packet.getSrcNodeId() + ":" + packet.getValue());
+			
+			} else if (packet.getType().equals(PacketType.ACK)) {
+				
+				LoggingUtility.logMessage(getAssociatedChannelId(fromIpAddress, fromPortNumber),
+						this.getNodeId(), MessageType.RCV, packet.getType());
+			
+			}
+			
 		} else {
+			
 			logger.debug(packet + "dropped by listener - wrong type");
+		
 		}
-		
-		
-		
-		
 	}
 }
