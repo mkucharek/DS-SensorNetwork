@@ -20,6 +20,8 @@ public final class RightUdpPortListener extends AbstractUdpPortListener {
 	protected void handleIncomingPacket(Packet packet,
 			InetAddress fromIpAddress, int fromPortNumber) throws IOException {
 		
+		logger.debug("Received " + packet);
+		
 		this.sendAck(fromIpAddress, fromPortNumber);
 		
 		// TODO Log ACK sent

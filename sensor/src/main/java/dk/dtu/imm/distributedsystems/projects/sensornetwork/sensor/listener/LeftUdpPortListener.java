@@ -22,6 +22,8 @@ public final class LeftUdpPortListener extends AbstractUdpPortListener {
 			
 		// TODO Log received packets - ACK; CMD: THR, PRD
 		
+		logger.debug("Received " + packet);
+		
 		transceiver.handlePacket(packet); 
 		
 	}

@@ -68,9 +68,7 @@ public abstract class AbstractUdpPortListener extends AbstractPortListener {
 			DatagramPacket receivePacket = new DatagramPacket(receivedData,
 					receivedData.length);
 
-			if (logger.isDebugEnabled()) {
-				logger.debug("Waiting for datagram packet");
-			}
+			logger.debug("Waiting for datagram packet");
 
 			// Receive the message
 			serverSocket.receive(receivePacket);
@@ -140,6 +138,8 @@ public abstract class AbstractUdpPortListener extends AbstractPortListener {
 
 		// Send reponse back to the client
 		serverSocket.send(sendPacket);
+		
+		logger.debug("Sent ACK - " + sendPacket);
 
 	}
 
