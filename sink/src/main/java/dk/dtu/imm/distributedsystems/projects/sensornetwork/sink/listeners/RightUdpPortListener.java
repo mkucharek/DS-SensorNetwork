@@ -1,6 +1,7 @@
 package dk.dtu.imm.distributedsystems.projects.sensornetwork.sink.listeners;
 
 import java.io.IOException;
+import java.net.DatagramSocket;
 import java.net.InetAddress;
 
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.components.listener.udp.AbstractUdpPortListener;
@@ -11,8 +12,8 @@ public final class RightUdpPortListener extends AbstractUdpPortListener {
 	
 	private AbstractTransceiver transceiver; 
 	
-	public RightUdpPortListener(String nodeId, AbstractTransceiver relatedTransceiver, int portNumber) {
-		super(nodeId, portNumber);
+	public RightUdpPortListener(String nodeId, AbstractTransceiver relatedTransceiver, DatagramSocket socket) {
+		super(nodeId, socket);
 		this.transceiver = relatedTransceiver;
 	}
 

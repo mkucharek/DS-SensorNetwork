@@ -86,7 +86,6 @@ public class SensorUtility {
 				Integer.parseInt(properties.getProperty("THRESHOLD")),
 				Integer.parseInt(properties.getProperty("LEFT_PORT")),
 				Integer.parseInt(properties.getProperty("RIGHT_PORT")),
-				Integer.parseInt(properties.getProperty("SENDER_PORT")),
 				leftChannels,
 				rightChannels,
 				GlobalUtility.ACK_TIMEOUT_MS);

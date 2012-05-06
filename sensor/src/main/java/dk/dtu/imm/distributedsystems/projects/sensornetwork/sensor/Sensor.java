@@ -19,13 +19,13 @@ public class Sensor extends AbstractNode {
 	private SensorComponent sensorComponent;
 
 	public Sensor(String id, int period, int threshold, int leftPortNumber,
-			int rightPortNumber, int senderPortNumber, Channel[] leftChannels,
+			int rightPortNumber, Channel[] leftChannels,
 			Channel[] rightChannels, int ackTimeout) {
 		
 		super(id);
 
 		this.transceiverComponent = new TransceiverComponent(id, leftPortNumber,
-				rightPortNumber, senderPortNumber, leftChannels, rightChannels,
+				rightPortNumber, leftChannels, rightChannels,
 				ackTimeout);
 
 		this.sensorComponent = new SensorComponent(id, this.transceiverComponent,

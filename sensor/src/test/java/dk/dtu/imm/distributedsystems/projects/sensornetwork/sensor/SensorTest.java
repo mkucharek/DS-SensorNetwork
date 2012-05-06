@@ -27,8 +27,6 @@ public class SensorTest {
 		assertEquals(9911, sensor11.getTransceiverComponent().getLeftPortListener().getPortNumber());
 		assertEquals(9912, sensor11.getTransceiverComponent().getRightPortListener().getPortNumber());
 		
-		assertEquals(9910, sensor11.getTransceiverComponent().getPortSender().getPortNumber());
-		
 		assertEquals("0", (((UdpPortSender) sensor11.getTransceiverComponent().getPortSender()).getLeftChannels()[0].getId()));
 		
 		assertEquals("localhost", (((UdpPortSender) sensor11.getTransceiverComponent().getPortSender()).getLeftChannels()[0].getIpAddress()));

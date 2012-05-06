@@ -7,7 +7,6 @@ import java.io.ObjectOutputStream;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
-import java.net.SocketException;
 import java.util.Queue;
 
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.GlobalUtility;
@@ -25,7 +24,9 @@ import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.Packet
 public abstract class AbstractUdpPortSender extends AbstractPortSender implements TimerHolder {
 
 	/** The server socket. */
-	protected DatagramSocket serverSocket;
+	protected DatagramSocket leftSocket;
+	
+	protected DatagramSocket rightSocket;
 	
 	protected Boolean ackObtained = false;
 	
@@ -39,9 +40,11 @@ public abstract class AbstractUdpPortSender extends AbstractPortSender implement
 	 * @param portNumber the port number
 	 * @param buffer the buffer
 	 */
-	public AbstractUdpPortSender(String nodeId, int portNumber, Queue<Packet> buffer, int ackTimeout) {
-		super(nodeId, portNumber, buffer);
+	public AbstractUdpPortSender(String nodeId, DatagramSocket leftSocket, DatagramSocket rightSocket, Queue<Packet> buffer, int ackTimeout) {
+		super(nodeId, 9976, buffer);
 		
+		this.leftSocket = leftSocket;
+		this.rightSocket = rightSocket;
 		this.ackTimeout = ackTimeout;
 	}
 	
@@ -49,18 +52,14 @@ public abstract class AbstractUdpPortSender extends AbstractPortSender implement
 	 * @see dk.dtu.imm.distributedsystems.projects.sensornetwork.common.components.AbstractPortHandler#setUp()
 	 */
 	@Override
-	protected void setUp() throws SocketException {
-		
-		// Create a Datagram socket on the chosen port
-		serverSocket = new DatagramSocket(portNumber);
-		
-//		this.timer = new Timer(ackTimeout, this);
+	protected void setUp() {
+		// nothing to set up here
 	}
 	
 	@Override
 	public void interrupt() {
 		super.interrupt();
-		this.serverSocket.close();
+//		this.serverSocket.close();
 	}
 	
 	/**
@@ -81,7 +80,7 @@ public abstract class AbstractUdpPortSender extends AbstractPortSender implement
 	 * @throws WrongPacketSizeException the wrong packet size exception
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
-	protected void sendPacket(Packet packet, InetAddress toIpAddress, int toPortNumber) throws WrongPacketSizeException, IOException {
+	protected void sendPacket(DatagramSocket serverSocket, Packet packet, InetAddress toIpAddress, int toPortNumber) throws WrongPacketSizeException, IOException {
 
 		ByteArrayOutputStream bStream = new ByteArrayOutputStream();
 		ObjectOutput oo = new ObjectOutputStream(bStream);

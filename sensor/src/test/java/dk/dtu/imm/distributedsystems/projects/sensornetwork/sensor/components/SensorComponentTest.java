@@ -118,5 +118,11 @@ class DummyTransceiver extends AbstractTransceiver {
 		this.lastPacket = packet;
 		++callCounter;
 	}
+
+	@Override
+	public void close() {
+		// do nothing
+		
+	}
 	
 }

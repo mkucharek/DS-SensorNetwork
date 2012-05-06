@@ -1,6 +1,7 @@
 package dk.dtu.imm.distributedsystems.projects.sensornetwork.sensor.sender;
 
 import java.io.IOException;
+import java.net.DatagramSocket;
 import java.util.Queue;
 
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.channels.Channel;
@@ -22,11 +23,13 @@ public class UdpPortSender extends AbstractNodeUdpPortSender {
 	 * @param rightChannels the right channels
 	 * @param ackTimeout the ack timeout
 	 */
-	public UdpPortSender(String nodeId, int portNumber, Queue<Packet> buffer, Channel[] leftChannels,
+	public UdpPortSender(String nodeId, DatagramSocket leftSocket, DatagramSocket rightSocket, Queue<Packet> buffer, Channel[] leftChannels,
 			Channel[] rightChannels, int ackTimeout) {
-		super(nodeId, portNumber, buffer, leftChannels, rightChannels, ackTimeout);
+		super(nodeId, leftSocket, rightSocket, 0, buffer, leftChannels, rightChannels, ackTimeout);
 		this.leftChannels = leftChannels;
 		this.rightChannels = rightChannels;
+		
+		this.start();
 		
 	}
 	

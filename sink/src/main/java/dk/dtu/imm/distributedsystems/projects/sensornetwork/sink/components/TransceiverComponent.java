@@ -1,8 +1,11 @@
 package dk.dtu.imm.distributedsystems.projects.sensornetwork.sink.components;
 
+import java.net.DatagramSocket;
+import java.net.SocketException;
 import java.util.LinkedList;
 
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.channels.Channel;
+import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.components.listener.udp.AbstractUdpPortListener;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.components.transceiver.AbstractTwoChannelTransceiver;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.Packet;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.sink.Sink;
@@ -18,15 +21,21 @@ public class TransceiverComponent extends AbstractTwoChannelTransceiver {
 	public TransceiverComponent(String nodeId, int leftPortNumber, int rightPortNumber,
 			int senderPortNumber, Channel[] leftChannels,
 			Channel[] rightChannels, int ackTimeout) {
-		super(null, null, new UdpPortSender(nodeId, senderPortNumber,
-				new LinkedList<Packet>(), leftChannels, rightChannels,
-				ackTimeout));
+		super(null, null, null);
 
+		try {
 		// manually set listeners
 		this.getAllListeners()[0] = new LeftUdpPortListener(nodeId, this,
-				leftPortNumber);
+				new DatagramSocket(leftPortNumber));
 		this.getAllListeners()[1] = new RightUdpPortListener(nodeId, this,
-				rightPortNumber);
+				new DatagramSocket(rightPortNumber));
+		} catch (SocketException e) {
+			e.printStackTrace();
+		}
+		
+		this.setSender(new UdpPortSender(nodeId, ((AbstractUdpPortListener) this.getLeftPortListener()).getServerSocket(), ((AbstractUdpPortListener) this.getRightPortListener()).getServerSocket(),
+				new LinkedList<Packet>(), leftChannels, rightChannels,
+				ackTimeout));
 	}
 	
 	@Override
@@ -34,5 +43,11 @@ public class TransceiverComponent extends AbstractTwoChannelTransceiver {
 		
 		// TODO: Proper implementation
 		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public void close() {
+		// TODO Auto-generated method stub
+		
 	}
 }

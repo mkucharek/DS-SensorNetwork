@@ -52,11 +52,20 @@ public abstract class AbstractTransceiver {
 		return sender;
 	}
 
+	public void setSender(AbstractPortSender sender) {
+		this.sender = sender;
+	}
+
 	/**
 	 * Handle packet.
 	 *
 	 * @param packet the packet
 	 */
 	public abstract void handlePacket(Packet packet);
+	
+	/**
+	 * Close.
+	 */
+	public abstract void close();
 
 }

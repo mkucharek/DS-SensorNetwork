@@ -9,7 +9,6 @@ import java.io.ObjectOutputStream;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
-import java.net.SocketException;
 
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.GlobalUtility;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.components.listener.AbstractPortListener;
@@ -41,18 +40,22 @@ public abstract class AbstractUdpPortListener extends AbstractPortListener {
 	 *
 	 * @param portNumber the port number
 	 */
-	public AbstractUdpPortListener(String nodeId, int portNumber) {
-		super(nodeId, portNumber);
+	public AbstractUdpPortListener(String nodeId, DatagramSocket serverSocket) {
+		super(nodeId, serverSocket.getLocalPort());
+		
+		this.serverSocket = serverSocket;
+	}
+
+	public DatagramSocket getServerSocket() {
+		return serverSocket;
 	}
 
 	/* (non-Javadoc)
 	 * @see dk.dtu.imm.distributedsystems.projects.sensornetwork.common.components.AbstractPortHandler#setUp()
 	 */
 	@Override
-	protected void setUp() throws SocketException {
-
-		// Create a Datagram socket on the chosen port
-		serverSocket = new DatagramSocket(portNumber);
+	protected void setUp() {
+		// nothing to set up here
 	}
 
 	/* (non-Javadoc)
@@ -92,15 +95,6 @@ public abstract class AbstractUdpPortListener extends AbstractPortListener {
 			throw new ConnectionHandlerException(e, this.getClass());
 		}
 
-	}
-	
-	/* (non-Javadoc)
-	 * @see java.lang.Thread#interrupt()
-	 */
-	@Override
-	public void interrupt() {
-		super.interrupt();
-		this.serverSocket.close();
 	}
 
 	/**

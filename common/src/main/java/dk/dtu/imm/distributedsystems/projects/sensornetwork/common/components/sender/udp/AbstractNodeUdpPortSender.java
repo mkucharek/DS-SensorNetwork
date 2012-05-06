@@ -1,6 +1,7 @@
 package dk.dtu.imm.distributedsystems.projects.sensornetwork.common.components.sender.udp;
 
 import java.io.IOException;
+import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.util.Queue;
 
@@ -26,9 +27,9 @@ public abstract class AbstractNodeUdpPortSender extends AbstractUdpPortSender {
 	 * @param rightChannels the right channels
 	 * @param ackTimeout the ack timeout
 	 */
-	public AbstractNodeUdpPortSender(String nodeId, int portNumber, Queue<Packet> buffer, Channel[] leftChannels,
+	public AbstractNodeUdpPortSender(String nodeId, DatagramSocket leftSocket, DatagramSocket rightSocket, int portNumber, Queue<Packet> buffer, Channel[] leftChannels,
 			Channel[] rightChannels, int ackTimeout) {
-		super(nodeId, portNumber, buffer, ackTimeout);
+		super(nodeId, leftSocket, rightSocket, buffer, ackTimeout);
 		this.leftChannels = leftChannels;
 		this.rightChannels = rightChannels;
 		
@@ -52,7 +53,7 @@ public abstract class AbstractNodeUdpPortSender extends AbstractUdpPortSender {
 			InetAddress currentLeftChannelIP = InetAddress.getByName(channel.getIpAddress());
 
 			// send Packet to left channel through UDP Connection
-			sendPacket(packet, currentLeftChannelIP, channel.getPortNumber());
+			sendPacket(leftSocket, packet, currentLeftChannelIP, channel.getPortNumber());
 
 			
 			// TODO Log packets sent - SENSOR_DATA: DAT, ALM
@@ -96,7 +97,7 @@ public abstract class AbstractNodeUdpPortSender extends AbstractUdpPortSender {
 			// TODO Should the Addresses in Sensor Class be already InetAddresses when they are read form properties files?
 			
 			// send Packet to right channel through UDP Connection
-			sendPacket(packet, currentLeftChannelIP, channel.getPortNumber());
+			sendPacket(rightSocket, packet, currentLeftChannelIP, channel.getPortNumber());
 
 			
 			// TODO Log packets sent - CMD: THR, PRD

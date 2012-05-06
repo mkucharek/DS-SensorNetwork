@@ -31,7 +31,6 @@ public abstract class AbstractPortHandler extends Thread {
 	protected AbstractPortHandler(String nodeId, int portNumber) {
 		this.nodeId = nodeId;
 		this.portNumber = portNumber;
-		this.start();
 	}
 	
 	/**
@@ -57,7 +56,7 @@ public abstract class AbstractPortHandler extends Thread {
 	 *
 	 * @throws SocketException the socket exception
 	 */
-	protected abstract void setUp() throws SocketException;
+	protected abstract void setUp() throws ConnectionHandlerException;
 	
 	/**
 	 * Handle connection.
@@ -75,8 +74,8 @@ public abstract class AbstractPortHandler extends Thread {
 		try {
 			setUp();
 			
-		} catch (SocketException ex) {
-			logger.error("Port " + portNumber + " is occupied.");
+		} catch (ConnectionHandlerException e) {
+			logger.error(e.getMessage(), e);
 			return;
 		}
 
