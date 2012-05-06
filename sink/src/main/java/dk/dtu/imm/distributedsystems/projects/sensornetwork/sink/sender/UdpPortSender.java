@@ -1,4 +1,4 @@
-package dk.dtu.imm.distributedsystems.projects.sensornetwork.sink.listeners;
+package dk.dtu.imm.distributedsystems.projects.sensornetwork.sink.sender;
 
 import java.io.IOException;
 import java.net.DatagramSocket;
@@ -10,13 +10,7 @@ import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.exceptions.Co
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.exceptions.WrongPacketSizeException;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.Packet;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.PacketGroup;
-import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.PacketType;
 
-/**
- * The Class Sender.
- *
- * @author Maciej Kucharek <a href="mailto:s091828 (at) student.dtu.dk">s091828 (at) student.dtu.dk</a>
- */
 public class UdpPortSender extends AbstractNodeUdpPortSender {
 	
 	/**
@@ -31,6 +25,10 @@ public class UdpPortSender extends AbstractNodeUdpPortSender {
 	public UdpPortSender(String nodeId, DatagramSocket leftSocket, DatagramSocket rightSocket, Queue<Packet> buffer, Channel[] leftChannels,
 			Channel[] rightChannels, int ackTimeout) {
 		super(nodeId, leftSocket, rightSocket, 0, buffer, leftChannels, rightChannels, ackTimeout);
+		this.leftChannels = leftChannels;
+		this.rightChannels = rightChannels;
+		
+		this.start();
 		
 	}
 	
@@ -58,30 +56,22 @@ public class UdpPortSender extends AbstractNodeUdpPortSender {
 	@Override
 	protected void handleOutgoingPacket(Packet packet) throws ConnectionHandlerException, InterruptedException {
 		
-		// TODO: Check implementation
+		logger.debug("Sending " + packet);
+		
+		// TODO: Handle QUERY packet type
 		
 		try {
-			if (packet.getGroup() == PacketGroup.SENSOR_DATA) {
-				
-				if (packet.getType() == PacketType.DAT) { // DATA
-					sendUnicastLeft(packet);
-					
-				} else if (packet.getType() == PacketType.ALM) { // ALARM_DATA
-					
-					if (!sendUnicastLeft(packet)) {
-						sendUnicastLeft(packet); // retransmit
-					}
-					
-				} else {
-					logger.info("Unknown SENSOR_DATA packet type - dropped");
-				}
-			} else if (packet.getGroup() == PacketGroup.COMMAND) {
+			if (packet.getGroup().equals(PacketGroup.COMMAND)) {
 				sendMulticastRight(packet);
 			} else {
-				logger.info("Invalid packet received: [Group = '" + packet.getGroup() + "', Type = '" + packet.getType() + "'] - dropped");
+				logger.info("Invalid packet received: [Group = '"
+						+ packet.getGroup() + "', Type = '" + packet.getType()
+						+ "'] - dropped");
 			}
 		} catch (WrongPacketSizeException e) {
-			logger.warn(e.getMessage() + " The actual packet size is: " + e.getActualSize(), e);
+			logger.warn(
+					e.getMessage() + " The actual packet size is: "
+							+ e.getActualSize(), e);
 		} catch (IOException e) {
 			throw new ConnectionHandlerException(e, this.getClass());
 		}

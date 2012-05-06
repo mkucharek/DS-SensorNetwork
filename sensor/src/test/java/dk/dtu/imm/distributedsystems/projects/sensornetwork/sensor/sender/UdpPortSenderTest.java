@@ -14,7 +14,6 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.GlobalUtility;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.channels.Channel;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.exceptions.WrongPacketSizeException;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.Packet;
@@ -25,7 +24,7 @@ public class UdpPortSenderTest {
 	TestableUdpPortSender sender;
 	
 	private static final String ID = "0";
-	private static final int SLEEPVAL = 500;
+	private static final int SLEEPVAL = 2000;
 	
 	private static final int MAX_GUESS_PORT_ATTEMPTS = 5;
 	
@@ -84,7 +83,7 @@ public class UdpPortSenderTest {
 			Assert.fail("Couldn't create test sockets - please skip these tests");
 		}
 		
-		this.sender = new TestableUdpPortSender(ID, leftSocket, rightSocket, new LinkedList<Packet>(), leftChannels, rightChannels, GlobalUtility.ACK_TIMEOUT_MS);
+		this.sender = new TestableUdpPortSender(ID, leftSocket, rightSocket, new LinkedList<Packet>(), leftChannels, rightChannels, SLEEPVAL);
 	}
 	
 	@After
@@ -248,6 +247,8 @@ public class UdpPortSenderTest {
 			e.printStackTrace();
 		}
 		
+		sender.passAck();
+		sender.passAck();
 		sender.passAck();
 		
 		try {

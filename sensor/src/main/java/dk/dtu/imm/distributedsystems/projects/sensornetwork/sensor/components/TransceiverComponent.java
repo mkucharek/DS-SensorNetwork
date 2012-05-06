@@ -79,9 +79,7 @@ public class TransceiverComponent extends AbstractTwoChannelTransceiver {
 	@Override
 	public void close() {
 		
-		this.getLeftPortListener().interrupt();
-		this.getRightPortListener().interrupt();
-		this.getPortSender().interrupt();
+		super.close();
 		
 		this.leftSocket.close();
 		this.rightSocket.close();

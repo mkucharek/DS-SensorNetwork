@@ -41,5 +41,13 @@ public abstract class AbstractTwoChannelTransceiver extends AbstractTransceiver 
 	public AbstractPortListener getRightPortListener() {
 		return super.getAllListeners()[1];
 	}
+	
+	@Override
+	public void close() {
+		this.getLeftPortListener().interrupt();
+		this.getRightPortListener().interrupt();
+		
+		this.getPortSender().interrupt();
+	}
 
 }

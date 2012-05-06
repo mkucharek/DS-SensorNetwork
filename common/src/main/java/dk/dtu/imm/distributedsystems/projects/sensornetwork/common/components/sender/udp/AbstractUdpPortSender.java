@@ -56,18 +56,12 @@ public abstract class AbstractUdpPortSender extends AbstractPortSender implement
 		// nothing to set up here
 	}
 	
-	@Override
-	public void interrupt() {
-		super.interrupt();
-//		this.serverSocket.close();
-	}
-	
 	/**
 	 * Pass ack.
 	 */
 	public synchronized void passAck() {
 		this.ackObtained = true;
-		this.timer.interrupt();
+			this.timer.interrupt();
 		this.notify();
 	}
 	

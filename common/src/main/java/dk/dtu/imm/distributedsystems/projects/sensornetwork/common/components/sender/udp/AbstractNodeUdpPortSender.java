@@ -11,7 +11,6 @@ import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.exceptions.Wr
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.logging.LoggingUtility;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.MessageType;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.Packet;
-import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.PacketType;
 
 public abstract class AbstractNodeUdpPortSender extends AbstractUdpPortSender {
 	
@@ -61,6 +60,7 @@ public abstract class AbstractNodeUdpPortSender extends AbstractUdpPortSender {
 			LoggingUtility.logMessage(this.getNodeId(), channel.getId(), MessageType.SND, packet.getType(), packet.getSrcNodeId() + ":" + packet.getValue());
 			
 			timer = new Timer(ackTimeout, this);
+			this.ackObtained = false;
 			timer.start();
 			
 			synchronized (this) {

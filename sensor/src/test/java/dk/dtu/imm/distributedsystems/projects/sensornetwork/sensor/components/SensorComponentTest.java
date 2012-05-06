@@ -4,6 +4,7 @@ import java.util.Random;
 
 import junit.framework.Assert;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -34,6 +35,12 @@ public class SensorComponentTest {
 		this.transceiver = new DummyTransceiver(ID, null, null);
 		
 		
+	}
+	
+	@After
+	public void cleanUp() {
+		this.transceiver.close();
+		this.sensorComponent.interrupt();
 	}
 	
 	@Test
