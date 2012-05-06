@@ -63,9 +63,8 @@ public class Sensor extends AbstractNode {
 		in.close();
 
 		System.out.println("Done");
-
-		sensor.transceiverComponent.close();
-		sensor.sensorComponent.interrupt();
+		
+		System.exit(0);
 	}
 
 }
