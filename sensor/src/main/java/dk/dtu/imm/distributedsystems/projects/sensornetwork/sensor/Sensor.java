@@ -1,5 +1,7 @@
 package dk.dtu.imm.distributedsystems.projects.sensornetwork.sensor;
 
+import java.util.Scanner;
+
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.channels.Channel;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.exceptions.NodeInitializationException;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.nodes.AbstractNode;
@@ -49,11 +51,18 @@ public class Sensor extends AbstractNode {
 		Sensor sensor = null;
 
 		try {
-			sensor = SensorUtility.getSensorInstance(args[1]);
+			sensor = SensorUtility.getSensorInstance(args[0]);
 		} catch (NodeInitializationException e) {
 			System.out.println(e.getMessage());
 			return;
 		}
+		
+	    Scanner in = new Scanner(System.in);
+
+		in.nextInt();
+		in.close();
+
+		System.out.println("Done");
 
 	}
 

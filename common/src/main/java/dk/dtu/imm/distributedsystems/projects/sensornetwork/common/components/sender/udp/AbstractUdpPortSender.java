@@ -54,7 +54,7 @@ public abstract class AbstractUdpPortSender extends AbstractPortSender implement
 		// Create a Datagram socket on the chosen port
 		serverSocket = new DatagramSocket(portNumber);
 		
-		this.timer = new Timer(ackTimeout, this);
+//		this.timer = new Timer(ackTimeout, this);
 	}
 	
 	@Override

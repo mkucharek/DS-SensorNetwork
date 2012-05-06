@@ -5,6 +5,7 @@ import java.net.InetAddress;
 import java.util.Queue;
 
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.channels.Channel;
+import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.components.timer.Timer;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.exceptions.WrongPacketSizeException;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.Packet;
 
@@ -56,6 +57,7 @@ public abstract class AbstractNodeUdpPortSender extends AbstractUdpPortSender {
 			
 			// TODO Log packets sent - SENSOR_DATA: DAT, ALM
 			
+			timer = new Timer(ackTimeout, this);
 			timer.start();
 			
 			synchronized (this) {
