@@ -11,8 +11,8 @@ public final class LeftUdpPortListener extends AbstractUdpPortListener {
 
 	private AbstractTransceiver transceiver;
 	
-	public LeftUdpPortListener(AbstractTransceiver relatedTransceiver, int portNumber) {
-		super(portNumber);
+	public LeftUdpPortListener(String nodeId, AbstractTransceiver relatedTransceiver, int portNumber) {
+		super(nodeId, portNumber);
 		this.transceiver = relatedTransceiver;
 	}
 	

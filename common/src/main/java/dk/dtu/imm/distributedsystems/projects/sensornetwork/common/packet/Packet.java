@@ -17,13 +17,17 @@ public class Packet implements Serializable {
 
 	/** The value. */
 	private String value;
+	
+	/** The src node id. */
+	private String srcNodeId;
 
 	/**
 	 * Instantiates a new packet.
 	 *
 	 * @param type the type
 	 */
-	public Packet(PacketType type) {
+	public Packet(String nodeId, PacketType type) {
+		this.srcNodeId = nodeId;
 		this.type = type;
 		this.value = "Not specified";
 	}
@@ -34,7 +38,8 @@ public class Packet implements Serializable {
 	 * @param type the type
 	 * @param value the value
 	 */
-	public Packet(PacketType type, String value) {
+	public Packet(String nodeId, PacketType type, String value) {
+		this.srcNodeId = nodeId;
 		this.type = type;
 		this.value = value;
 	}
@@ -65,10 +70,20 @@ public class Packet implements Serializable {
 	public String getValue() {
 		return value;
 	}
+	
+	/**
+	 * Gets the src node id.
+	 *
+	 * @return the src node id
+	 */
+	public String getSrcNodeId() {
+		return srcNodeId;
+	}
 
 	@Override
 	public String toString() {
-		return "Packet [type=" + type + ", value=" + value + "]";
+		return "Packet [type=" + type + ", value=" + value + ", srcNodeId="
+				+ srcNodeId + "]";
 	}
 
 }

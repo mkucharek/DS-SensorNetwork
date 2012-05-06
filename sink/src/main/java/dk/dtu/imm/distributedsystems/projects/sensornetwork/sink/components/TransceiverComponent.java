@@ -15,17 +15,17 @@ public class TransceiverComponent extends AbstractTwoChannelTransceiver {
 
 	private Sink sink;
 			
-	public TransceiverComponent(int leftPortNumber, int rightPortNumber,
+	public TransceiverComponent(String nodeId, int leftPortNumber, int rightPortNumber,
 			int senderPortNumber, Channel[] leftChannels,
 			Channel[] rightChannels, int ackTimeout) {
-		super(null, null, new UdpPortSender(senderPortNumber,
+		super(null, null, new UdpPortSender(nodeId, senderPortNumber,
 				new LinkedList<Packet>(), leftChannels, rightChannels,
 				ackTimeout));
 
 		// manually set listeners
-		this.getAllListeners()[0] = new LeftUdpPortListener(this,
+		this.getAllListeners()[0] = new LeftUdpPortListener(nodeId, this,
 				leftPortNumber);
-		this.getAllListeners()[1] = new RightUdpPortListener(this,
+		this.getAllListeners()[1] = new RightUdpPortListener(nodeId, this,
 				rightPortNumber);
 	}
 	

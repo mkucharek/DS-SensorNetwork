@@ -15,6 +15,8 @@ import dk.dtu.imm.distributedsystems.projects.sensornetwork.sensor.SensorUtility
 
 public class SensorComponentTest {
 
+	private static final String ID = "0";
+	
 	private static final int PERIOD = 100;
 	
 	private static final int THRESHOLD = 25;
@@ -41,7 +43,7 @@ public class SensorComponentTest {
 		
 		int measurementCount = rng.nextInt(MAX_COUNT-1) + 1;
 		
-		this.sensorComponent = new SensorComponent(this.transceiver, PERIOD, THRESHOLD);
+		this.sensorComponent = new SensorComponent(ID, this.transceiver, PERIOD, THRESHOLD);
 		
 		try {
 			Thread.sleep(PERIOD * measurementCount);
@@ -61,7 +63,7 @@ public class SensorComponentTest {
 		
 		int measurementCount = MAX_COUNT;
 		
-		this.sensorComponent = new SensorComponent(this.transceiver, PERIOD, THRESHOLD);
+		this.sensorComponent = new SensorComponent(ID, this.transceiver, PERIOD, THRESHOLD);
 		
 		try {
 			Thread.sleep(PERIOD/10);

@@ -15,8 +15,8 @@ public abstract class AbstractPortListener extends AbstractPortHandler {
 	 *
 	 * @param portNumber the port number
 	 */
-	protected AbstractPortListener(int portNumber) {
-		super(portNumber);
+	protected AbstractPortListener(String nodeId, int portNumber) {
+		super(nodeId, portNumber);
 	}
 	
 }

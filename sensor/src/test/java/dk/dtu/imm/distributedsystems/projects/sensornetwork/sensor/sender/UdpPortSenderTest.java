@@ -21,6 +21,7 @@ public class UdpPortSenderTest {
 	
 	TestableUdpPortSender sender;
 	
+	private static final String ID = "0";
 	private static final int SLEEPVAL = 500;
 	
 	Channel[] leftChannels;
@@ -33,7 +34,7 @@ public class UdpPortSenderTest {
 		leftChannels = new Channel[] {new Channel("0", "localhost", 9990) };
 		rightChannels = new Channel[] {new Channel("21", "localhost", 9900) };
 		
-		this.sender = new TestableUdpPortSender(9000, new LinkedList<Packet>(), leftChannels, rightChannels, GlobalUtility.ACK_TIMEOUT_MS);
+		this.sender = new TestableUdpPortSender(ID, 9000, new LinkedList<Packet>(), leftChannels, rightChannels, GlobalUtility.ACK_TIMEOUT_MS);
 	}
 	
 	@After
@@ -47,7 +48,7 @@ public class UdpPortSenderTest {
 		
 		Assert.assertTrue(sender.isAlive());
 		
-		Packet packet = new Packet(PacketType.DAT);
+		Packet packet = new Packet(ID, PacketType.DAT);
 		
 		sender.addToBuffer(packet);
 		
@@ -79,7 +80,7 @@ public class UdpPortSenderTest {
 		
 		Assert.assertTrue(sender.isAlive());
 		
-		Packet packet = new Packet(PacketType.DAT);
+		Packet packet = new Packet(ID, PacketType.DAT);
 		
 		sender.addToBuffer(packet);
 		
@@ -102,7 +103,7 @@ public class UdpPortSenderTest {
 		
 		Assert.assertTrue(sender.isAlive());
 		
-		Packet packet = new Packet(PacketType.ALM);
+		Packet packet = new Packet(ID, PacketType.ALM);
 		
 		sender.addToBuffer(packet);
 		
@@ -133,7 +134,7 @@ public class UdpPortSenderTest {
 		
 		Assert.assertTrue(sender.isAlive());
 		
-		Packet packet = new Packet(PacketType.ALM);
+		Packet packet = new Packet(ID, PacketType.ALM);
 		
 		sender.addToBuffer(packet);
 		
@@ -164,7 +165,7 @@ public class UdpPortSenderTest {
 		
 		Assert.assertTrue(sender.isAlive());
 		
-		Packet packet = new Packet(PacketType.ALM);
+		Packet packet = new Packet(ID, PacketType.ALM);
 		
 		sender.addToBuffer(packet);
 		
@@ -191,7 +192,7 @@ public class UdpPortSenderTest {
 		
 		Assert.assertTrue(sender.isAlive());
 		
-		Packet packet = new Packet(PacketType.DAT);
+		Packet packet = new Packet(ID, PacketType.DAT);
 		
 		sender.addToBuffer(packet);
 		
@@ -236,9 +237,9 @@ class TestableUdpPortSender extends UdpPortSender {
 	
 	private int multicastSends;
 	
-	public TestableUdpPortSender(int portNumber, Queue<Packet> buffer,
+	public TestableUdpPortSender(String nodeId, int portNumber, Queue<Packet> buffer,
 			Channel[] leftChannels, Channel[] rightChannels, int ackTimeout) {
-		super(portNumber, buffer, leftChannels, rightChannels, ackTimeout);
+		super(nodeId, portNumber, buffer, leftChannels, rightChannels, ackTimeout);
 		
 		this.successfulSends = 0;
 		this.multicastSends = 0;

@@ -16,14 +16,16 @@ public class TestPacket {
 	@Test
 	public void testVariousPacketsSize() {
 		
-		this.testPacketSize(new Packet(PacketType.ACK));
-		this.testPacketSize(new Packet(PacketType.ALM));
+		String dummyId = "0";
 		
-		this.testPacketSize(new Packet(PacketType.THR, "15"));
+		this.testPacketSize(new Packet(dummyId, PacketType.ACK));
+		this.testPacketSize(new Packet(dummyId, PacketType.ALM));
 		
-		this.testPacketSize(new Packet(PacketType.DAT, "very long data value"));
-		this.testPacketSize(new Packet(PacketType.DAT, "very, very long data value"));
-		this.testPacketSize(new Packet(PacketType.DAT, "very, very, veeeeeeeeeeeeeeeeeeeeery long data value"));
+		this.testPacketSize(new Packet(dummyId, PacketType.THR, "15"));
+		
+		this.testPacketSize(new Packet(dummyId, PacketType.DAT, "very long data value"));
+		this.testPacketSize(new Packet(dummyId, PacketType.DAT, "very, very long data value"));
+		this.testPacketSize(new Packet(dummyId, PacketType.DAT, "very, very, veeeeeeeeeeeeeeeeeeeeery long data value"));
 		
 		
 	}

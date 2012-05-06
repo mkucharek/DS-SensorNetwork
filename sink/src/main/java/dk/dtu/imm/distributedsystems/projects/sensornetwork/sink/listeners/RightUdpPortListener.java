@@ -11,8 +11,8 @@ public final class RightUdpPortListener extends AbstractUdpPortListener {
 	
 	private AbstractTransceiver transceiver; 
 	
-	public RightUdpPortListener(AbstractTransceiver relatedTransceiver, int portNumber) {
-		super(portNumber);
+	public RightUdpPortListener(String nodeId, AbstractTransceiver relatedTransceiver, int portNumber) {
+		super(nodeId, portNumber);
 		this.transceiver = relatedTransceiver;
 	}
 

@@ -41,8 +41,8 @@ public abstract class AbstractUdpPortListener extends AbstractPortListener {
 	 *
 	 * @param portNumber the port number
 	 */
-	public AbstractUdpPortListener(int portNumber) {
-		super(portNumber);
+	public AbstractUdpPortListener(String nodeId, int portNumber) {
+		super(nodeId, portNumber);
 	}
 
 	/* (non-Javadoc)
@@ -119,7 +119,7 @@ public abstract class AbstractUdpPortListener extends AbstractPortListener {
 			throws IOException {
 
 		// Create Packet object and serialize it to a byte array
-		Packet ackPacket = new Packet(PacketType.ACK);
+		Packet ackPacket = new Packet(nodeId, PacketType.ACK);
 
 		ByteArrayOutputStream bStream = new ByteArrayOutputStream();
 		ObjectOutput oo = new ObjectOutputStream(bStream);

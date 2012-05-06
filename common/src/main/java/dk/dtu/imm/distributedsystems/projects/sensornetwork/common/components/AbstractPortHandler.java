@@ -19,13 +19,17 @@ public abstract class AbstractPortHandler extends Thread {
 	
 	/** The port number. */
 	protected int portNumber;
+	
+	/** The node id. */
+	protected String nodeId;
 
 	/**
 	 * Instantiates a new abstract port handler.
 	 *
 	 * @param portNumber the port number
 	 */
-	protected AbstractPortHandler(int portNumber) {
+	protected AbstractPortHandler(String nodeId, int portNumber) {
+		this.nodeId = nodeId;
 		this.portNumber = portNumber;
 		this.start();
 	}
@@ -39,6 +43,15 @@ public abstract class AbstractPortHandler extends Thread {
 		return portNumber;
 	}
 	
+	/**
+	 * Gets the node id.
+	 *
+	 * @return the node id
+	 */
+	public String getNodeId() {
+		return nodeId;
+	}
+
 	/**
 	 * Sets the up.
 	 *

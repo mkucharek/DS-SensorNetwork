@@ -22,8 +22,8 @@ public abstract class AbstractPortSender extends AbstractPortHandler {
 	 * @param portNumber the port number
 	 * @param buffer the buffer
 	 */
-	public AbstractPortSender(int portNumber, Queue<Packet> buffer) {
-		super(portNumber);
+	public AbstractPortSender(String nodeId, int portNumber, Queue<Packet> buffer) {
+		super(nodeId, portNumber);
 		this.buffer = buffer;
 	}
 	
@@ -33,8 +33,10 @@ public abstract class AbstractPortSender extends AbstractPortHandler {
 	 * @param packet the packet
 	 */
 	public synchronized void addToBuffer(Packet packet) {
-		this.buffer.offer(packet);
-		this.notify();
+		
+		if (this.buffer.offer(packet)) {
+			this.notify();
+		}
 	}
 	
 	/* (non-Javadoc)

@@ -22,9 +22,9 @@ public class UdpPortSender extends AbstractNodeUdpPortSender {
 	 * @param rightChannels the right channels
 	 * @param ackTimeout the ack timeout
 	 */
-	public UdpPortSender(int portNumber, Queue<Packet> buffer, Channel[] leftChannels,
+	public UdpPortSender(String nodeId, int portNumber, Queue<Packet> buffer, Channel[] leftChannels,
 			Channel[] rightChannels, int ackTimeout) {
-		super(portNumber, buffer, leftChannels, rightChannels, ackTimeout);
+		super(nodeId, portNumber, buffer, leftChannels, rightChannels, ackTimeout);
 		this.leftChannels = leftChannels;
 		this.rightChannels = rightChannels;
 		

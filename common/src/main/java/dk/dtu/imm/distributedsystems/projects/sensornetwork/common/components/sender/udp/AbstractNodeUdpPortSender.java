@@ -26,9 +26,9 @@ public abstract class AbstractNodeUdpPortSender extends AbstractUdpPortSender {
 	 * @param rightChannels the right channels
 	 * @param ackTimeout the ack timeout
 	 */
-	public AbstractNodeUdpPortSender(int portNumber, Queue<Packet> buffer, Channel[] leftChannels,
+	public AbstractNodeUdpPortSender(String nodeId, int portNumber, Queue<Packet> buffer, Channel[] leftChannels,
 			Channel[] rightChannels, int ackTimeout) {
-		super(portNumber, buffer, ackTimeout);
+		super(nodeId, portNumber, buffer, ackTimeout);
 		this.leftChannels = leftChannels;
 		this.rightChannels = rightChannels;
 		

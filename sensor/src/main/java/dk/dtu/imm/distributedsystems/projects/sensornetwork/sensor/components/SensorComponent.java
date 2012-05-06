@@ -17,11 +17,14 @@ public class SensorComponent extends Thread {
 	private int period;
 	
 	private int threshold;
+	
+	private String nodeId;
 
 	private AbstractTransceiver transceiver;
 
-	public SensorComponent(AbstractTransceiver relatedTransceiver, int period,
+	public SensorComponent(String nodeId, AbstractTransceiver relatedTransceiver, int period,
 			int threshold) {
+		this.nodeId = nodeId;
 		this.transceiver = relatedTransceiver;
 
 		this.period = period;
@@ -48,6 +51,14 @@ public class SensorComponent extends Thread {
 		return threshold;
 	}
 
+	public String getNodeId() {
+		return nodeId;
+	}
+
+	public AbstractTransceiver getTransceiver() {
+		return transceiver;
+	}
+
 	public void run() {
 
 		int measurement;
@@ -68,10 +79,10 @@ public class SensorComponent extends Thread {
 
 			synchronized (this) {
 				if (measurement > threshold) {
-					outPacket = new Packet(PacketType.ALM,
+					outPacket = new Packet(nodeId, PacketType.ALM,
 							Integer.toString(measurement));
 				} else {
-					outPacket = new Packet(PacketType.DAT,
+					outPacket = new Packet(nodeId, PacketType.DAT,
 							Integer.toString(measurement));
 				}
 			}

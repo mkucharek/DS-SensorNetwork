@@ -39,8 +39,8 @@ public abstract class AbstractUdpPortSender extends AbstractPortSender implement
 	 * @param portNumber the port number
 	 * @param buffer the buffer
 	 */
-	public AbstractUdpPortSender(int portNumber, Queue<Packet> buffer, int ackTimeout) {
-		super(portNumber, buffer);
+	public AbstractUdpPortSender(String nodeId, int portNumber, Queue<Packet> buffer, int ackTimeout) {
+		super(nodeId, portNumber, buffer);
 		
 		this.ackTimeout = ackTimeout;
 	}
