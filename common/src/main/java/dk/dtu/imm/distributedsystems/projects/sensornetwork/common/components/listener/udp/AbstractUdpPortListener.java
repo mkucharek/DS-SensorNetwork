@@ -139,7 +139,7 @@ public abstract class AbstractUdpPortListener extends AbstractPortListener {
 		// Send reponse back to the client
 		serverSocket.send(sendPacket);
 		
-		logger.debug("Sent ACK - " + sendPacket);
+		logger.debug("Sent ACK - " + ackPacket);
 
 	}
 
