@@ -168,10 +168,10 @@ public abstract class AbstractUdpPortListener extends AbstractPortListener {
 	 * @param portNumber the port number
 	 * @return the associated channel id
 	 */
-	protected String getAssociatedChannelId(String ipAddress, int portNumber) {
+	protected String getAssociatedChannelId(InetAddress ipAddress, int portNumber) {
 		
 		for(Channel channel : associatedChannels) {
-			if(channel.getIpAddress().equals(ipAddress) &&
+			if(channel.getIpAddress().equals(ipAddress.getHostAddress()) &&
 					channel.getPortNumber() == portNumber) {
 				return channel.getId();
 			}
