@@ -37,7 +37,7 @@ public abstract class AbstractUdpPortListener extends AbstractPortListener {
 	protected byte[] receivedData;
 	
 	/** The associated channels. */
-	protected byte[] associatedChannels;
+	protected Channel[] associatedChannels;
 
 	/**
 	 * Instantiates a new abstract udp port listener.
@@ -54,7 +54,7 @@ public abstract class AbstractUdpPortListener extends AbstractPortListener {
 		return serverSocket;
 	}
 
-	public byte[] getAssociatedChannels() {
+	public Channel[] getAssociatedChannels() {
 		return associatedChannels;
 	}
 
@@ -160,4 +160,25 @@ public abstract class AbstractUdpPortListener extends AbstractPortListener {
 	 */
 	protected abstract void handleIncomingPacket(Packet packet,
 			InetAddress fromIpAddress, int fromPortNumber) throws IOException;
+	
+	/**
+	 * Gets the associated channel id.
+	 *
+	 * @param ipAddress the ip address
+	 * @param portNumber the port number
+	 * @return the associated channel id
+	 */
+	protected String getAssociatedChannelId(String ipAddress, int portNumber) {
+		
+		for(Channel channel : associatedChannels) {
+			if(channel.getIpAddress().equals(ipAddress) &&
+					channel.getPortNumber() == portNumber) {
+				return channel.getId();
+			}
+		}
+		
+		// not found
+		return null;
+		
+	}
 }
