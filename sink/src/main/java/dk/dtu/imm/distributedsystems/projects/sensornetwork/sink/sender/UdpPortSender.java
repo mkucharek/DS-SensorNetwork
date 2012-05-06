@@ -10,6 +10,7 @@ import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.exceptions.Co
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.exceptions.WrongPacketSizeException;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.Packet;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.PacketGroup;
+import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.PacketType;
 
 public class UdpPortSender extends AbstractNodeUdpPortSender {
 	
@@ -61,7 +62,7 @@ public class UdpPortSender extends AbstractNodeUdpPortSender {
 		try {
 			if (packet.getGroup().equals(PacketGroup.COMMAND)) {
 				sendMulticastRight(packet);
-			} else if (packet.getGroup().equals(PacketGroup.QUERY)) {
+			} else if (packet.getGroup().equals(PacketGroup.QUERY) || packet.getType().equals(PacketType.ALM)) {
 				sendUnicastLeft(packet);
 			} else {
 				logger.info("Invalid packet received in Sender: [Group = '"

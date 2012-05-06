@@ -95,8 +95,6 @@ public class TransceiverComponent extends AbstractTwoChannelTransceiver {
 		
 		logger.debug("Handling " + packet);
 		
-		// TODO: Handle QUERY packet type
-		
 		if (packet.getGroup().equals(PacketGroup.COMMAND)) {
 			this.getPortSender().addToBuffer(packet);
 			
@@ -105,6 +103,12 @@ public class TransceiverComponent extends AbstractTwoChannelTransceiver {
 				sensorValuesMap.put(packet.getSrcNodeId(), Integer.parseInt(packet.getValue()));
 			} catch (NumberFormatException e) {
 				logger.warn(packet + " corrupted");
+			}
+			
+			// inform Admin Node about ALARM_DATA
+			
+			if (packet.getType().equals(PacketType.ALM)) {
+				this.getPortSender().addToBuffer(packet);
 			}
 			
 		} else if (packet.getGroup().equals(PacketGroup.ACKNOWLEDGEMENT)) {
