@@ -6,6 +6,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.components.transceiver.AbstractTransceiver;
+import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.logging.LoggingUtility;
+import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.MessageType;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.Packet;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.PacketType;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.sensor.SensorUtility;
@@ -51,12 +53,17 @@ public class SensorComponent extends Thread {
 		return threshold;
 	}
 
-	public String getNodeId() {
-		return nodeId;
-	}
-
 	public AbstractTransceiver getTransceiver() {
 		return transceiver;
+	}
+	
+	private int getTemperature() {
+		Random rng = new Random();
+
+		int temperature = (int) (SensorUtility.MEASUREMENT_MEAN + SensorUtility.MEASUREMENT_STD
+				* (2 * rng.nextDouble() - 1));
+
+		return temperature;
 	}
 
 	public void run() {
@@ -84,23 +91,14 @@ public class SensorComponent extends Thread {
 					outPacket = new Packet(nodeId, PacketType.DAT,
 							Integer.toString(measurement));
 				}
-			}
-
+			}			
+			
 			logger.debug(outPacket + " created");
 			
+			LoggingUtility.logMessage(transceiver.getId(), transceiver.getId(), MessageType.GEN, outPacket.getType(), outPacket.getValue());
 			
 			transceiver.handlePacket(outPacket);
 		}
 
 	}
-	
-	private int getTemperature() {
-		Random rng = new Random();
-
-		int temperature = (int) (SensorUtility.MEASUREMENT_MEAN + SensorUtility.MEASUREMENT_STD
-				* (2 * rng.nextDouble() - 1));
-
-		return temperature;
-	}
-
 }

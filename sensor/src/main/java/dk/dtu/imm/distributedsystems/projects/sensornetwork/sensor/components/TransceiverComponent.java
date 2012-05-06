@@ -62,11 +62,13 @@ public class TransceiverComponent extends AbstractTwoChannelTransceiver {
 				logger.info("Wrong type of Command Packet Received");
 			}
 			
-			LoggingUtility.logMessage(sensor.getId(), packet.getSrcNodeId(), MessageType.SET, packet.getType(), packet.getValue());
-		} else if (packet.getGroup().equals(PacketGroup.SENSOR_DATA)) {
+			LoggingUtility.logMessage(sensor.getId(), sensor.getId(), MessageType.SET, packet.getType(), packet.getValue());
+			
+			// forward CMD packet
 			this.getPortSender().addToBuffer(packet);
 			
-			LoggingUtility.logMessage(sensor.getId(), packet.getSrcNodeId(), MessageType.GEN, packet.getType(), packet.getValue());
+		} else if (packet.getGroup().equals(PacketGroup.SENSOR_DATA)) {
+			this.getPortSender().addToBuffer(packet);
 		} else if (packet.getGroup().equals(PacketGroup.ACKNOWLEDGEMENT)) {
 			logger.debug("Passing ACK to sender");
 			
