@@ -40,6 +40,10 @@ public class LoggingUtility {
 		
 	}
 	
+	public static void logMessage(String id, String remoteId, MessageType msgType, PacketType pckType) {
+		logMessage(id, remoteId, msgType, pckType, "");
+	}
+	
 	/**
 	 * Gets the formatted log message, but does not print it to STDOUT.
 	 *

@@ -8,10 +8,13 @@ import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.channels.Chan
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.components.listener.udp.SensorDataUdpPortListener;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.components.sender.udp.AbstractUdpPortSender;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.components.transceiver.AbstractTwoChannelTransceiver;
+import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.logging.LoggingUtility;
+import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.MessageType;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.Packet;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.PacketGroup;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.PacketType;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.sensor.Sensor;
+import dk.dtu.imm.distributedsystems.projects.sensornetwork.sensor.SensorUtility;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.sensor.listener.LeftUdpPortListener;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.sensor.sender.UdpPortSender;
 
@@ -55,27 +58,20 @@ public class TransceiverComponent extends AbstractTwoChannelTransceiver {
 		if (packet.getGroup() == PacketGroup.COMMAND) {
 			if (packet.getType() == PacketType.PRD) {
 				sensor.getSensorComponent().setPeriod(Integer.parseInt(packet.getValue()));
-				
-				// TODO Log setting Period - PRD
 			} else if (packet.getType() == PacketType.THR) {
 				sensor.getSensorComponent().setThreshold(Integer.parseInt(packet.getValue()));
-				
-				// TODO Log setting Period - PRD
 			} else {
 				logger.info("Wrong type of Command Packet Received");
 			}
+			
+			LoggingUtility.logMessage(sensor.getId(), packet.getSrcNodeId(), MessageType.SET, packet.getType(), packet.getValue());
 		} else if (packet.getGroup() == PacketGroup.SENSOR_DATA) {
 			this.getPortSender().addToBuffer(packet);
 			
-//			if (packet.getType() == PacketType.DAT) {
-//				// TODO Log generating DAT packet
-//			} else if (packet.getType() == PacketType.ALM) {
-//				// TODO Log generating ALM packet
-//			} else {
-//				System.err.println("Wrong type of Sensor Data Package Received");
-//			}
+			LoggingUtility.logMessage(sensor.getId(), packet.getSrcNodeId(), MessageType.GEN, packet.getType(), packet.getValue());
 		} else if (packet.getGroup() == PacketGroup.ACKNOWLEDGEMENT) {
 			logger.debug("Passing ACK to sender");
+			
 			((AbstractUdpPortSender) this.getPortSender()).passAck();
 		} else {
 			logger.info("Wrong type group of Packet Received");

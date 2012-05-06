@@ -10,7 +10,6 @@ import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.components.tr
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.Packet;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.sink.Sink;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.sink.listeners.LeftUdpPortListener;
-import dk.dtu.imm.distributedsystems.projects.sensornetwork.sink.listeners.RightUdpPortListener;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.sink.listeners.UdpPortSender;
 
 
@@ -27,8 +26,8 @@ public class TransceiverComponent extends AbstractTwoChannelTransceiver {
 		// manually set listeners
 		this.getAllListeners()[0] = new LeftUdpPortListener(nodeId, this,
 				new DatagramSocket(leftPortNumber));
-		this.getAllListeners()[1] = new RightUdpPortListener(nodeId, this,
-				new DatagramSocket(rightPortNumber));
+		//this.getAllListeners()[1] = new RightUdpPortListener(nodeId, this,
+		//		new DatagramSocket(rightPortNumber));
 		} catch (SocketException e) {
 			e.printStackTrace();
 		}

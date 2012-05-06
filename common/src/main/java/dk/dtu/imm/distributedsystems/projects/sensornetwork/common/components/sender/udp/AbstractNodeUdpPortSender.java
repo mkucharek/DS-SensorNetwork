@@ -8,7 +8,10 @@ import java.util.Queue;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.channels.Channel;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.components.timer.Timer;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.exceptions.WrongPacketSizeException;
+import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.logging.LoggingUtility;
+import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.MessageType;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.Packet;
+import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.PacketType;
 
 public abstract class AbstractNodeUdpPortSender extends AbstractUdpPortSender {
 	
@@ -55,8 +58,7 @@ public abstract class AbstractNodeUdpPortSender extends AbstractUdpPortSender {
 			// send Packet to left channel through UDP Connection
 			sendPacket(leftSocket, packet, currentLeftChannelIP, channel.getPortNumber());
 
-			
-			// TODO Log packets sent - SENSOR_DATA: DAT, ALM
+			LoggingUtility.logMessage(this.getNodeId(), channel.getId(), MessageType.SND, packet.getType(), packet.getSrcNodeId() + ":" + packet.getValue());
 			
 			timer = new Timer(ackTimeout, this);
 			timer.start();
@@ -94,14 +96,10 @@ public abstract class AbstractNodeUdpPortSender extends AbstractUdpPortSender {
 			
 			InetAddress currentLeftChannelIP = InetAddress.getByName(channel.getIpAddress());
 
-			// TODO Should the Addresses in Sensor Class be already InetAddresses when they are read form properties files?
-			
 			// send Packet to right channel through UDP Connection
 			sendPacket(rightSocket, packet, currentLeftChannelIP, channel.getPortNumber());
 
-			
-			// TODO Log packets sent - CMD: THR, PRD
-			
+			LoggingUtility.logMessage(this.getNodeId(), channel.getId(), MessageType.SND, packet.getType(), packet.getSrcNodeId() + ":" + packet.getValue());
 		}
 		
 	}

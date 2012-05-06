@@ -6,8 +6,11 @@ import java.net.InetAddress;
 
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.components.listener.udp.AbstractUdpPortListener;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.components.transceiver.AbstractTransceiver;
+import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.logging.LoggingUtility;
+import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.MessageType;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.Packet;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.PacketGroup;
+import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.PacketType;
 
 public final class SensorDataUdpPortListener extends AbstractUdpPortListener {
 	
@@ -26,12 +29,14 @@ public final class SensorDataUdpPortListener extends AbstractUdpPortListener {
 		
 		logger.debug(packet + " received");
 		
-		// TODO Log ACK sent
 		this.sendAck(fromIpAddress, fromPortNumber);
+		LoggingUtility.logMessage(this.getNodeId(), packet.getSrcNodeId(), MessageType.SND, PacketType.ACK);
 		
-		// TODO Log received packets - SENSOR_DATA: DAT, ALM
+		LoggingUtility.logMessage(packet.getSrcNodeId(), this.getNodeId(), MessageType.RCV, packet.getType());
+		
 		if(!(packet.getGroup().equals(PacketGroup.SENSOR_DATA))) {
 			logger.debug(packet + " accepted by listener");
+			
 			transceiver.handlePacket(packet); 
 		} else {
 			logger.debug(packet + "dropped by listener - wrong type");

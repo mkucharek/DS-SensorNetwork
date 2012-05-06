@@ -6,14 +6,18 @@ import java.net.InetAddress;
 
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.components.listener.udp.AbstractUdpPortListener;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.components.transceiver.AbstractTransceiver;
+import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.components.transceiver.AbstractTwoChannelTransceiver;
+import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.logging.LoggingUtility;
+import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.MessageType;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.Packet;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.PacketGroup;
+import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.PacketType;
 
 public final class LeftUdpPortListener extends AbstractUdpPortListener {
 
-	private AbstractTransceiver transceiver;
+	private AbstractTwoChannelTransceiver transceiver;
 	
-	public LeftUdpPortListener(String nodeId, AbstractTransceiver relatedTransceiver, DatagramSocket socket) {
+	public LeftUdpPortListener(String nodeId, AbstractTwoChannelTransceiver relatedTransceiver, DatagramSocket socket) {
 		super(nodeId, socket);
 		this.transceiver = relatedTransceiver;
 		
@@ -26,7 +30,14 @@ public final class LeftUdpPortListener extends AbstractUdpPortListener {
 		
 		logger.info("Received " + packet);
 		
-		// TODO Log received packets - ACK; CMD: THR, PRD
+		// TODO first position in logging needs to be the last visited sensor node
+		
+		if (packet.getType().equals(PacketType.ACK)) {
+			LoggingUtility.logMessage(packet.getSrcNodeId(), this.getNodeId(), MessageType.RCV, packet.getType());
+		} else if (packet.getGroup().equals(PacketGroup.COMMAND)) {
+			LoggingUtility.logMessage(packet.getSrcNodeId(), this.getNodeId(), MessageType.RCV, packet.getType(), packet.getSrcNodeId() + ":" + packet.getValue());
+		}
+			
 		if(!(packet.getGroup().equals(PacketGroup.COMMAND) || 
 				packet.getGroup().equals(PacketGroup.ACKNOWLEDGEMENT))) {
 			logger.debug(packet + " accepted by listener");
