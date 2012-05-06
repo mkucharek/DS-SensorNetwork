@@ -6,6 +6,9 @@ import dk.dtu.imm.distributedsystems.projects.sensornetwork.admin.components.Tra
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.channels.Channel;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.exceptions.NodeInitializationException;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.nodes.AbstractNode;
+import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.nodes.NodeType;
+import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.Packet;
+import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.PacketType;
 
 
 /**
@@ -17,11 +20,9 @@ public class Admin extends AbstractNode
 	
 	protected TransceiverComponent transceiverComponent;
 	
-	public Admin(String id, int leftPortNumber,
-			int rightPortNumber, Channel[] leftChannels,
-			Channel[] rightChannels, int ackTimeout) {
+	public Admin(int rightPortNumber, Channel[] rightChannels, int ackTimeout) {
 		
-		super(id);
+		super(NodeType.ADMIN.toString());
 
 		this.transceiverComponent = new TransceiverComponent(id,
 				rightPortNumber, rightChannels,
@@ -39,16 +40,22 @@ public class Admin extends AbstractNode
 
 		Admin admin = null;
 
-//		try {
-//			admin = AdminUtility.getAdminInstance(args[0]);
-//		} catch (NodeInitializationException e) {
-//			System.out.println(e.getMessage());
-//			return;
-//		}
+		try {
+			admin = AdminUtility.getAdminInstance(args[0]);
+		} catch (NodeInitializationException e) {
+			System.out.println(e.getMessage());
+			return;
+		}
 		
 	    Scanner in = new Scanner(System.in);
 
-		in.next();
+	    int i = 1;
+	    while (i != 0) {
+	    	i = in.nextInt();
+	    	
+	    	admin.transceiverComponent.handlePacket(new Packet("ADMIN", PacketType.THR, String.valueOf(i)));
+	    	
+	    }
 		in.close();
 
 		System.out.println("Done");
