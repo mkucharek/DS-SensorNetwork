@@ -12,6 +12,7 @@ import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.components.se
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.components.transceiver.AbstractTwoChannelTransceiver;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.Packet;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.PacketGroup;
+import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.PacketType;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.sink.Sink;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.sink.listeners.LeftUdpPortListener;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.sink.sender.UdpPortSender;
@@ -51,6 +52,44 @@ public class TransceiverComponent extends AbstractTwoChannelTransceiver {
 		sensorValuesMap = new HashMap<String, Integer>();
 	}
 	
+	private String getMaxSensorValue() {
+		Integer maxValue = null;
+		
+		for (Integer curInt: sensorValuesMap.values()) {
+			if (maxValue == null || curInt > maxValue) {
+				maxValue = curInt;
+			}
+		}
+		
+		return Integer.toString(maxValue);
+	}
+	
+	private String getMinSensorValue() {
+		Integer minValue = new Integer(0);
+		
+		for (Integer curInt: sensorValuesMap.values()) {
+			if (minValue == null || curInt < minValue) {
+				minValue = curInt;
+			}
+		}
+		
+		return Integer.toString(minValue);
+	}
+	
+	private String getAvgSensorValue() {
+		Integer sum = new Integer(0);
+		
+		for (Integer curInt: sensorValuesMap.values()) {
+			if (sum == null || curInt < sum) {
+				sum += curInt;
+			}
+		}
+		
+		Integer avgValue = sum / sensorValuesMap.size();
+		
+		return Integer.toString(avgValue);
+	}
+	
 	@Override
 	public synchronized void handlePacket(Packet packet) {
 		
@@ -72,6 +111,24 @@ public class TransceiverComponent extends AbstractTwoChannelTransceiver {
 			logger.debug("Passing ACK to sender");
 			
 			((AbstractUdpPortSender) this.getPortSender()).passAck();
+		} else if (packet.getGroup().equals(PacketGroup.QUERY)) {
+			
+			if (packet.getType().equals(PacketType.MAX)) {
+				
+				this.getPortSender().addToBuffer(new Packet(this.getId(), packet.getType(), getMaxSensorValue()));
+				
+			} else if (packet.getType().equals(PacketType.MIN)) {
+				
+				this.getPortSender().addToBuffer(new Packet(this.getId(), packet.getType(), getMinSensorValue()));
+				
+			} else if (packet.getType().equals(PacketType.AVG)) {
+				
+				this.getPortSender().addToBuffer(new Packet(this.getId(), packet.getType(), getAvgSensorValue()));
+				
+			} else {
+				logger.info("Wrong type of QUERY Packet Received");
+			}
+		
 		} else {
 			logger.info("Wrong type group of Packet Received");
 		}
