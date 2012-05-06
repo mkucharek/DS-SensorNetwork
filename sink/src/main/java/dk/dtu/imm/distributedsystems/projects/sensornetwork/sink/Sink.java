@@ -15,7 +15,7 @@ public class Sink extends AbstractNode {
 	
 	protected TransceiverComponent transceiverComponent;
 	
-	public Sink(String id, int period, int threshold, int leftPortNumber,
+	public Sink(String id, int leftPortNumber,
 			int rightPortNumber, Channel[] leftChannels,
 			Channel[] rightChannels, int ackTimeout) {
 		

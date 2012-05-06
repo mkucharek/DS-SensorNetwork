@@ -60,8 +60,13 @@ public abstract class AbstractUdpPortSender extends AbstractPortSender implement
 	 * Pass ack.
 	 */
 	public synchronized void passAck() {
-		this.ackObtained = true;
+		
+		try {
 			this.timer.interrupt();
+		} catch (NullPointerException e) {
+			return;
+		}
+		this.ackObtained = true;
 		this.notify();
 	}
 	

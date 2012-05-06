@@ -35,8 +35,8 @@ public abstract class AbstractPortSender extends AbstractPortHandler {
 	public synchronized void addToBuffer(Packet packet) {
 		
 		if (this.buffer.offer(packet)) {
-			logger.debug("Added " + packet + " to sender buffer. Buffer size is now " + this.buffer.size());
 			this.notify();
+			logger.debug("Added " + packet + " to sender buffer. Buffer size is now " + this.buffer.size());
 		}
 	}
 	

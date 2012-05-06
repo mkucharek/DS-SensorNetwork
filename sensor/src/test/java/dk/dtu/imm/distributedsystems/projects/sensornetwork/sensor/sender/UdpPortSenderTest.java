@@ -24,7 +24,7 @@ public class UdpPortSenderTest {
 	TestableUdpPortSender sender;
 	
 	private static final String ID = "0";
-	private static final int SLEEPVAL = 2000;
+	private static final int SLEEPVAL = 200;
 	
 	private static final int MAX_GUESS_PORT_ATTEMPTS = 5;
 	
@@ -96,36 +96,6 @@ public class UdpPortSenderTest {
 	}
 	
 	@Test
-	public void testData() {
-		
-		Assert.assertTrue(sender.isAlive());
-		
-		Packet packet = new Packet(ID, PacketType.DAT);
-		
-		sender.addToBuffer(packet);
-		
-		try {
-			Thread.sleep(SLEEPVAL/2);
-		} catch (InterruptedException e) {
-			Assert.fail();
-			e.printStackTrace();
-		}
-		
-		sender.passAck();
-		
-		try {
-			Thread.sleep(SLEEPVAL/4);
-		} catch (InterruptedException e) {
-			Assert.fail();
-			e.printStackTrace();
-		}
-		
-		Assert.assertEquals(State.WAITING, sender.getState());
-		Assert.assertEquals(1, sender.getSuccessfulSends());
-		
-	}
-	
-	@Test
 	public void testDataTimeout() {
 		
 		Assert.assertTrue(sender.isAlive());
@@ -144,6 +114,40 @@ public class UdpPortSenderTest {
 		sender.passAck();
 		
 		Assert.assertEquals(0, sender.getSuccessfulSends());
+		
+	}
+	
+	@Test
+	public void testData() {
+		
+		Assert.assertTrue(sender.isAlive());
+		
+		Packet packet = new Packet(ID, PacketType.DAT);
+		
+		sender.addToBuffer(packet);
+		
+		try {
+			Thread.sleep(SLEEPVAL/2);
+		} catch (InterruptedException e) {
+			Assert.fail();
+			e.printStackTrace();
+		}
+		
+		try {
+			sender.passAck();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		try {
+			Thread.sleep(SLEEPVAL/4);
+		} catch (InterruptedException e) {
+			Assert.fail();
+			e.printStackTrace();
+		}
+		
+		Assert.assertEquals(State.WAITING, sender.getState());
+		Assert.assertEquals(1, sender.getSuccessfulSends());
 		
 	}
 	

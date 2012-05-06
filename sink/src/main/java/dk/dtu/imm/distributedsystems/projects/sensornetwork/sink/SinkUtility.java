@@ -67,8 +67,6 @@ public class SinkUtility {
 				properties.getProperty("RIGHT_CHANNEL_PORT").split(delimiter));
 		
 		return new Sink(properties.getProperty("ID"),
-				Integer.parseInt(properties.getProperty("PERIOD")),
-				Integer.parseInt(properties.getProperty("THRESHOLD")),
 				Integer.parseInt(properties.getProperty("LEFT_PORT")),
 				Integer.parseInt(properties.getProperty("RIGHT_PORT")),
 				leftChannels,
