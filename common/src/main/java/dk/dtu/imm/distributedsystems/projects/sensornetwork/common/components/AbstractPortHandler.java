@@ -17,9 +17,6 @@ public abstract class AbstractPortHandler extends Thread {
 	/** The logger. */
 	protected final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
-	/** The port number. */
-	protected int portNumber;
-	
 	/** The node id. */
 	protected String nodeId;
 
@@ -28,18 +25,8 @@ public abstract class AbstractPortHandler extends Thread {
 	 *
 	 * @param portNumber the port number
 	 */
-	protected AbstractPortHandler(String nodeId, int portNumber) {
+	protected AbstractPortHandler(String nodeId) {
 		this.nodeId = nodeId;
-		this.portNumber = portNumber;
-	}
-	
-	/**
-	 * Gets the port number.
-	 *
-	 * @return the port number
-	 */
-	public int getPortNumber() {
-		return portNumber;
 	}
 	
 	/**

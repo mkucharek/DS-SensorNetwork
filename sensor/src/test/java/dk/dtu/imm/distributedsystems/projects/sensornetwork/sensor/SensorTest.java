@@ -5,6 +5,7 @@ import junit.framework.Assert;
 
 import org.junit.Test;
 
+import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.components.listener.udp.AbstractUdpPortListener;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.exceptions.NodeInitializationException;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.sensor.sender.UdpPortSender;
 
@@ -15,17 +16,17 @@ public class SensorTest {
 		
 		Sensor sensor11 = null;
 		try {
-			sensor11 = SensorUtility.getSensorInstance("sensor11.properties", true);
+			sensor11 = SensorUtility.getSensorInstance("sensor11-test.properties", true);
 		} catch (NodeInitializationException e) {
 			Assert.fail();
 		}
 		
 		assertEquals("11", sensor11.getId());
-		assertEquals(10, sensor11.getSensorComponent().getPeriod());
+		assertEquals(10000, sensor11.getSensorComponent().getPeriod());
 		assertEquals(40, sensor11.getSensorComponent().getThreshold());
 		
-		assertEquals(9911, sensor11.getTransceiverComponent().getLeftPortListener().getPortNumber());
-		assertEquals(9912, sensor11.getTransceiverComponent().getRightPortListener().getPortNumber());
+//		assertEquals(9911, ((AbstractUdpPortListener) sensor11.getTransceiverComponent().getLeftPortListener()).getServerSocket().getPort());
+//		assertEquals(9912, ((AbstractUdpPortListener) sensor11.getTransceiverComponent().getRightPortListener()).getServerSocket().getPort());
 		
 		assertEquals("0", (((UdpPortSender) sensor11.getTransceiverComponent().getPortSender()).getLeftChannels()[0].getId()));
 		

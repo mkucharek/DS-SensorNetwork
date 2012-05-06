@@ -45,7 +45,7 @@ public abstract class AbstractUdpPortListener extends AbstractPortListener {
 	 * @param portNumber the port number
 	 */
 	public AbstractUdpPortListener(String nodeId, DatagramSocket serverSocket, Channel[] associatedChannels) {
-		super(nodeId, serverSocket.getLocalPort());
+		super(nodeId);
 		
 		this.serverSocket = serverSocket;
 	}

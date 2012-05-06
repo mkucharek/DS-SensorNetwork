@@ -29,5 +29,12 @@ public abstract class AbstractOneChannelTransceiver extends AbstractTransceiver 
 	protected AbstractPortListener getPortListener() {
 		return super.getAllListeners()[0];
 	}
+	
+	@Override
+	public void close() {
+		this.getPortListener().interrupt();
+		
+		this.getPortSender().interrupt();
+	}
 
 }

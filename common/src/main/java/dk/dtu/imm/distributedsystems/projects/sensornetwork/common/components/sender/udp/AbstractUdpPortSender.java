@@ -22,11 +22,6 @@ import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.Packet
  * @author Maciej Kucharek <a href="mailto:s091828 (at) student.dtu.dk">s091828 (at) student.dtu.dk</a>
  */
 public abstract class AbstractUdpPortSender extends AbstractPortSender implements TimerHolder {
-
-	/** The server socket. */
-	protected DatagramSocket leftSocket;
-	
-	protected DatagramSocket rightSocket;
 	
 	protected Boolean ackObtained = false;
 	
@@ -40,11 +35,9 @@ public abstract class AbstractUdpPortSender extends AbstractPortSender implement
 	 * @param portNumber the port number
 	 * @param buffer the buffer
 	 */
-	public AbstractUdpPortSender(String nodeId, DatagramSocket leftSocket, DatagramSocket rightSocket, Queue<Packet> buffer, int ackTimeout) {
-		super(nodeId, 9976, buffer);
+	public AbstractUdpPortSender(String nodeId, Queue<Packet> buffer, int ackTimeout) {
+		super(nodeId, buffer);
 		
-		this.leftSocket = leftSocket;
-		this.rightSocket = rightSocket;
 		this.ackTimeout = ackTimeout;
 	}
 	
