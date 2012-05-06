@@ -108,7 +108,6 @@ public class UdpPortSenderTest {
 		try {
 			Thread.sleep(SLEEPVAL/2);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			Assert.fail();
 			e.printStackTrace();
 		}
@@ -118,7 +117,6 @@ public class UdpPortSenderTest {
 		try {
 			Thread.sleep(SLEEPVAL/4);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			Assert.fail();
 			e.printStackTrace();
 		}
@@ -140,7 +138,6 @@ public class UdpPortSenderTest {
 		try {
 			Thread.sleep((long) (SLEEPVAL*leftChannels.length));
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			Assert.fail();
 			e.printStackTrace();
 		}
@@ -163,7 +160,6 @@ public class UdpPortSenderTest {
 		try {
 			Thread.sleep(SLEEPVAL/2);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			Assert.fail();
 			e.printStackTrace();
 		}
@@ -173,7 +169,6 @@ public class UdpPortSenderTest {
 		try {
 			Thread.sleep(SLEEPVAL/4);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			Assert.fail();
 			e.printStackTrace();
 		}
@@ -194,7 +189,6 @@ public class UdpPortSenderTest {
 		try {
 			Thread.sleep( (long) (SLEEPVAL*leftChannels.length * 1.5) );
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			Assert.fail();
 			e.printStackTrace();
 		}
@@ -204,7 +198,6 @@ public class UdpPortSenderTest {
 		try {
 			Thread.sleep(SLEEPVAL/4);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			Assert.fail();
 			e.printStackTrace();
 		}
@@ -225,7 +218,6 @@ public class UdpPortSenderTest {
 		try {
 			Thread.sleep((long) (SLEEPVAL*leftChannels.length * 2));
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			Assert.fail();
 			e.printStackTrace();
 		}
@@ -252,7 +244,6 @@ public class UdpPortSenderTest {
 		try {
 			Thread.sleep(SLEEPVAL/4);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			Assert.fail();
 			e.printStackTrace();
 		}
@@ -262,7 +253,6 @@ public class UdpPortSenderTest {
 		try {
 			Thread.sleep(SLEEPVAL/4);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			Assert.fail();
 			e.printStackTrace();
 		}
@@ -272,7 +262,6 @@ public class UdpPortSenderTest {
 		try {
 			Thread.sleep(SLEEPVAL/4);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			Assert.fail();
 			e.printStackTrace();
 		}

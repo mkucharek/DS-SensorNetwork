@@ -48,7 +48,6 @@ public class SensorComponentTest {
 		try {
 			Thread.sleep(PERIOD * measurementCount);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			Assert.fail();
 			e.printStackTrace();
 		}
@@ -68,7 +67,6 @@ public class SensorComponentTest {
 		try {
 			Thread.sleep(PERIOD/10);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			Assert.fail();
 			e.printStackTrace();
 		}
@@ -77,7 +75,6 @@ public class SensorComponentTest {
 			try {
 				Thread.sleep(PERIOD);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				Assert.fail();
 				e.printStackTrace();
 			}

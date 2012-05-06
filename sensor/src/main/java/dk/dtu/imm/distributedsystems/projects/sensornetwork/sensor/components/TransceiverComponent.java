@@ -34,8 +34,7 @@ public class TransceiverComponent extends AbstractTwoChannelTransceiver {
 			this.leftSocket = new DatagramSocket(leftPortNumber);
 			this.rightSocket = new DatagramSocket(rightPortNumber);
 		} catch (SocketException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new RuntimeException(e);
 		}
 		
 		// manually set listeners

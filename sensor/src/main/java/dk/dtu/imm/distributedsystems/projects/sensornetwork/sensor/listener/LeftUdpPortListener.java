@@ -29,13 +29,17 @@ public final class LeftUdpPortListener extends AbstractUdpPortListener {
 			InetAddress fromIpAddress, int fromPortNumber) throws IOException {
 		
 		logger.info("Received " + packet);
-		
-		// TODO first position in logging needs to be the last visited sensor node
-		
+
 		if (packet.getType().equals(PacketType.ACK)) {
-			LoggingUtility.logMessage(packet.getSrcNodeId(), this.getNodeId(), MessageType.RCV, packet.getType());
+			
+			LoggingUtility.logMessage(getAssociatedChannelId(fromIpAddress, fromPortNumber),
+					this.getNodeId(), MessageType.RCV, packet.getType());
+		
 		} else if (packet.getGroup().equals(PacketGroup.COMMAND)) {
-			LoggingUtility.logMessage(packet.getSrcNodeId(), this.getNodeId(), MessageType.RCV, packet.getType(), packet.getSrcNodeId() + ":" + packet.getValue());
+		
+			LoggingUtility.logMessage(getAssociatedChannelId(fromIpAddress, fromPortNumber),
+					this.getNodeId(), MessageType.RCV, packet.getType(), packet.getSrcNodeId() + ":" + packet.getValue());
+		
 		}
 			
 		if(!(packet.getGroup().equals(PacketGroup.COMMAND) || 

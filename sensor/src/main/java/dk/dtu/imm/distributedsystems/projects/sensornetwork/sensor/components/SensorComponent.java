@@ -70,8 +70,7 @@ public class SensorComponent extends Thread {
 				try {
 					this.wait(period);
 				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					return;
 				}
 			}
 
