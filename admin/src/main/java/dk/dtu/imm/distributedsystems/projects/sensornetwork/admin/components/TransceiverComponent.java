@@ -15,6 +15,7 @@ import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.components.se
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.components.transceiver.AbstractOneChannelTransceiver;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.Packet;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.PacketGroup;
+import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.PacketType;
 
 
 public class TransceiverComponent extends AbstractOneChannelTransceiver {
@@ -22,8 +23,6 @@ public class TransceiverComponent extends AbstractOneChannelTransceiver {
 	protected DatagramSocket rightSocket;
 	
 	protected Admin admin;
-	
-	protected Map<String, Integer> sensorValuesMap;
 			
 	public TransceiverComponent(String nodeId, int rightPortNumber,
 			Channel[] rightChannels, int ackTimeout) {
@@ -42,27 +41,37 @@ public class TransceiverComponent extends AbstractOneChannelTransceiver {
 		this.setSender(new AdminUdpPortSender(nodeId, this.rightSocket,
 				new LinkedList<Packet>(), rightChannels,
 				ackTimeout));
-		
-		sensorValuesMap = new HashMap<String, Integer>();
 	}
 	
 	@Override
 	public synchronized void handlePacket(Packet packet) {
 		
 		logger.debug("Handling " + packet);
-		
-		// TODO: Handle QUERY packet type
-		
+
 		if (packet.getGroup().equals(PacketGroup.COMMAND)) {
 			this.getPortSender().addToBuffer(packet);
 			
-		} else if (packet.getGroup().equals(PacketGroup.SENSOR_DATA)) {
-			try {
-				sensorValuesMap.put(packet.getSrcNodeId(), Integer.parseInt(packet.getValue()));
-			} catch (NumberFormatException e) {
-				logger.warn(packet + " corrupted");
-			}
+		} else if (packet.getType().equals(PacketType.ALM)) {
+			logger.info("Alarm Data received");
 			
+			// TODO Handle ALM packet - print it to user in UI
+			
+		} else if (packet.getGroup().equals(PacketGroup.QUERY)) {
+			
+			if (packet.getValue().equals("")) {
+				
+				// TODO Handle sending of QUERY
+				
+				this.getPortSender().addToBuffer(packet);
+				
+			} else {
+				
+				// TODO Handle responses to QUERY packets - print it to user in UI
+
+				logger.info("Response to Query received"); 
+			
+			}
+						
 		} else if (packet.getGroup().equals(PacketGroup.ACKNOWLEDGEMENT)) {
 			logger.debug("Passing ACK to sender");
 			
