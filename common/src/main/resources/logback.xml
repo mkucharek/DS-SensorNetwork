@@ -23,8 +23,6 @@
 			<level>TRACE</level>
     	</filter>
 	</appender>
-	
-	<logger 
 
 	<root level="DEBUG">
 		<appender-ref ref="STDERR" />
