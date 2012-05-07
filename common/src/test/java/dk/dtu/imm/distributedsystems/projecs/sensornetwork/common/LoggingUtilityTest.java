@@ -7,7 +7,7 @@ import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.logging.Loggi
 public class LoggingUtilityTest {
 	
 	@Test
-	public void test3() {
+	public void testLowLevelLogging() {
 		
 		Object[] parameters = {"logger","id", "remo", "mes", "pac", "value"};
 		
@@ -15,5 +15,7 @@ public class LoggingUtilityTest {
 			LoggingUtility.logMessage(parameters);
 		}
 	}
+	
+	// TODO Tests using LogChecker
 
 }

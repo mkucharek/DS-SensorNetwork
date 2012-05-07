@@ -37,7 +37,6 @@ public final class AdminUdpPortListener extends AbstractUdpPortListener {
 				packet.getGroup().equals(PacketGroup.QUERY)) {
 				
 			logger.debug(packet + " accepted by listener");
-			transceiver.handlePacket(packet); 
 			
 			if (packet.getType().equals(PacketType.ALM)) {
 				
@@ -69,6 +68,8 @@ public final class AdminUdpPortListener extends AbstractUdpPortListener {
 						MessageType.RCV,
 						packet.getType());
 			}
+			
+			transceiver.handlePacket(packet);
 			
 		} else {
 			

@@ -13,11 +13,11 @@ import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.Packet
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.PacketGroup;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.PacketType;
 
-public final class LeftUdpPortListener extends AbstractUdpPortListener {
+public final class SinkUdpPortListener extends AbstractUdpPortListener {
 
 	private AbstractTransceiver transceiver;
 	
-	public LeftUdpPortListener(String nodeId, AbstractTransceiver relatedTransceiver, DatagramSocket socket, Channel[] associatedChannels) {
+	public SinkUdpPortListener(String nodeId, AbstractTransceiver relatedTransceiver, DatagramSocket socket, Channel[] associatedChannels) {
 		super(nodeId, socket, associatedChannels);
 		this.transceiver = relatedTransceiver;
 		
@@ -27,9 +27,7 @@ public final class LeftUdpPortListener extends AbstractUdpPortListener {
 	@Override
 	protected void handleIncomingPacket(Packet packet,
 			InetAddress fromIpAddress, int fromPortNumber) throws IOException {
-			
-		// TODO Log received packets - ACK; CMD: THR, PRD
-	
+
 		logger.debug("Received " + packet);
 
 		if ((packet.getGroup().equals(PacketGroup.COMMAND) ||
@@ -46,6 +44,13 @@ public final class LeftUdpPortListener extends AbstractUdpPortListener {
 						MessageType.RCV,
 						packet.getType(), 
 						packet.getSrcNodeId() + ":" + packet.getValue());
+				
+				sendAck(fromIpAddress, fromPortNumber);
+				
+				LoggingUtility.logMessage(this.getNodeId(),
+						getAssociatedChannelId(fromIpAddress, fromPortNumber),
+						MessageType.SND,
+						PacketType.ACK);
 			
 			} else if (packet.getGroup().equals(PacketGroup.QUERY)) {
 				

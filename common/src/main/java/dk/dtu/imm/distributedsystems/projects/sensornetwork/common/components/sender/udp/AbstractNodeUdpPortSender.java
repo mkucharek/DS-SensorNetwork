@@ -11,107 +11,145 @@ import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.exceptions.Wr
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.logging.LoggingUtility;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.MessageType;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.Packet;
+import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.PacketGroup;
+import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.PacketType;
 
 public abstract class AbstractNodeUdpPortSender extends AbstractUdpPortSender {
-	
+
 	/** The server socket. */
 	protected DatagramSocket leftSocket;
-	
+
 	/** The right socket. */
 	protected DatagramSocket rightSocket;
-	
+
 	/** The left channels. */
 	protected Channel[] leftChannels;
-	
+
 	/** The right channels. */
 	protected Channel[] rightChannels;
 
 	/**
 	 * Instantiates a new sender.
-	 *
-	 * @param portNumber the port number
-	 * @param buffer the buffer
-	 * @param leftChannels the left channels
-	 * @param rightChannels the right channels
-	 * @param ackTimeout the ack timeout
+	 * 
+	 * @param portNumber
+	 *            the port number
+	 * @param buffer
+	 *            the buffer
+	 * @param leftChannels
+	 *            the left channels
+	 * @param rightChannels
+	 *            the right channels
+	 * @param ackTimeout
+	 *            the ack timeout
 	 */
-	public AbstractNodeUdpPortSender(String nodeId, DatagramSocket leftSocket, DatagramSocket rightSocket, Queue<Packet> buffer, Channel[] leftChannels,
-			Channel[] rightChannels, int ackTimeout) {
+	public AbstractNodeUdpPortSender(String nodeId, DatagramSocket leftSocket,
+			DatagramSocket rightSocket, Queue<Packet> buffer,
+			Channel[] leftChannels, Channel[] rightChannels, int ackTimeout) {
 		super(nodeId, buffer, ackTimeout);
-		
+
 		this.leftSocket = leftSocket;
 		this.rightSocket = rightSocket;
-		
+
 		this.leftChannels = leftChannels;
 		this.rightChannels = rightChannels;
-		
+
 	}
-	
+
 	/**
 	 * Send unicast left.
-	 *
-	 * @param packet the packet
+	 * 
+	 * @param packet
+	 *            the packet
 	 * @return true, if successful
-	 * @throws WrongPacketSizeException the wrong packet size exception
-	 * @throws IOException Signals that an I/O exception has occurred.
-	 * @throws InterruptedException 
+	 * @throws WrongPacketSizeException
+	 *             the wrong packet size exception
+	 * @throws IOException
+	 *             Signals that an I/O exception has occurred.
+	 * @throws InterruptedException
 	 */
-	protected boolean sendUnicastLeft(Packet packet) throws WrongPacketSizeException, IOException, InterruptedException {
-		
+	protected boolean sendUnicastLeft(Packet packet)
+			throws WrongPacketSizeException, IOException, InterruptedException {
+
 		logger.debug("Sending unicast left " + packet);
-		
-		for(Channel channel : this.leftChannels) {
-			
-			InetAddress currentLeftChannelIP = InetAddress.getByName(channel.getIpAddress());
+
+		for (Channel channel : this.leftChannels) {
+
+			InetAddress currentLeftChannelIP = InetAddress.getByName(channel
+					.getIpAddress());
 
 			// send Packet to left channel through UDP Connection
-			sendPacket(leftSocket, packet, currentLeftChannelIP, channel.getPortNumber());
+			sendPacket(leftSocket, packet, currentLeftChannelIP,
+					channel.getPortNumber());
 
-			LoggingUtility.logMessage(this.getNodeId(), channel.getId(), MessageType.SND, packet.getType(), packet.getSrcNodeId() + ":" + packet.getValue());
-			
+			if (packet.getGroup().equals(PacketGroup.SENSOR_DATA)) {
+				
+				LoggingUtility.logMessage(this.getNodeId(), channel.getId(),
+						MessageType.SND, packet.getType(),
+						packet.getSrcNodeId() + ":" + packet.getValue());
+				
+			} else if (packet.getGroup().equals(PacketGroup.QUERY)) {
+				
+				LoggingUtility.logMessage(this.getNodeId(), channel.getId(),
+						MessageType.SND, packet.getType(),
+						packet.getValue());
+				
+			} else {
+				
+				logger.warn("Wrong type of packet to be sent");
+				
+			}
+
 			timer = new Timer(ackTimeout, this);
 			this.ackObtained = false;
 			timer.start();
-			
+
 			synchronized (this) {
 				this.wait();
 			}
-			
+
 			synchronized (this.ackObtained) {
-				if(this.ackObtained) {
+				if (this.ackObtained) {
 					logger.debug("ACK received");
 					this.ackObtained = false;
 					return true;
 				}
 			}
-			
+
 			logger.info("Timeout passed");
 			// timeout passed
-			
+
 		}
-		
+
 		return false;
 	}
 
 	/**
 	 * Send multicast right.
-	 *
-	 * @param packet the packet
-	 * @throws WrongPacketSizeException the wrong packet size exception
-	 * @throws IOException Signals that an I/O exception has occurred.
+	 * 
+	 * @param packet
+	 *            the packet
+	 * @throws WrongPacketSizeException
+	 *             the wrong packet size exception
+	 * @throws IOException
+	 *             Signals that an I/O exception has occurred.
 	 */
-	protected void sendMulticastRight(Packet packet) throws WrongPacketSizeException, IOException {
-		
-		for(Channel channel : this.rightChannels) {
-			
-			InetAddress currentLeftChannelIP = InetAddress.getByName(channel.getIpAddress());
+	protected void sendMulticastRight(Packet packet)
+			throws WrongPacketSizeException, IOException {
+
+		for (Channel channel : this.rightChannels) {
+
+			InetAddress currentLeftChannelIP = InetAddress.getByName(channel
+					.getIpAddress());
 
 			// send Packet to right channel through UDP Connection
-			sendPacket(rightSocket, packet, currentLeftChannelIP, channel.getPortNumber());
-
-			LoggingUtility.logMessage(this.getNodeId(), channel.getId(), MessageType.SND, packet.getType(), packet.getSrcNodeId() + ":" + packet.getValue());
+			sendPacket(rightSocket, packet, currentLeftChannelIP,
+					channel.getPortNumber());
+			
+			// COMMAND packets only
+			LoggingUtility.logMessage(this.getNodeId(), channel.getId(),
+					MessageType.SND, packet.getType(), packet.getValue());
 		}
-		
+
 	}
-	
+
 }

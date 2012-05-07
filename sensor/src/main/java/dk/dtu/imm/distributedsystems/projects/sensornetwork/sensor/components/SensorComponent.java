@@ -99,7 +99,7 @@ public class SensorComponent extends Thread {
 			
 			logger.debug(outPacket + " created");
 			
-			LoggingUtility.logMessage(transceiver.getId(), transceiver.getId(), MessageType.GEN, outPacket.getType(), outPacket.getValue());
+			LoggingUtility.logMessage(transceiver.getId(), transceiver.getId(), MessageType.GEN, outPacket.getType(), transceiver.getId() + ":" + outPacket.getValue());
 			
 			transceiver.handlePacket(outPacket);
 		}

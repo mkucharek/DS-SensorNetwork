@@ -14,8 +14,8 @@ import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.Packet
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.PacketGroup;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.PacketType;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.sink.Sink;
-import dk.dtu.imm.distributedsystems.projects.sensornetwork.sink.listeners.LeftUdpPortListener;
-import dk.dtu.imm.distributedsystems.projects.sensornetwork.sink.sender.UdpPortSender;
+import dk.dtu.imm.distributedsystems.projects.sensornetwork.sink.listeners.SinkUdpPortListener;
+import dk.dtu.imm.distributedsystems.projects.sensornetwork.sink.sender.SinkUdpPortSender;
 
 
 public class TransceiverComponent extends AbstractTwoChannelTransceiver {
@@ -40,12 +40,12 @@ public class TransceiverComponent extends AbstractTwoChannelTransceiver {
 		}
 		
 		// manually set listeners
-		this.getAllListeners()[0] = new LeftUdpPortListener(nodeId, this,
+		this.getAllListeners()[0] = new SinkUdpPortListener(nodeId, this,
 				this.leftSocket, leftChannels);
 		this.getAllListeners()[1] = new SensorDataUdpPortListener(nodeId, this,
 				this.rightSocket, rightChannels);
 		
-		this.setSender(new UdpPortSender(nodeId, this.leftSocket, this.rightSocket,
+		this.setSender(new SinkUdpPortSender(nodeId, this.leftSocket, this.rightSocket,
 				new LinkedList<Packet>(), leftChannels, rightChannels,
 				ackTimeout));
 		
