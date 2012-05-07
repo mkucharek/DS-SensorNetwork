@@ -16,7 +16,6 @@ import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.nodes.NodeTyp
  */
 public class Admin extends AbstractNode 
 {
-	
 	protected TransceiverComponent transceiverComponent;
 	
 	protected AdminFrame userInterface;
@@ -35,6 +34,10 @@ public class Admin extends AbstractNode
 		
 	}
 	
+	public AdminFrame getUserInterface() {
+		return userInterface;
+	}
+
 	public static void main(String[] args) {
 
 		if (args.length != 1) {
@@ -80,7 +83,5 @@ public class Admin extends AbstractNode
 		System.out.println("Done");
 		
 		System.exit(0);
-	}
-	
-	
+	}	
 }

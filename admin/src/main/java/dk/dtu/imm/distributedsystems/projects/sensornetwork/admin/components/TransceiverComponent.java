@@ -37,7 +37,7 @@ public class TransceiverComponent extends AbstractOneChannelTransceiver {
 				this.rightSocket, rightChannels);
 		
 		this.setSender(new AdminUdpPortSender(nodeId, this.rightSocket,
-				new LinkedList<Packet>(), rightChannels,
+				new LinkedList<Packet>(), admin, rightChannels,
 				ackTimeout));
 	}
 	
@@ -47,27 +47,28 @@ public class TransceiverComponent extends AbstractOneChannelTransceiver {
 		logger.debug("Handling " + packet);
 
 		if (packet.getGroup().equals(PacketGroup.COMMAND)) {
+			
 			this.getPortSender().addToBuffer(packet);
 			
 		} else if (packet.getType().equals(PacketType.ALM)) {
-			logger.debug("Alarm Data received");
 			
-			// TODO Handle ALM packet - print it to user in UI
+			logger.debug("Alarm Data received - sending it to UI");
 			
+			admin.getUserInterface().showAlarmData(packet);
+		
 		} else if (packet.getGroup().equals(PacketGroup.QUERY)) {
 			
 			if (packet.getValue().equals("")) {
 				
-				// TODO Handle sending of QUERY
-				logger.debug("Sending Query packet"); 
+				logger.debug("Sending Query packet - adding to buffer"); 
 				
 				this.getPortSender().addToBuffer(packet);
 				
 			} else {
-				
-				// TODO Handle responses to QUERY packets - print it to user in UI
 
-				logger.debug("Response to Query packet received"); 
+				logger.debug("Response to Query packet received - sending it to UI"); 
+				
+				admin.getUserInterface().showReport(packet);
 			
 			}
 						

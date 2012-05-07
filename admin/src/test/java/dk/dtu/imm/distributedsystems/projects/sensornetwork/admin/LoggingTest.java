@@ -15,4 +15,7 @@ public class LoggingTest {
 			LoggingUtility.logMessage(parameters);
 		}
 	}
+	
+	// TODO Tests using LogChecker
+	
 }

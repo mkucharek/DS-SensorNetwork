@@ -5,6 +5,7 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.util.Queue;
 
+import dk.dtu.imm.distributedsystems.projects.sensornetwork.admin.Admin;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.channels.Channel;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.components.sender.udp.AbstractUdpPortSender;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.components.timer.Timer;
@@ -16,6 +17,8 @@ import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.Packet
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.PacketGroup;
 
 public class AdminUdpPortSender extends AbstractUdpPortSender {
+	
+	private Admin relatedAdmin;
 	
 	/** The right socket. */
 	protected DatagramSocket rightSocket;
@@ -33,10 +36,12 @@ public class AdminUdpPortSender extends AbstractUdpPortSender {
 	 * @param ackTimeout the ack timeout
 	 */
 	public AdminUdpPortSender(String nodeId, DatagramSocket rightSocket, Queue<Packet> buffer,
-			Channel[] rightChannels, int ackTimeout) {
+			Admin admin, Channel[] rightChannels, int ackTimeout) {
 		super(nodeId, buffer, ackTimeout);
 		this.rightSocket = rightSocket;
 		this.rightChannels = rightChannels;
+		
+		this.relatedAdmin = admin;
 		
 		this.start();
 	}
@@ -94,6 +99,8 @@ public class AdminUdpPortSender extends AbstractUdpPortSender {
 			}
 			
 			logger.info("Timeout passed");
+			
+			relatedAdmin.getUserInterface().showError(packet);
 			
 		}
 		

@@ -34,11 +34,11 @@ public class AdminFrame extends javax.swing.JFrame {
     	this.valueTextField.setText(p.getValue());
     }
     
-    public void showError(Packet p) {
+    public void showAlarmData(Packet p) {
     	JOptionPane.showMessageDialog(jTabbedPane1, "Temperature in sensor " + p.getSrcNodeId() + " is now " + p.getValue() + "!", "Alert", JOptionPane.WARNING_MESSAGE);
     }
     
-    public void showTimeout(Packet p) {
+    public void showError(Packet p) {
     	
     	String msg = "Sink is not responding";
     	if(PacketGroup.COMMAND.equals(p.getGroup())) {
