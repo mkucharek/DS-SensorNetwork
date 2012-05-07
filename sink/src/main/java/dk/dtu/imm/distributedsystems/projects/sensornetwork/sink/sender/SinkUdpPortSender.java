@@ -12,7 +12,7 @@ import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.Packet
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.PacketGroup;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.PacketType;
 
-public class UdpPortSender extends AbstractNodeUdpPortSender {
+public class SinkUdpPortSender extends AbstractNodeUdpPortSender {
 	
 	/**
 	 * Instantiates a new sender.
@@ -23,7 +23,7 @@ public class UdpPortSender extends AbstractNodeUdpPortSender {
 	 * @param rightChannels the right channels
 	 * @param ackTimeout the ack timeout
 	 */
-	public UdpPortSender(String nodeId, DatagramSocket leftSocket, DatagramSocket rightSocket, Queue<Packet> buffer, Channel[] leftChannels,
+	public SinkUdpPortSender(String nodeId, DatagramSocket leftSocket, DatagramSocket rightSocket, Queue<Packet> buffer, Channel[] leftChannels,
 			Channel[] rightChannels, int ackTimeout) {
 		super(nodeId, leftSocket, rightSocket, buffer, leftChannels, rightChannels, ackTimeout);
 		this.leftChannels = leftChannels;

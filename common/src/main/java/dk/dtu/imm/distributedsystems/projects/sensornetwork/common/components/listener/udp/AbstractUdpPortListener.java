@@ -175,6 +175,7 @@ public abstract class AbstractUdpPortListener extends AbstractPortListener {
 			for(Channel channel : associatedChannels) {
 				if(channel.getIpAddress().equals(ipAddress.getHostAddress()) &&
 						channel.getPortNumber() == portNumber) {
+					logger.debug("Resolved sender ID - " + channel.getId());
 					return channel.getId();
 				}
 			}

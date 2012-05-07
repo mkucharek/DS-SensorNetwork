@@ -66,6 +66,12 @@ public class GlobalUtility {
 		Channel[] channels = new Channel[ids.length];
 		
 		for(int i=0; i<ids.length; ++i) {
+			
+			// renaming localhost to 127.0.0.1 in order to enable sender id resolution
+			if(ips[i].equals("localhost")) {
+				ips[i] = "127.0.0.1";
+			}
+			
 			channels[i] = new Channel(ids[i], 
     				ips[i], 
     				Integer.parseInt(portNumbers[i]));
