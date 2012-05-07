@@ -3,6 +3,7 @@ package dk.dtu.imm.distributedsystems.projects.sensornetwork.admin;
 import java.util.Scanner;
 
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.admin.components.TransceiverComponent;
+import dk.dtu.imm.distributedsystems.projects.sensornetwork.admin.gui.AdminFrame;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.channels.Channel;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.exceptions.NodeInitializationException;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.nodes.AbstractNode;
@@ -47,6 +48,52 @@ public class Admin extends AbstractNode
 			return;
 		}
 		
+		
+		
+		/*
+         * Set the Nimbus look and feel
+         */
+
+        /*
+         * If Nimbus (introduced in Java SE 6) is not available, stay with the
+         * default look and feel. For details see
+         * http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(AdminFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(AdminFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(AdminFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(AdminFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+
+        final TransceiverComponent transceiver = admin.transceiverComponent;
+        
+        /*
+         * Create and display the form
+         */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+
+            public void run() {
+                AdminFrame adminFrame = new AdminFrame(transceiver);
+                adminFrame.setVisible(true);
+            }
+        });
+		
+		
+		
+		
+		
+		
 	    Scanner in = new Scanner(System.in);
 
 	    int i = 1;
@@ -62,4 +109,6 @@ public class Admin extends AbstractNode
 		
 		System.exit(0);
 	}
+	
+	
 }
