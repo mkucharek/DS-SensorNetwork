@@ -16,12 +16,6 @@ public class LoggingTest {
 		}
 	}
 	
-//	@Test
-//	public void testSinkLogging() {
-//		
-//		for (int i=1; i<10; i++) {
-//			SinkUtility.logMessage("rId", "msg", "pck", "VAL");
-//		}
-//	}
+	// TODO Tests using LogChecker
 
 }
