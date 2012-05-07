@@ -19,12 +19,14 @@ public class LoggingTest {
 		}
 	}
 	
-	@Test
-	public void testSensorLogging() {
-		
-		for (int i=1; i<10; i++) {
-			Assert.assertTrue(LogChecker.checkLine(SensorUtility.getLogMessage(String.valueOf(i), String.valueOf(i+10), "RCV", "DAT", String.valueOf(i+5)), LogChecker.SENSOR));
-		}
-	}
+//	@Test
+//	public void testSensorLogging() {
+//		
+//		for (int i=1; i<10; i++) {
+//			Assert.assertTrue(LogChecker.checkLine(SensorUtility.getLogMessage(String.valueOf(i), String.valueOf(i+10), "RCV", "DAT", String.valueOf(i+5)), LogChecker.SENSOR));
+//		}
+//	}
+	
+	// TODO Tests using LogChecker
 
 }

@@ -20,15 +20,7 @@ public class SensorUtility {
 	public static final int MEASUREMENT_MEAN = 25;
 	
 	public static final int MEASUREMENT_STD = 5;
-	
-	public static void logMessage(String id, String remoteId, String msgType, String pckType, String value) {
-		LoggingUtility.logMessage(new Object[]{id, remoteId, msgType, pckType, value});
-	}
-	
-	public static String getLogMessage(String id, String remoteId, String msgType, String pckType, String value) {
-		return LoggingUtility.getLogMessage(new Object[]{id, remoteId, msgType, pckType, value});
-	}
-	
+
 	public static Sensor getSensorInstance(String propertyFilePath) throws NodeInitializationException {
 		return getSensorInstance(propertyFilePath, false);
 	}
