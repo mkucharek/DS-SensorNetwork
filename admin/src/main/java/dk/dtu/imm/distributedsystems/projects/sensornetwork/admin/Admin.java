@@ -24,7 +24,7 @@ public class Admin extends AbstractNode
 		
 		super(NodeType.ADMIN.toString());
 
-		this.transceiverComponent = new TransceiverComponent(id,
+		this.transceiverComponent = new TransceiverComponent(this, id,
 				rightPortNumber, rightChannels,
 				ackTimeout);
 		

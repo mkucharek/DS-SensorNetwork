@@ -22,7 +22,7 @@ public class TransceiverComponent extends AbstractOneChannelTransceiver {
 	
 	protected Admin admin;
 			
-	public TransceiverComponent(String nodeId, int rightPortNumber,
+	public TransceiverComponent(Admin admin, String nodeId, int rightPortNumber,
 			Channel[] rightChannels, int ackTimeout) {
 		super(nodeId, null, null);
 
@@ -31,6 +31,8 @@ public class TransceiverComponent extends AbstractOneChannelTransceiver {
 		} catch (SocketException e) {
 			throw new RuntimeException(e);
 		}
+		
+		this.admin = admin;
 		
 		// manually set listeners
 		this.getAllListeners()[0] = new AdminUdpPortListener(nodeId, this,
