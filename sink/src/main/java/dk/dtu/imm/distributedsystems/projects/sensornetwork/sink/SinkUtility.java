@@ -61,7 +61,11 @@ public class SinkUtility {
 		
 		String delimiter = GlobalUtility.VALUE_DELIMITER;
 		
-		Channel[] leftChannels = new Channel[] {new Channel("ADMIN", properties.getProperty("ADMIN_IP"), Integer.parseInt(properties.getProperty("ADMIN_PORT"))) };
+//		Channel[] leftChannels = new Channel[] {new Channel("ADMIN", properties.getProperty("ADMIN_IP"), Integer.parseInt(properties.getProperty("ADMIN_PORT"))) };
+		
+		Channel[] leftChannels = GlobalUtility.getChannelArray(new String[] {NodeType.ADMIN.toString()}, 
+				properties.getProperty("ADMIN_IP").split(delimiter), 
+				properties.getProperty("ADMIN_PORT").split(delimiter));
 		
 		Channel[] rightChannels = GlobalUtility.getChannelArray(properties.getProperty("RIGHT_CHANNEL_ID").split(delimiter),
 				properties.getProperty("RIGHT_CHANNEL_IP").split(delimiter), 
