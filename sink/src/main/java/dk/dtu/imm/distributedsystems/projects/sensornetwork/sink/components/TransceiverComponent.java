@@ -65,7 +65,7 @@ public class TransceiverComponent extends AbstractTwoChannelTransceiver {
 	}
 	
 	private String getMinSensorValue() {
-		Integer minValue = new Integer(0);
+		Integer minValue = null;
 		
 		for (Integer curInt: sensorValuesMap.values()) {
 			if (minValue == null || curInt < minValue) {
@@ -77,7 +77,7 @@ public class TransceiverComponent extends AbstractTwoChannelTransceiver {
 	}
 	
 	private String getAvgSensorValue() {
-		Integer sum = new Integer(0);
+		Integer sum = null;
 		
 		for (Integer curInt: sensorValuesMap.values()) {
 			if (sum == null || curInt < sum) {
