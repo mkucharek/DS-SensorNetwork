@@ -64,7 +64,7 @@ public class UdpPortSender extends AbstractNodeUdpPortSender {
 			} else if (packet.getGroup().equals(PacketGroup.QUERY) || packet.getType().equals(PacketType.ALM)) {
 				sendUnicastLeft(packet);
 			} else {
-				logger.info("Invalid packet received in Sender: [Group = '"
+				logger.warn("Invalid packet received in Sender: [Group = '"
 						+ packet.getGroup() + "', Type = '" + packet.getType()
 						+ "'] - dropped");
 			}

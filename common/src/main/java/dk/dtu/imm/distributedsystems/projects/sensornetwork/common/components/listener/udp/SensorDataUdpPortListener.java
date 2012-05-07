@@ -35,11 +35,11 @@ public class SensorDataUdpPortListener extends AbstractUdpPortListener {
 		LoggingUtility.logMessage(packet.getSrcNodeId(), this.getNodeId(), MessageType.RCV, packet.getType());
 		
 		if(packet.getGroup().equals(PacketGroup.SENSOR_DATA)) {
-			logger.info(packet + " accepted by listener");
+			logger.debug(packet + " accepted by listener");
 			
 			transceiver.handlePacket(packet); 
 		} else {
-			logger.info(packet + "dropped by listener - wrong type");
+			logger.warn(packet + "dropped by listener - wrong type");
 		}
 	}
 }

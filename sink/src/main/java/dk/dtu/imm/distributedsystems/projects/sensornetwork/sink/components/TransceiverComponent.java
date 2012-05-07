@@ -135,11 +135,11 @@ public class TransceiverComponent extends AbstractTwoChannelTransceiver {
 				this.getPortSender().addToBuffer(new Packet(this.getId(), packet.getType(), getAvgSensorValue()));
 				
 			} else {
-				logger.info("Wrong type of QUERY Packet Received");
+				logger.warn("Wrong type of QUERY Packet Received");
 			}
 		
 		} else {
-			logger.info("Wrong type group of Packet Received");
+			logger.warn("Wrong type group of Packet Received");
 		}
 	}
 

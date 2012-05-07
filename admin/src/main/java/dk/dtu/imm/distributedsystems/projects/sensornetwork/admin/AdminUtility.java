@@ -17,10 +17,6 @@ import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.nodes.NodeTyp
 public class AdminUtility {
 	
 	protected final static Logger logger = LoggerFactory.getLogger(AdminUtility.class);
-	
-	public static void logMessage(String msgType, String pckType, String value) {
-		LoggingUtility.logMessage(new Object[]{msgType, pckType, value});
-	}
 
 	public static Admin getAdminInstance(String propertyFilePath) throws NodeInitializationException {
 		return getAdminInstance(propertyFilePath, false);

@@ -61,7 +61,7 @@ public class TransceiverComponent extends AbstractTwoChannelTransceiver {
 			} else if (packet.getType().equals(PacketType.THR)) {
 				sensor.getSensorComponent().setThreshold(Integer.parseInt(packet.getValue()));
 			} else {
-				logger.info("Wrong type of Command Packet Received");
+				logger.warn("Wrong type of Command Packet Received");
 			}
 			
 			LoggingUtility.logMessage(sensor.getId(), sensor.getId(), MessageType.SET, packet.getType(), packet.getValue());
@@ -76,7 +76,7 @@ public class TransceiverComponent extends AbstractTwoChannelTransceiver {
 			
 			((AbstractUdpPortSender) this.getPortSender()).passAck();
 		} else {
-			logger.info("Wrong type group of Packet Received");
+			logger.warn("Wrong type group of Packet Received");
 		}
 	}
 

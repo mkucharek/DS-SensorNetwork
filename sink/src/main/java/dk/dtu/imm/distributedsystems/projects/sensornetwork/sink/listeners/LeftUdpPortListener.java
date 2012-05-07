@@ -30,7 +30,7 @@ public final class LeftUdpPortListener extends AbstractUdpPortListener {
 			
 		// TODO Log received packets - ACK; CMD: THR, PRD
 	
-		logger.info("Received " + packet);
+		logger.debug("Received " + packet);
 
 		if ((packet.getGroup().equals(PacketGroup.COMMAND) ||
 				packet.getGroup().equals(PacketGroup.ACKNOWLEDGEMENT) ||
@@ -66,7 +66,7 @@ public final class LeftUdpPortListener extends AbstractUdpPortListener {
 			
 		} else {
 			
-			logger.debug(packet + "dropped by listener - wrong type");
+			logger.warn(packet + "dropped by listener - wrong type");
 		
 		}
 	}

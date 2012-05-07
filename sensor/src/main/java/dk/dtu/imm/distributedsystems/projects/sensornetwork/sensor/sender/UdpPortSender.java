@@ -72,12 +72,12 @@ public class UdpPortSender extends AbstractNodeUdpPortSender {
 					}
 					
 				} else {
-					logger.info("Unknown SENSOR_DATA packet type - dropped");
+					logger.warn("Unknown SENSOR_DATA packet type - dropped");
 				}
 			} else if (packet.getGroup().equals(PacketGroup.COMMAND)) {
 				sendMulticastRight(packet);
 			} else {
-				logger.info("Invalid packet received: [Group = '" + packet.getGroup() + "', Type = '" + packet.getType() + "'] - dropped");
+				logger.warn("Invalid packet received: [Group = '" + packet.getGroup() + "', Type = '" + packet.getType() + "'] - dropped");
 			}
 		} catch (WrongPacketSizeException e) {
 			logger.warn(e.getMessage() + " The actual packet size is: " + e.getActualSize(), e);

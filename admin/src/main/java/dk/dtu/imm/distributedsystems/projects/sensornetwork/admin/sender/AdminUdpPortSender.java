@@ -61,8 +61,21 @@ public class AdminUdpPortSender extends AbstractUdpPortSender {
 			// send Packet to left channel through UDP Connection
 			sendPacket(rightSocket, packet, currentLeftChannelIP, channel.getPortNumber());
 
-			LoggingUtility.logMessage(this.getNodeId(), channel.getId(),
-					MessageType.SND, packet.getType(), packet.getValue());
+			if (packet.getGroup().equals(PacketGroup.COMMAND)) {
+				
+				LoggingUtility.logMessage(this.getNodeId(), channel.getId(),
+						MessageType.SND, packet.getType(), packet.getValue());
+				
+			} else if (packet.getGroup().equals(PacketGroup.QUERY)) {
+				
+				LoggingUtility.logMessage(this.getNodeId(), channel.getId(),
+						MessageType.SND, packet.getType());
+				
+			} else {
+				
+				logger.warn("Wrong type of packet to be sent");
+				
+			}
 			
 			timer = new Timer(ackTimeout, this);
 			this.ackObtained = false;
@@ -80,7 +93,7 @@ public class AdminUdpPortSender extends AbstractUdpPortSender {
 				}
 			}
 			
-			logger.debug("Timeout passed");
+			logger.info("Timeout passed");
 			
 		}
 		
@@ -103,7 +116,7 @@ public class AdminUdpPortSender extends AbstractUdpPortSender {
 			
 			} else {
 			
-				logger.info("Received invalid " + packet);
+				logger.warn("Received invalid " + packet);
 			
 			}
 		} catch (WrongPacketSizeException e) {
