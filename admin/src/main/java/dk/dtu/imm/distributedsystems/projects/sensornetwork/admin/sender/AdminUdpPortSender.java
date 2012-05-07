@@ -80,7 +80,7 @@ public class AdminUdpPortSender extends AbstractUdpPortSender {
 				}
 			}
 			
-			logger.debug("Timeout passed");
+			logger.info("Timeout passed");
 			
 		}
 		
@@ -103,7 +103,7 @@ public class AdminUdpPortSender extends AbstractUdpPortSender {
 			
 			} else {
 			
-				logger.info("Received invalid " + packet);
+				logger.warn("Received invalid " + packet);
 			
 			}
 		} catch (WrongPacketSizeException e) {

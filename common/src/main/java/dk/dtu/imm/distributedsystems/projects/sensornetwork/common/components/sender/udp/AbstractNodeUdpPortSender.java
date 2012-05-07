@@ -85,7 +85,7 @@ public abstract class AbstractNodeUdpPortSender extends AbstractUdpPortSender {
 				}
 			}
 			
-			logger.debug("Timeout passed");
+			logger.info("Timeout passed");
 			// timeout passed
 			
 		}

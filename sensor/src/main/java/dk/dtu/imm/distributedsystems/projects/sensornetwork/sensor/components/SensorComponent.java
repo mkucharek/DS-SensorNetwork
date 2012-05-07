@@ -43,7 +43,7 @@ public class SensorComponent extends Thread {
 
 	public synchronized void setThreshold(int t) {
 		this.threshold = t;
-		logger.info("Threshold set to " + this.threshold);
+		logger.debug("Threshold set to " + this.threshold);
 	}
 	
 	public int getPeriod() {

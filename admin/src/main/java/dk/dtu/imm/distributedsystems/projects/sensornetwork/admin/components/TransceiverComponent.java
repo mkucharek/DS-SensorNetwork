@@ -52,7 +52,7 @@ public class TransceiverComponent extends AbstractOneChannelTransceiver {
 			this.getPortSender().addToBuffer(packet);
 			
 		} else if (packet.getType().equals(PacketType.ALM)) {
-			logger.info("Alarm Data received");
+			logger.debug("Alarm Data received");
 			
 			// TODO Handle ALM packet - print it to user in UI
 			
@@ -61,6 +61,7 @@ public class TransceiverComponent extends AbstractOneChannelTransceiver {
 			if (packet.getValue().equals("")) {
 				
 				// TODO Handle sending of QUERY
+				logger.debug("Sending Query packet"); 
 				
 				this.getPortSender().addToBuffer(packet);
 				
@@ -68,7 +69,7 @@ public class TransceiverComponent extends AbstractOneChannelTransceiver {
 				
 				// TODO Handle responses to QUERY packets - print it to user in UI
 
-				logger.info("Response to Query received"); 
+				logger.debug("Response to Query packet received"); 
 			
 			}
 						
@@ -77,7 +78,7 @@ public class TransceiverComponent extends AbstractOneChannelTransceiver {
 			
 			((AbstractUdpPortSender) this.getPortSender()).passAck();
 		} else {
-			logger.info("Wrong type group of Packet Received");
+			logger.warn("Wrong type group of Packet Received");
 		}
 	}
 

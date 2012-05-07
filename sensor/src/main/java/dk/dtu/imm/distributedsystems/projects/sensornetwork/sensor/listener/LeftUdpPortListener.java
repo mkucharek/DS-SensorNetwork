@@ -47,7 +47,7 @@ public final class LeftUdpPortListener extends AbstractUdpPortListener {
 			
 		} else {
 			
-			logger.debug(packet + "dropped by listener - wrong type");
+			logger.warn(packet + "dropped by listener - wrong type");
 		
 		}
 	}

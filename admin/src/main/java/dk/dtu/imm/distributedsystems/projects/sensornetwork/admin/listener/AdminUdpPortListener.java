@@ -28,7 +28,7 @@ public final class AdminUdpPortListener extends AbstractUdpPortListener {
 	protected void handleIncomingPacket(Packet packet,
 			InetAddress fromIpAddress, int fromPortNumber) throws IOException {
 
-		logger.info("Received " + packet);
+		logger.debug("Received " + packet);
 		
 		
 		if (packet.getType().equals(PacketType.ALM) || 
@@ -65,7 +65,7 @@ public final class AdminUdpPortListener extends AbstractUdpPortListener {
 			
 		} else {
 			
-			logger.debug(packet + "dropped by listener - wrong type");
+			logger.warn(packet + "dropped by listener - wrong type");
 			
 		}
 	}
