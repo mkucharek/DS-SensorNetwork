@@ -85,6 +85,17 @@ public class SensorDataUdpPortListenerTest {
 	}
 	
 	@Test
+	public void testListenerConstruction() {
+		
+		Assert.assertNotNull(this.listener.getAssociatedChannels());
+		
+		Assert.assertEquals(ID, this.listener.getNodeId());
+		Assert.assertEquals(socket, this.listener.getServerSocket());
+		
+		Assert.assertEquals(channels, this.listener.getAssociatedChannels());
+	}
+	
+	@Test
 	public void testHandleDataPacket() {
 		
 		List<Packet> packetList = new ArrayList<Packet>();

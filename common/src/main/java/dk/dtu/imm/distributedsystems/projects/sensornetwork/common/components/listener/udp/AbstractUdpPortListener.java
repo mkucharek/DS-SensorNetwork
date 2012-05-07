@@ -48,6 +48,7 @@ public abstract class AbstractUdpPortListener extends AbstractPortListener {
 		super(nodeId);
 		
 		this.serverSocket = serverSocket;
+		this.associatedChannels = associatedChannels;
 	}
 
 	public DatagramSocket getServerSocket() {
@@ -178,11 +179,14 @@ public abstract class AbstractUdpPortListener extends AbstractPortListener {
 				}
 			}
 		} catch (NullPointerException e) {
-			// not found
+			// no channels
+			logger.error("No channels associated to this listener - cannot determine sender");
 			return "UNKNOWN";
 		}
 		
-		return null;
+		logger.warn("Did not recognise sender ID - packet came from host: " + ipAddress.getHostAddress() + ", port: " + portNumber);
+		
+		return "UNKNOWN";
 		
 	}
 }
