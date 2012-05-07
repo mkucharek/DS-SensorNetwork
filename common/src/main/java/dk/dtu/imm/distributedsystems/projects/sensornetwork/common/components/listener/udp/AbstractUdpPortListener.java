@@ -170,14 +170,18 @@ public abstract class AbstractUdpPortListener extends AbstractPortListener {
 	 */
 	protected String getAssociatedChannelId(InetAddress ipAddress, int portNumber) {
 		
-		for(Channel channel : associatedChannels) {
-			if(channel.getIpAddress().equals(ipAddress.getHostAddress()) &&
-					channel.getPortNumber() == portNumber) {
-				return channel.getId();
+		try {
+			for(Channel channel : associatedChannels) {
+				if(channel.getIpAddress().equals(ipAddress.getHostAddress()) &&
+						channel.getPortNumber() == portNumber) {
+					return channel.getId();
+				}
 			}
+		} catch (NullPointerException e) {
+			// not found
+			return "UNKNOWN";
 		}
 		
-		// not found
 		return null;
 		
 	}
