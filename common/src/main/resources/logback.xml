@@ -2,6 +2,9 @@
 <configuration>
 
 	<appender name="STDERR" class="ch.qos.logback.core.ConsoleAppender">
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>INFO</level>
+		</filter>
 		<encoder>
 			<pattern>%-20d{HH:mm:ss.SSS} %-15thread %-10level %-45logger{40} %-40msg%n</pattern>
 		</encoder>
@@ -20,6 +23,8 @@
 			<level>TRACE</level>
     	</filter>
 	</appender>
+	
+	<logger 
 
 	<root level="DEBUG">
 		<appender-ref ref="STDERR" />
