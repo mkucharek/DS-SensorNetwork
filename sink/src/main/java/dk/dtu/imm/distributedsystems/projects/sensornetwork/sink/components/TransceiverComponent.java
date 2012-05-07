@@ -96,11 +96,15 @@ public class TransceiverComponent extends AbstractTwoChannelTransceiver {
 		logger.debug("Handling " + packet);
 		
 		if (packet.getGroup().equals(PacketGroup.COMMAND)) {
+			logger.debug("CMD packet found - adding to sender buffer");
 			this.getPortSender().addToBuffer(packet);
 			
 		} else if (packet.getGroup().equals(PacketGroup.SENSOR_DATA)) {
 			try {
 				sensorValuesMap.put(packet.getSrcNodeId(), Integer.parseInt(packet.getValue()));
+				
+				logger.debug("ValueMap updated - new entry is <" + packet.getSrcNodeId() + "," + Integer.parseInt(packet.getValue()) + ">");
+				logger.debug("ValueMap size is now " + sensorValuesMap.size());
 			} catch (NumberFormatException e) {
 				logger.warn(packet + " corrupted");
 			}
@@ -108,6 +112,7 @@ public class TransceiverComponent extends AbstractTwoChannelTransceiver {
 			// inform Admin Node about ALARM_DATA
 			
 			if (packet.getType().equals(PacketType.ALM)) {
+				logger.debug("ALM data found - adding to sender buffer");
 				this.getPortSender().addToBuffer(packet);
 			}
 			

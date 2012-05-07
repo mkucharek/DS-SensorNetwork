@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.GlobalUtility;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.channels.Channel;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.exceptions.NodeInitializationException;
+import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.nodes.NodeType;
 
 public class SinkUtility {
 	
@@ -66,7 +67,7 @@ public class SinkUtility {
 				properties.getProperty("RIGHT_CHANNEL_IP").split(delimiter), 
 				properties.getProperty("RIGHT_CHANNEL_PORT").split(delimiter));
 		
-		return new Sink(properties.getProperty("ID"),
+		return new Sink(NodeType.SINK.toString(),
 				Integer.parseInt(properties.getProperty("LEFT_PORT")),
 				Integer.parseInt(properties.getProperty("RIGHT_PORT")),
 				leftChannels,

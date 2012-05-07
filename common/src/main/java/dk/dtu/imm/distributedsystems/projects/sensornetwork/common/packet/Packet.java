@@ -2,6 +2,8 @@ package dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet;
 
 import java.io.Serializable;
 
+import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.GlobalUtility;
+
 /**
  * The Class Packet.
  *
@@ -29,7 +31,7 @@ public class Packet implements Serializable {
 	public Packet(String nodeId, PacketType type) {
 		this.srcNodeId = nodeId;
 		this.type = type;
-		this.value = "Not specified";
+		this.value = GlobalUtility.PACKET_DEFAULT_VALUE;
 	}
 
 	/**

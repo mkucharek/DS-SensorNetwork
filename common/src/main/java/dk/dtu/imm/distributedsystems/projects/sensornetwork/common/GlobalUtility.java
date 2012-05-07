@@ -25,6 +25,8 @@ public class GlobalUtility {
 	public static final String TEMPLATE_PROPERTIES_FILE_NAME = "template.properties";
 	
 	public static final String VALUE_DELIMITER = ";";
+	
+	public static final String PACKET_DEFAULT_VALUE="";
 
 	/**
 	 * Gets the properties.

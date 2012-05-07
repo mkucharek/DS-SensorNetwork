@@ -9,6 +9,7 @@ import junit.framework.Assert;
 import org.junit.Test;
 
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.Packet;
+import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.PacketGroup;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.PacketType;
 
 public class TestPacket {
@@ -28,6 +29,19 @@ public class TestPacket {
 		this.testPacketSize(new Packet(dummyId, PacketType.DAT, "very, very, veeeeeeeeeeeeeeeeeeeeery long data value"));
 		
 		
+	}
+	
+	@Test
+	public void testPacketIntegrity() {
+		
+		String dummyId = "11";
+		
+		Packet p = new Packet(dummyId, PacketType.DAT);
+		
+		Assert.assertEquals("11", p.getSrcNodeId());
+		Assert.assertEquals("", p.getValue());
+		Assert.assertEquals(PacketType.DAT, p.getType());
+		Assert.assertEquals(PacketGroup.SENSOR_DATA, p.getGroup());
 	}
 	
 	private void testPacketSize(Packet packet) {

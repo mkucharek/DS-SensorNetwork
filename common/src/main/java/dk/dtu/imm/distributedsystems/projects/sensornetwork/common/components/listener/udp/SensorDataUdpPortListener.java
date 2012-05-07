@@ -12,7 +12,7 @@ import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.Packet
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.PacketGroup;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.PacketType;
 
-public final class SensorDataUdpPortListener extends AbstractUdpPortListener {
+public class SensorDataUdpPortListener extends AbstractUdpPortListener {
 	
 	protected AbstractTransceiver transceiver; 
 	
@@ -34,14 +34,12 @@ public final class SensorDataUdpPortListener extends AbstractUdpPortListener {
 		
 		LoggingUtility.logMessage(packet.getSrcNodeId(), this.getNodeId(), MessageType.RCV, packet.getType());
 		
-		if(!(packet.getGroup().equals(PacketGroup.SENSOR_DATA))) {
-			logger.debug(packet + " accepted by listener");
+		if(packet.getGroup().equals(PacketGroup.SENSOR_DATA)) {
+			logger.info(packet + " accepted by listener");
 			
 			transceiver.handlePacket(packet); 
 		} else {
-			logger.debug(packet + "dropped by listener - wrong type");
+			logger.info(packet + "dropped by listener - wrong type");
 		}
-		
-		transceiver.handlePacket(packet);
 	}
 }
