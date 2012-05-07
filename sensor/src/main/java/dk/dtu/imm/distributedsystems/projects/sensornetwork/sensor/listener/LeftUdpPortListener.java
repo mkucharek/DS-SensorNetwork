@@ -38,7 +38,7 @@ public final class LeftUdpPortListener extends AbstractUdpPortListener {
 						getAssociatedChannelId(fromIpAddress, fromPortNumber),
 						MessageType.RCV, packet.getType(),
 						packet.getSrcNodeId() + ":" + packet.getValue());
-			
+						
 			} else if (packet.getType().equals(PacketType.ACK)) {
 				
 				LoggingUtility.logMessage(this.getNodeId(),
