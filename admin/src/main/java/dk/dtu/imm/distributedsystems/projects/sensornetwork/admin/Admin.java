@@ -8,8 +8,6 @@ import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.channels.Chan
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.exceptions.NodeInitializationException;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.nodes.AbstractNode;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.nodes.NodeType;
-import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.Packet;
-import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.PacketType;
 
 
 /**
@@ -21,6 +19,8 @@ public class Admin extends AbstractNode
 	
 	protected TransceiverComponent transceiverComponent;
 	
+	protected AdminFrame userInterface;
+	
 	public Admin(int rightPortNumber, Channel[] rightChannels, int ackTimeout) {
 		
 		super(NodeType.ADMIN.toString());
@@ -28,6 +28,10 @@ public class Admin extends AbstractNode
 		this.transceiverComponent = new TransceiverComponent(id,
 				rightPortNumber, rightChannels,
 				ackTimeout);
+		
+		this.userInterface = new AdminFrame(this.transceiverComponent);
+		this.userInterface.setVisible(true);
+		this.userInterface.setLocationRelativeTo( null );
 		
 	}
 	
@@ -38,17 +42,8 @@ public class Admin extends AbstractNode
 					.println("Please provide only one parameter - a suitable property file");
 			return;
 		}
-
-		Admin admin = null;
-
-		try {
-			admin = AdminUtility.getAdminInstance(args[0]);
-		} catch (NodeInitializationException e) {
-			System.out.println(e.getMessage());
-			return;
-		}
 		
-        try {
+		try {
         	
         	String laf = javax.swing.UIManager.getSystemLookAndFeelClassName();
         	javax.swing.UIManager.setLookAndFeel(laf);
@@ -63,32 +58,22 @@ public class Admin extends AbstractNode
             java.util.logging.Logger.getLogger(AdminFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
 
-        final TransceiverComponent transceiver = admin.transceiverComponent;
-        
-        /*
-         * Create and display the form
-         */
-        java.awt.EventQueue.invokeLater(new Runnable() {
+		@SuppressWarnings("unused")
+		Admin admin = null;
 
-            public void run() {
-                AdminFrame adminFrame = new AdminFrame(transceiver);
-                adminFrame.setVisible(true);
-            }
-        });
-		
-		
-		
-		
+		try {
+			admin = AdminUtility.getAdminInstance(args[0]);
+		} catch (NodeInitializationException e) {
+			System.out.println(e.getMessage());
+			return;
+		}
 		
 		
 	    Scanner in = new Scanner(System.in);
 
 	    int i = 1;
 	    while (i != 0) {
-	    	i = in.nextInt();
-	    	
-	    	admin.transceiverComponent.handlePacket(new Packet("ADMIN", PacketType.THR, String.valueOf(i)));
-	    	
+	    	in.next();
 	    }
 		in.close();
 

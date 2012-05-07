@@ -4,8 +4,11 @@
  */
 package dk.dtu.imm.distributedsystems.projects.sensornetwork.admin.gui;
 
+import javax.swing.JOptionPane;
+
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.admin.components.TransceiverComponent;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.Packet;
+import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.PacketGroup;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.PacketType;
 
 /**
@@ -24,6 +27,26 @@ public class AdminFrame extends javax.swing.JFrame {
     public AdminFrame(TransceiverComponent transceiver) {
     	this.transceiver = transceiver;
         initComponents();
+    }
+    
+    public void showReport(Packet p) {
+    	this.titleLabel.setText(p.getType().toString());
+    	this.valueTextField.setText(p.getValue());
+    }
+    
+    public void showError(Packet p) {
+    	JOptionPane.showMessageDialog(jTabbedPane1, "Temperature in sensor " + p.getSrcNodeId() + " is now " + p.getValue() + "!", "Alert", JOptionPane.WARNING_MESSAGE);
+    }
+    
+    public void showTimeout(Packet p) {
+    	
+    	String msg = "Sink is not responding";
+    	if(PacketGroup.COMMAND.equals(p.getGroup())) {
+    		setLabel.setText(msg);
+    	} else if(PacketGroup.QUERY.equals(p.getGroup())) {
+    		valueTextField.setText(msg);
+    	}
+    	
     }
 
     /**
@@ -50,6 +73,7 @@ public class AdminFrame extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Admin Node Client ");
+        setResizable(false);
 
         jPanel1.setOpaque(false);
 
@@ -184,17 +208,20 @@ public class AdminFrame extends javax.swing.JFrame {
 
     private void maxButtonActionPerformed(java.awt.event.ActionEvent evt) {
     	transceiver.handlePacket(new Packet("ADMIN", PacketType.MAX));
-		valueTextField.setText("MAX request sent");
+    	titleLabel.setText("MAX");
+    	valueTextField.setText("Request pending...");
     }
 
     private void minButtonActionPerformed(java.awt.event.ActionEvent evt) {
     	transceiver.handlePacket(new Packet("ADMIN", PacketType.MIN));
-		valueTextField.setText("MIN request sent");
+    	titleLabel.setText("MIN");
+		valueTextField.setText("Request pending...");
     }
 
     private void avgButtonActionPerformed(java.awt.event.ActionEvent evt) {
     	transceiver.handlePacket(new Packet("ADMIN", PacketType.AVG));
-		valueTextField.setText("AVG request sent");
+    	titleLabel.setText("AVG");
+    	valueTextField.setText("Request pending...");
     }
 
     private void setButtonActionPerformed(java.awt.event.ActionEvent evt) {

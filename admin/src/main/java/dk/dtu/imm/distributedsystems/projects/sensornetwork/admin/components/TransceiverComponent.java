@@ -3,9 +3,7 @@ package dk.dtu.imm.distributedsystems.projects.sensornetwork.admin.components
 
 import java.net.DatagramSocket;
 import java.net.SocketException;
-import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.Map;
 
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.admin.Admin;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.admin.listener.AdminUdpPortListener;
