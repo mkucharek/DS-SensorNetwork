@@ -15,13 +15,4 @@ public class LoggingTest {
 			LoggingUtility.logMessage(parameters);
 		}
 	}
-	
-	@Test
-	public void testSensorLogging() {
-		
-		for (int i=1; i<10; i++) {
-			AdminUtility.logMessage("msg", "pck", "VAL");
-		}
-	}
-
 }

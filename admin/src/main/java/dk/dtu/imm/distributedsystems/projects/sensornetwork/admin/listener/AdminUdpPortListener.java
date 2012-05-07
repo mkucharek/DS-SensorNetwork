@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 
+import dk.dtu.imm.distributedsystems.projects.sensornetwork.admin.AdminUtility;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.channels.Channel;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.components.listener.udp.AbstractUdpPortListener;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.components.transceiver.AbstractTransceiver;
@@ -45,6 +46,13 @@ public final class AdminUdpPortListener extends AbstractUdpPortListener {
 						MessageType.RCV,
 						packet.getType(), 
 						packet.getSrcNodeId() + ":" + packet.getValue());
+				
+				sendAck(fromIpAddress, fromPortNumber);
+				
+				LoggingUtility.logMessage(this.getNodeId(),
+						getAssociatedChannelId(fromIpAddress, fromPortNumber),
+						MessageType.SND,
+						PacketType.ACK);
 			
 			} else if (packet.getGroup().equals(PacketGroup.QUERY)) {
 				
@@ -60,7 +68,6 @@ public final class AdminUdpPortListener extends AbstractUdpPortListener {
 						getAssociatedChannelId(fromIpAddress, fromPortNumber),
 						MessageType.RCV,
 						packet.getType());
-			
 			}
 			
 		} else {
