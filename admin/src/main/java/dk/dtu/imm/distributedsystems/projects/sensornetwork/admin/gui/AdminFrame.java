@@ -4,7 +4,7 @@
  */
 package dk.dtu.imm.distributedsystems.projects.sensornetwork.admin.gui;
 
-import javax.swing.JOptionPane;
+import java.awt.Color;
 
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.admin.components.TransceiverComponent;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.Packet;
@@ -35,7 +35,17 @@ public class AdminFrame extends javax.swing.JFrame {
     }
     
     public void showAlarmData(Packet p) {
-    	JOptionPane.showMessageDialog(jTabbedPane1, "Temperature in sensor " + p.getSrcNodeId() + " is now " + p.getValue() + "!", "Alert", JOptionPane.WARNING_MESSAGE);
+    	// too verbose
+    	//JOptionPane.showMessageDialog(jTabbedPane1, "Temperature in sensor " + p.getSrcNodeId() + " is now " + p.getValue() + "!", "Alert", JOptionPane.WARNING_MESSAGE);
+    	
+    	this.alertLabel.setText("Temperature in sensor " + p.getSrcNodeId() + " is now " + p.getValue() + "!");
+    	
+    	if(this.alertLabel.getForeground().equals(Color.BLUE)) {
+    		this.alertLabel.setForeground(Color.RED);
+    	} else {
+    		this.alertLabel.setForeground(Color.BLUE);
+    	}
+    
     }
     
     public void showError(Packet p) {
@@ -70,6 +80,7 @@ public class AdminFrame extends javax.swing.JFrame {
         thresholdButton = new javax.swing.JRadioButton();
         periodButton = new javax.swing.JRadioButton();
         setButton = new javax.swing.JButton();
+        alertLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Admin Node Client ");
@@ -190,6 +201,9 @@ public class AdminFrame extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Config", jPanel2);
 
+        alertLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        alertLabel.setText("Alert messages will appear here");
+
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -197,10 +211,18 @@ public class AdminFrame extends javax.swing.JFrame {
             .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
                 .add(0, 0, Short.MAX_VALUE)
                 .add(jTabbedPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 309, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .add(alertLabel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(jTabbedPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 198, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+            .add(layout.createSequentialGroup()
+                .add(jTabbedPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 198, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(alertLabel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 21, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
@@ -256,6 +278,7 @@ public class AdminFrame extends javax.swing.JFrame {
     private TransceiverComponent transceiver;
     
     // Variables declaration - do not modify
+    private javax.swing.JLabel alertLabel;
     private javax.swing.JButton avgButton;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JPanel jPanel1;
