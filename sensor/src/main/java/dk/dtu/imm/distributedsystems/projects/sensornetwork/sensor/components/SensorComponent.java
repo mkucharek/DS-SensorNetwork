@@ -43,6 +43,7 @@ public class SensorComponent extends Thread {
 
 	public synchronized void setThreshold(int t) {
 		this.threshold = t;
+		logger.info("Threshold set to " + this.threshold);
 	}
 	
 	public int getPeriod() {
@@ -84,6 +85,9 @@ public class SensorComponent extends Thread {
 			measurement = getTemperature();
 
 			synchronized (this) {
+				
+				logger.debug("New measurement - " + measurement + ", current threshold is " + threshold);
+				
 				if (measurement > threshold) {
 					outPacket = new Packet(nodeId, PacketType.ALM,
 							Integer.toString(measurement));

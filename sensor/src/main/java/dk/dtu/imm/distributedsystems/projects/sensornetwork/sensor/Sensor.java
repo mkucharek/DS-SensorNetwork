@@ -24,7 +24,7 @@ public class Sensor extends AbstractNode {
 		
 		super(id);
 
-		this.transceiverComponent = new TransceiverComponent(id, leftPortNumber,
+		this.transceiverComponent = new TransceiverComponent(id, this, leftPortNumber,
 				rightPortNumber, leftChannels, rightChannels,
 				ackTimeout);
 

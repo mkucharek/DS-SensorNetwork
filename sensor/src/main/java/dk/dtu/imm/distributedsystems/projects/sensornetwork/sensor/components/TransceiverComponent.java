@@ -26,7 +26,7 @@ public class TransceiverComponent extends AbstractTwoChannelTransceiver {
 	
 	private Sensor sensor;
 			
-	public TransceiverComponent(String nodeId, int leftPortNumber, int rightPortNumber, 
+	public TransceiverComponent(String nodeId, Sensor sensor, int leftPortNumber, int rightPortNumber, 
 			Channel[] leftChannels, Channel[] rightChannels, int ackTimeout) {
 		super(nodeId, null, null, null);
 
@@ -46,6 +46,8 @@ public class TransceiverComponent extends AbstractTwoChannelTransceiver {
 		this.setSender(new UdpPortSender(nodeId, this.leftSocket, this.rightSocket,
 				new LinkedList<Packet>(), leftChannels, rightChannels,
 				ackTimeout));
+		
+		this.sensor = sensor;
 	}
 	
 	@Override
