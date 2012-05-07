@@ -54,14 +54,15 @@ public class AdminUdpPortSender extends AbstractUdpPortSender {
 		
 		logger.debug("Sending unicast right " + packet);
 		
-		for(Channel channel : this.rightChannels) {
+		for (Channel channel : this.rightChannels) {
 			
 			InetAddress currentLeftChannelIP = InetAddress.getByName(channel.getIpAddress());
 
 			// send Packet to left channel through UDP Connection
 			sendPacket(rightSocket, packet, currentLeftChannelIP, channel.getPortNumber());
 
-			LoggingUtility.logMessage(this.getNodeId(), channel.getId(), MessageType.SND, packet.getType(), packet.getSrcNodeId() + ":" + packet.getValue());
+			LoggingUtility.logMessage(this.getNodeId(), channel.getId(),
+					MessageType.SND, packet.getType(), packet.getValue());
 			
 			timer = new Timer(ackTimeout, this);
 			this.ackObtained = false;
@@ -80,7 +81,6 @@ public class AdminUdpPortSender extends AbstractUdpPortSender {
 			}
 			
 			logger.debug("Timeout passed");
-			// timeout passed
 			
 		}
 		
@@ -95,13 +95,16 @@ public class AdminUdpPortSender extends AbstractUdpPortSender {
 		
 		logger.debug("Sending " + packet);
 		
-		// TODO: Handle QUERY packet type
-		
 		try {
-			if (packet.getGroup().equals(PacketGroup.COMMAND)) {
+			if (packet.getGroup().equals(PacketGroup.COMMAND) ||
+					packet.getGroup().equals(PacketGroup.QUERY)) {
+				
 				sendUnicastRight(packet);
+			
 			} else {
+			
 				logger.info("Received invalid " + packet);
+			
 			}
 		} catch (WrongPacketSizeException e) {
 			logger.warn(
