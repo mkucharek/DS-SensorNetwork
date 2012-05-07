@@ -63,6 +63,11 @@ public class GlobalUtility {
 			throw new IllegalStateException("Cannot construct Channel array - different number of provided parameters");
 		}
 		
+		if("".equals(ids[0]) && "".equals(ips[0]) && "".equals(portNumbers[0])) {
+			// no right channels specified
+			return new Channel[0];
+		}
+		
 		Channel[] channels = new Channel[ids.length];
 		
 		for(int i=0; i<ids.length; ++i) {

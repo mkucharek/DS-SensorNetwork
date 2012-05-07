@@ -61,22 +61,44 @@ public class SinkUtility {
 		
 		String delimiter = GlobalUtility.VALUE_DELIMITER;
 		
-//		Channel[] leftChannels = new Channel[] {new Channel("ADMIN", properties.getProperty("ADMIN_IP"), Integer.parseInt(properties.getProperty("ADMIN_PORT"))) };
+		Channel[] leftChannels = null;
+		Channel[] rightChannels = null;
 		
-		Channel[] leftChannels = GlobalUtility.getChannelArray(new String[] {NodeType.ADMIN.toString()}, 
-				properties.getProperty("ADMIN_IP").split(delimiter), 
-				properties.getProperty("ADMIN_PORT").split(delimiter));
+		try {
+			leftChannels = GlobalUtility.getChannelArray(new String[] { NodeType.ADMIN.toString() }, 
+					properties.getProperty("ADMIN_IP").split(delimiter),
+					properties.getProperty("ADMIN_PORT").split(delimiter));
+
+			rightChannels = GlobalUtility.getChannelArray(properties.getProperty("RIGHT_CHANNEL_ID").split(delimiter),
+							properties.getProperty("RIGHT_CHANNEL_IP").split(delimiter),
+							properties.getProperty("RIGHT_CHANNEL_PORT").split(delimiter));
+
+		} catch (NumberFormatException e) {
+			String msg = "Cannot instanciate a Sensor using "
+					+ propertyFilePath + " file - RIGHT_CHANNEL_PORT invalid.";
+			logger.error(msg);
+			throw new NodeInitializationException(msg, propertyFilePath, e);
+		}
 		
-		Channel[] rightChannels = GlobalUtility.getChannelArray(properties.getProperty("RIGHT_CHANNEL_ID").split(delimiter),
-				properties.getProperty("RIGHT_CHANNEL_IP").split(delimiter), 
-				properties.getProperty("RIGHT_CHANNEL_PORT").split(delimiter));
+		if(rightChannels.length == 0) {
+			String msg = "Cannot instanciate a Sensor using " + propertyFilePath + " file - RIGHT_CHANNEL_ID, RIGHT_CHANNEL_IP and RIGHT_CHANNEL_PORT must be specified.";
+			logger.error(msg);
+			throw new NodeInitializationException(msg, propertyFilePath);
+		}
 		
-		return new Sink(NodeType.SINK.toString(),
-				Integer.parseInt(properties.getProperty("LEFT_PORT")),
-				Integer.parseInt(properties.getProperty("RIGHT_PORT")),
-				leftChannels,
-				rightChannels,
-				GlobalUtility.ACK_TIMEOUT_MS);
+		try {
+			return new Sink(NodeType.SINK.toString(),
+					Integer.parseInt(properties.getProperty("LEFT_PORT")),
+					Integer.parseInt(properties.getProperty("RIGHT_PORT")),
+					leftChannels,
+					rightChannels,
+					GlobalUtility.ACK_TIMEOUT_MS);
+		} catch (NumberFormatException e) {
+			String msg = "Cannot instanciate a Sensor using "
+					+ propertyFilePath + " file - LEFT_PORT or RIGHT_PORT invalid.";
+			logger.error(msg);
+			throw new NodeInitializationException(msg, propertyFilePath, e);
+		}
 	}
 
 }

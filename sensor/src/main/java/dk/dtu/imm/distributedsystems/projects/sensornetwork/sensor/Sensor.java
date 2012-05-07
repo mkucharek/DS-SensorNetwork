@@ -48,6 +48,7 @@ public class Sensor extends AbstractNode {
 			return;
 		}
 
+		@SuppressWarnings("unused")
 		Sensor sensor = null;
 
 		try {

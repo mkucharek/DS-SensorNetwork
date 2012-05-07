@@ -35,6 +35,7 @@ public class Sink extends AbstractNode {
 			return;
 		}
 
+		@SuppressWarnings("unused")
 		Sink sink = null;
 
 		try {

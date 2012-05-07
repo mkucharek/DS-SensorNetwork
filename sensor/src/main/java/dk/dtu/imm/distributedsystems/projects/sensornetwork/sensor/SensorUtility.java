@@ -73,22 +73,39 @@ public class SensorUtility {
 		
 		String delimiter = GlobalUtility.VALUE_DELIMITER;
 		
-		Channel[] leftChannels = GlobalUtility.getChannelArray(properties.getProperty("LEFT_CHANNEL_ID").split(delimiter),
-				properties.getProperty("LEFT_CHANNEL_IP").split(delimiter), 
-				properties.getProperty("LEFT_CHANNEL_PORT").split(delimiter));
+		Channel[] leftChannels = null;
+		Channel[] rightChannels = null;
 		
-		Channel[] rightChannels = GlobalUtility.getChannelArray(properties.getProperty("RIGHT_CHANNEL_ID").split(delimiter),
-				properties.getProperty("RIGHT_CHANNEL_IP").split(delimiter), 
-				properties.getProperty("RIGHT_CHANNEL_PORT").split(delimiter));
+		try {
+			leftChannels = GlobalUtility.getChannelArray(properties.getProperty("LEFT_CHANNEL_ID").split(delimiter),
+					properties.getProperty("LEFT_CHANNEL_IP").split(delimiter), 
+					properties.getProperty("LEFT_CHANNEL_PORT").split(delimiter));
+			
+			rightChannels = GlobalUtility.getChannelArray(properties.getProperty("RIGHT_CHANNEL_ID").split(delimiter),
+					properties.getProperty("RIGHT_CHANNEL_IP").split(delimiter), 
+					properties.getProperty("RIGHT_CHANNEL_PORT").split(delimiter));
+		} catch (NumberFormatException e) {
+			String msg = "Cannot instanciate a Sensor using "
+					+ propertyFilePath + " file - RIGHT_CHANNEL_PORT invalid.";
+			logger.error(msg);
+			throw new NodeInitializationException(msg, propertyFilePath, e);
+		}
 		
-		return new Sensor(properties.getProperty("ID"),
-				Integer.parseInt(properties.getProperty("PERIOD")),
-				Integer.parseInt(properties.getProperty("THRESHOLD")),
-				Integer.parseInt(properties.getProperty("LEFT_PORT")),
-				Integer.parseInt(properties.getProperty("RIGHT_PORT")),
-				leftChannels,
-				rightChannels,
-				GlobalUtility.ACK_TIMEOUT_MS);
+		try {
+			return new Sensor(properties.getProperty("ID"),
+					Integer.parseInt(properties.getProperty("PERIOD")),
+					Integer.parseInt(properties.getProperty("THRESHOLD")),
+					Integer.parseInt(properties.getProperty("LEFT_PORT")),
+					Integer.parseInt(properties.getProperty("RIGHT_PORT")),
+					leftChannels,
+					rightChannels,
+					GlobalUtility.ACK_TIMEOUT_MS);
+		} catch (NumberFormatException e) {
+			String msg = "Cannot instanciate a Sensor using "
+					+ propertyFilePath + " file - PERIOD, THRESHOLD, LEFT_PORT or RIGHT_PORT invalid.";
+			logger.error(msg);
+			throw new NodeInitializationException(msg, propertyFilePath, e);
+		}
 	}
 
 }

@@ -11,7 +11,6 @@ import org.slf4j.LoggerFactory;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.GlobalUtility;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.channels.Channel;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.exceptions.NodeInitializationException;
-import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.logging.LoggingUtility;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.nodes.NodeType;
 
 public class AdminUtility {
@@ -62,13 +61,36 @@ public class AdminUtility {
 		
 		String delimiter = GlobalUtility.VALUE_DELIMITER;
 		
-		Channel[] rightChannels = GlobalUtility.getChannelArray(new String[] {NodeType.SINK.toString()},
-				properties.getProperty("SINK_IP").split(delimiter), 
-				properties.getProperty("SINK_PORT").split(delimiter));
+		Channel[] rightChannels = null;
 		
-		return new Admin(Integer.parseInt(properties.getProperty("PORT")),
-				rightChannels,
-				GlobalUtility.ACK_TIMEOUT_MS);
+		try {
+			rightChannels = GlobalUtility.getChannelArray(new String[] {NodeType.SINK.toString()},
+					properties.getProperty("SINK_IP").split(delimiter), 
+					properties.getProperty("SINK_PORT").split(delimiter));
+		} catch (NumberFormatException e) {
+			String msg = "Cannot instanciate a Sensor using "
+					+ propertyFilePath + " file - RIGHT_CHANNEL_PORT invalid.";
+			logger.error(msg);
+			throw new NodeInitializationException(msg, propertyFilePath, e);
+		}
+		
+		
+		if(rightChannels.length == 0) {
+			String msg = "Cannot instanciate a Sensor using " + propertyFilePath + " file - SINK_IP and SINK_PORT must be specified.";
+			logger.error(msg);
+			throw new NodeInitializationException(msg, propertyFilePath);
+		}
+		
+		try {
+			return new Admin(Integer.parseInt(properties.getProperty("PORT")),
+					rightChannels,
+					GlobalUtility.ACK_TIMEOUT_MS);
+		} catch (NumberFormatException e) {
+			String msg = "Cannot instanciate a Sensor using "
+					+ propertyFilePath + " file - PORT invalid.";
+			logger.error(msg);
+			throw new NodeInitializationException(msg, propertyFilePath, e);
+		}
 	}
 	
 }
