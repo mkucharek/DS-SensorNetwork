@@ -25,23 +25,31 @@ public class LoggingUtility {
 	
 	public static void logMessage(String id, String remoteId, MessageType msgType, PacketType pckType, String value) {
 		
-		if(id.equals(NodeType.ADMIN.toString())) {
-			// ADMIN
-			LoggingUtility.logMessage(new Object[]{msgType, pckType, value});
-			
-		} else if (id.equals(NodeType.SINK.toString())) {
-			// SINK
-			LoggingUtility.logMessage(new Object[]{remoteId, msgType, pckType, value});
-			
-		} else {
-			// SENSOR
-			LoggingUtility.logMessage(new Object[]{id, remoteId, msgType, pckType, value});
-		}
+		System.out.println(getLogMessage(id, remoteId, msgType, pckType, value));
 		
 	}
 	
 	public static void logMessage(String id, String remoteId, MessageType msgType, PacketType pckType) {
 		logMessage(id, remoteId, msgType, pckType, "");
+	}
+	
+	public static String getLogMessage(String id, String remoteId, MessageType msgType, PacketType pckType, String value) {
+		if(id.equals(NodeType.ADMIN.toString())) {
+			// ADMIN
+			return LoggingUtility.getLogMessage(new Object[]{msgType, pckType, value});
+			
+		} else if (id.equals(NodeType.SINK.toString())) {
+			// SINK
+			return LoggingUtility.getLogMessage(new Object[]{remoteId, msgType, pckType, value});
+			
+		} else {
+			// SENSOR
+			return LoggingUtility.getLogMessage(new Object[]{id, remoteId, msgType, pckType, value});
+		}
+	}
+	
+	public static String getLogMessage(String id, String remoteId, MessageType msgType, PacketType pckType) {
+		return getLogMessage(id, remoteId, msgType, pckType, "");
 	}
 	
 	/**
