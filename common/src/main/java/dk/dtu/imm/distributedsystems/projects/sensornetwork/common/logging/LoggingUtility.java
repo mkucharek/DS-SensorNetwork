@@ -25,11 +25,11 @@ public class LoggingUtility {
 	
 	public static void logMessage(String id, String remoteId, MessageType msgType, PacketType pckType, String value) {
 		
-		if(NodeType.ADMIN.equals(id)) {
+		if(id.equals(NodeType.ADMIN.toString())) {
 			// ADMIN
-			LoggingUtility.logMessage(new Object[]{ msgType, pckType, value});
+			LoggingUtility.logMessage(new Object[]{msgType, pckType, value});
 			
-		} else if (NodeType.SINK.equals("id")) {
+		} else if (id.equals(NodeType.SINK.toString())) {
 			// SINK
 			LoggingUtility.logMessage(new Object[]{remoteId, msgType, pckType, value});
 			
