@@ -12,16 +12,16 @@ import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.GlobalUtility
 public class Packet implements Serializable {
 
 	/** The Constant serialVersionUID. */
-	private static final long serialVersionUID = 1L;
+	protected static final long serialVersionUID = 1L;
 
 	/** The type. */
-	private PacketType type;
+	protected PacketType type;
 
 	/** The value. */
-	private String value;
+	protected String value;
 	
 	/** The src node id. */
-	private String srcNodeId;
+	protected String srcNodeId;
 
 	/**
 	 * Instantiates a new packet.
@@ -29,6 +29,12 @@ public class Packet implements Serializable {
 	 * @param type the type
 	 */
 	public Packet(String nodeId, PacketType type) {
+		
+		if(PacketGroup.SENSOR_DATA.equals(type.getPacketGroup()) || 
+				PacketGroup.COMMAND.equals(type.getPacketGroup())) {
+			throw new IllegalStateException(type + " must have a value");
+		}
+		
 		this.srcNodeId = nodeId;
 		this.type = type;
 		this.value = GlobalUtility.PACKET_DEFAULT_VALUE;

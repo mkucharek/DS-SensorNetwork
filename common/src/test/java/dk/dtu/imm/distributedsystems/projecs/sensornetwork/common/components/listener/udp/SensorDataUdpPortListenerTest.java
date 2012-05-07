@@ -1,22 +1,19 @@
 package dk.dtu.imm.distributedsystems.projecs.sensornetwork.common.components.listener.udp;
 
-import static org.junit.Assert.fail;
-
 import java.io.IOException;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
-import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 
 import junit.framework.Assert;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.GlobalUtility;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.channels.Channel;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.components.listener.AbstractPortListener;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.components.listener.udp.SensorDataUdpPortListener;
@@ -25,11 +22,9 @@ import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.components.tr
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.Packet;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.PacketType;
 
-public class TestSensorDataUdpPortListener {
+public class SensorDataUdpPortListenerTest {
 
 	private static final String ID = "0";
-	
-	private static final int SLEEPVAL = GlobalUtility.ACK_TIMEOUT_MS;
 	
 	private static final int MAX_GUESS_PORT_ATTEMPTS = 5;
 
@@ -64,7 +59,7 @@ public class TestSensorDataUdpPortListener {
 	}
 	
 	@Before
-	public void before() {
+	public void setUp() {
 		
 		channels = new Channel[] {new Channel("21", "localhost", 9900) };
 		
@@ -79,7 +74,16 @@ public class TestSensorDataUdpPortListener {
 		
 		this.listener = new TestableSensorDataUdpPortListener(ID, transceiver, socket, channels);
 		
-	}	
+	}
+	
+	@After
+	public void cleanUp() {
+		this.listener.interrupt();
+		this.transceiver.close();
+		
+		this.socket.close();
+	}
+	
 	@Test
 	public void testHandleDataPacket() {
 		
@@ -89,7 +93,12 @@ public class TestSensorDataUdpPortListener {
 		
 		packetList.add(new Packet("11", PacketType.DAT, "-20"));
 		
-		//packetList.add(new Packet("12", PacketType.DAT));
+		try {
+			packetList.add(new Packet("12", PacketType.DAT));
+			Assert.fail();
+		} catch (IllegalStateException e) {
+			// should be caught - this packet is illegal.
+		}
 		
 		for (Packet p : packetList) {
 			try {
@@ -104,6 +113,7 @@ public class TestSensorDataUdpPortListener {
 		Assert.assertEquals(packetList.size(), transceiver.getCallCounter());
 		
 	}
+	
 }
 
 class TestableSensorDataUdpPortListener extends SensorDataUdpPortListener {

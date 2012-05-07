@@ -62,7 +62,13 @@ public abstract class AbstractPortHandler extends Thread {
 			setUp();
 			
 		} catch (ConnectionHandlerException e) {
-			logger.error(e.getMessage(), e);
+			
+			// check if the thread was interrupted - if so, 
+			// this is because of the closed socket or sth.
+			if(!this.isInterrupted()) {
+				// not interrupted - error occured.
+				logger.error(e.getMessage(), e);
+			}
 			return;
 		}
 

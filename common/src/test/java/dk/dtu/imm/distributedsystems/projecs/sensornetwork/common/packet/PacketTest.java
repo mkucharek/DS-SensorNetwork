@@ -12,7 +12,7 @@ import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.Packet
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.PacketGroup;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.PacketType;
 
-public class TestPacket {
+public class PacketTest {
 
 	@Test
 	public void testVariousPacketsSize() {
@@ -20,7 +20,7 @@ public class TestPacket {
 		String dummyId = "0";
 		
 		this.testPacketSize(new Packet(dummyId, PacketType.ACK));
-		this.testPacketSize(new Packet(dummyId, PacketType.ALM));
+		this.testPacketSize(new Packet(dummyId, PacketType.MAX));
 		
 		this.testPacketSize(new Packet(dummyId, PacketType.THR, "15"));
 		
@@ -36,12 +36,47 @@ public class TestPacket {
 		
 		String dummyId = "11";
 		
-		Packet p = new Packet(dummyId, PacketType.DAT);
+		Packet p = new Packet(dummyId, PacketType.DAT, "15");
 		
 		Assert.assertEquals("11", p.getSrcNodeId());
-		Assert.assertEquals("", p.getValue());
+		Assert.assertEquals("15", p.getValue());
 		Assert.assertEquals(PacketType.DAT, p.getType());
 		Assert.assertEquals(PacketGroup.SENSOR_DATA, p.getGroup());
+	}
+	
+	@Test
+	public void testIllegalPacketStates() {
+		
+		// SENSOR_DATA
+		try {
+			new Packet("12", PacketType.DAT);
+			Assert.fail();
+		} catch (IllegalStateException e) {
+			// should be caught - this packet is illegal.
+		}
+		
+		try {
+			new Packet("12", PacketType.ALM);
+			Assert.fail();
+		} catch (IllegalStateException e) {
+			// should be caught - this packet is illegal.
+		}
+		
+		// COMMAND
+		try {
+			new Packet("12", PacketType.PRD);
+			Assert.fail();
+		} catch (IllegalStateException e) {
+			// should be caught - this packet is illegal.
+		}
+		
+		try {
+			new Packet("12", PacketType.THR);
+			Assert.fail();
+		} catch (IllegalStateException e) {
+			// should be caught - this packet is illegal.
+		}
+		
 	}
 	
 	private void testPacketSize(Packet packet) {

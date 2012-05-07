@@ -100,7 +100,7 @@ public class UdpPortSenderTest {
 		
 		Assert.assertTrue(sender.isAlive());
 		
-		Packet packet = new Packet(ID, PacketType.DAT);
+		Packet packet = new Packet(ID, PacketType.DAT, "15");
 		
 		sender.addToBuffer(packet);
 		
@@ -122,7 +122,7 @@ public class UdpPortSenderTest {
 		
 		Assert.assertTrue(sender.isAlive());
 		
-		Packet packet = new Packet(ID, PacketType.DAT);
+		Packet packet = new Packet(ID, PacketType.DAT, "10");
 		
 		sender.addToBuffer(packet);
 		
@@ -156,7 +156,7 @@ public class UdpPortSenderTest {
 		
 		Assert.assertTrue(sender.isAlive());
 		
-		Packet packet = new Packet(ID, PacketType.ALM);
+		Packet packet = new Packet(ID, PacketType.ALM, "-30");
 		
 		sender.addToBuffer(packet);
 		
@@ -185,7 +185,7 @@ public class UdpPortSenderTest {
 		
 		Assert.assertTrue(sender.isAlive());
 		
-		Packet packet = new Packet(ID, PacketType.ALM);
+		Packet packet = new Packet(ID, PacketType.ALM, "-50");
 		
 		sender.addToBuffer(packet);
 		
@@ -214,7 +214,7 @@ public class UdpPortSenderTest {
 		
 		Assert.assertTrue(sender.isAlive());
 		
-		Packet packet = new Packet(ID, PacketType.ALM);
+		Packet packet = new Packet(ID, PacketType.ALM, "0");
 		
 		sender.addToBuffer(packet);
 		
@@ -240,7 +240,7 @@ public class UdpPortSenderTest {
 		
 		Assert.assertTrue(sender.isAlive());
 		
-		Packet packet = new Packet(ID, PacketType.DAT);
+		Packet packet = new Packet(ID, PacketType.DAT, "3");
 		
 		sender.addToBuffer(packet);
 		
