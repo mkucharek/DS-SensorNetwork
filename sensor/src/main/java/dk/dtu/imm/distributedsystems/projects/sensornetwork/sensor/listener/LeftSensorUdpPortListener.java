@@ -13,11 +13,11 @@ import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.Packet
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.PacketGroup;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.PacketType;
 
-public final class LeftUdpPortListener extends AbstractUdpPortListener {
+public final class LeftSensorUdpPortListener extends AbstractUdpPortListener {
 
 	private AbstractTwoChannelTransceiver transceiver;
 	
-	public LeftUdpPortListener(String nodeId, AbstractTwoChannelTransceiver relatedTransceiver, DatagramSocket socket, Channel[] associatedChannels) {
+	public LeftSensorUdpPortListener(String nodeId, AbstractTwoChannelTransceiver relatedTransceiver, DatagramSocket socket, Channel[] associatedChannels) {
 		super(nodeId, socket, associatedChannels);
 		this.transceiver = relatedTransceiver;
 		
