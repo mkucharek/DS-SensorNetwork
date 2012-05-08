@@ -60,7 +60,7 @@ public class TransceiverComponent extends AbstractOneChannelTransceiver {
 		
 		} else if (packet.getGroup().equals(PacketGroup.QUERY)) {
 			
-			if (packet.getValue().equals("")) {
+			if (packet.getSrcNodeId().equals(this.getId())) {
 				
 				logger.debug("Sending Query packet - adding to buffer"); 
 				

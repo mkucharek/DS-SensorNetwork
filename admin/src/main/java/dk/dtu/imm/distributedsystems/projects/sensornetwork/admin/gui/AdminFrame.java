@@ -31,7 +31,11 @@ public class AdminFrame extends javax.swing.JFrame {
     
     public void showReport(Packet p) {
     	this.titleLabel.setText(p.getType().toString());
-    	this.valueTextField.setText(p.getValue());
+    	if (p.getValue().length() != 0) {
+    		this.valueTextField.setText(p.getValue());
+    	} else {
+    		this.valueTextField.setText("N/A");
+    	}
     }
     
     public void showAlarmData(Packet p) {

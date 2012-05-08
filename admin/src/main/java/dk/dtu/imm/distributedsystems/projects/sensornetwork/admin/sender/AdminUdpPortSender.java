@@ -58,50 +58,51 @@ public class AdminUdpPortSender extends AbstractUdpPortSender {
 	protected boolean sendUnicastRight(Packet packet) throws WrongPacketSizeException, IOException, InterruptedException {
 		
 		logger.debug("Sending unicast right " + packet);
-		
+
 		for (Channel channel : this.rightChannels) {
-			
-			InetAddress currentLeftChannelIP = InetAddress.getByName(channel.getIpAddress());
+
+			InetAddress currentLeftChannelIP = InetAddress.getByName(channel
+					.getIpAddress());
 
 			// send Packet to left channel through UDP Connection
-			sendPacket(rightSocket, packet, currentLeftChannelIP, channel.getPortNumber());
+			sendPacket(rightSocket, packet, currentLeftChannelIP,
+					channel.getPortNumber());
 
 			if (packet.getGroup().equals(PacketGroup.COMMAND)) {
-				
+
 				LoggingUtility.logMessage(this.getNodeId(), channel.getId(),
 						MessageType.SND, packet.getType(), packet.getValue());
-				
+
+				timer = new Timer(ackTimeout, this);
+				this.ackObtained = false;
+				timer.start();
+
+				synchronized (this) {
+					this.wait();
+				}
+
+				synchronized (this.ackObtained) {
+					if (this.ackObtained) {
+						logger.debug("ACK received");
+						this.ackObtained = false;
+						return true;
+					}
+				}
+
+				logger.info("Timeout passed");
+
+				relatedAdmin.getUserInterface().showError(packet);
+
 			} else if (packet.getGroup().equals(PacketGroup.QUERY)) {
-				
+
 				LoggingUtility.logMessage(this.getNodeId(), channel.getId(),
 						MessageType.SND, packet.getType());
-				
+
 			} else {
-				
+
 				logger.warn("Wrong type of packet to be sent");
-				
+
 			}
-			
-			timer = new Timer(ackTimeout, this);
-			this.ackObtained = false;
-			timer.start();
-			
-			synchronized (this) {
-				this.wait();
-			}
-			
-			synchronized (this.ackObtained) {
-				if(this.ackObtained) {
-					logger.debug("ACK received");
-					this.ackObtained = false;
-					return true;
-				}
-			}
-			
-			logger.info("Timeout passed");
-			
-			relatedAdmin.getUserInterface().showError(packet);
-			
 		}
 		
 		return false;
