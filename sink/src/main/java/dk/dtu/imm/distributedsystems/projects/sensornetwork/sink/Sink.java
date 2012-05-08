@@ -5,6 +5,7 @@ import java.util.Scanner;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.channels.Channel;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.exceptions.NodeInitializationException;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.nodes.AbstractNode;
+import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.nodes.NodeType;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.sink.components.TransceiverComponent;
 
 /**
@@ -21,7 +22,7 @@ public class Sink extends AbstractNode {
 		
 		super(id);
 
-		this.transceiverComponent = new TransceiverComponent(id, leftPortNumber,
+		this.transceiverComponent = new TransceiverComponent(this, id, leftPortNumber,
 				rightPortNumber, leftChannels, rightChannels,
 				ackTimeout);
 		

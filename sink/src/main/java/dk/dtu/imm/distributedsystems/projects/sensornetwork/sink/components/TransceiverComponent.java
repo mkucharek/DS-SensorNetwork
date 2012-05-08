@@ -28,7 +28,7 @@ public class TransceiverComponent extends AbstractTwoChannelTransceiver {
 	
 	protected Map<String, Integer> sensorValuesMap;
 			
-	public TransceiverComponent(String nodeId, int leftPortNumber, int rightPortNumber, Channel[] leftChannels,
+	public TransceiverComponent(Sink sink, String nodeId, int leftPortNumber, int rightPortNumber, Channel[] leftChannels,
 			Channel[] rightChannels, int ackTimeout) {
 		super(nodeId, null, null, null);
 
@@ -38,6 +38,8 @@ public class TransceiverComponent extends AbstractTwoChannelTransceiver {
 		} catch (SocketException e) {
 			throw new RuntimeException(e);
 		}
+		
+		this.sink = sink;
 		
 		// manually set listeners
 		this.getAllListeners()[0] = new SinkUdpPortListener(nodeId, this,
@@ -52,42 +54,52 @@ public class TransceiverComponent extends AbstractTwoChannelTransceiver {
 		sensorValuesMap = new HashMap<String, Integer>();
 	}
 	
-	private String getMaxSensorValue() {
-		Integer maxValue = null;
+	private synchronized String getMaxSensorValue() {
+		Integer maxValue = Integer.MIN_VALUE;
 		
 		for (Integer curInt: sensorValuesMap.values()) {
-			if (maxValue == null || curInt > maxValue) {
+			if (curInt > maxValue) {
 				maxValue = curInt;
 			}
 		}
 		
-		return Integer.toString(maxValue);
+		if (maxValue == Integer.MIN_VALUE) {
+			return "";
+		} else {
+			return Integer.toString(maxValue);
+		}
 	}
 	
-	private String getMinSensorValue() {
-		Integer minValue = null;
+	private synchronized String getMinSensorValue() {
+		Integer minValue = Integer.MAX_VALUE;
 		
 		for (Integer curInt: sensorValuesMap.values()) {
-			if (minValue == null || curInt < minValue) {
+			if (curInt < minValue) {
 				minValue = curInt;
 			}
 		}
 		
-		return Integer.toString(minValue);
+		if (minValue == Integer.MAX_VALUE) {
+			return "";
+		} else {
+			return Integer.toString(minValue);
+		}
 	}
 	
-	private String getAvgSensorValue() {
-		Integer sum = null;
+	private synchronized String getAvgSensorValue() {
+		Integer sum = 0;
 		
 		for (Integer curInt: sensorValuesMap.values()) {
-			if (sum == null || curInt < sum) {
+			if (curInt < sum) {
 				sum += curInt;
 			}
 		}
 		
-		Integer avgValue = sum / sensorValuesMap.size();
-		
-		return Integer.toString(avgValue);
+		if (sensorValuesMap.size() == 0) {
+			return "";
+		} else {
+			return Integer.toString(sum / sensorValuesMap.size());
+		}
 	}
 	
 	@Override
@@ -101,7 +113,9 @@ public class TransceiverComponent extends AbstractTwoChannelTransceiver {
 			
 		} else if (packet.getGroup().equals(PacketGroup.SENSOR_DATA)) {
 			try {
-				sensorValuesMap.put(packet.getSrcNodeId(), Integer.parseInt(packet.getValue()));
+				synchronized(this) {
+					sensorValuesMap.put(packet.getSrcNodeId(), Integer.parseInt(packet.getValue()));
+				}
 				
 				logger.debug("ValueMap updated - new entry is <" + packet.getSrcNodeId() + "," + Integer.parseInt(packet.getValue()) + ">");
 				logger.debug("ValueMap size is now " + sensorValuesMap.size());

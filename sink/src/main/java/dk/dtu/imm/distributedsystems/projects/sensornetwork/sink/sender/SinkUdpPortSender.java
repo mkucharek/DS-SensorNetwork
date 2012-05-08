@@ -2,12 +2,15 @@ package dk.dtu.imm.distributedsystems.projects.sensornetwork.sink.sender;
 
 import java.io.IOException;
 import java.net.DatagramSocket;
+import java.net.InetAddress;
 import java.util.Queue;
 
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.channels.Channel;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.components.sender.udp.AbstractNodeUdpPortSender;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.exceptions.ConnectionHandlerException;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.exceptions.WrongPacketSizeException;
+import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.logging.LoggingUtility;
+import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.MessageType;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.Packet;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.PacketGroup;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.PacketType;
@@ -50,6 +53,36 @@ public class SinkUdpPortSender extends AbstractNodeUdpPortSender {
 		return rightChannels;
 	}
 
+	protected void sendReport(Packet packet)
+			throws WrongPacketSizeException, IOException, InterruptedException {
+		
+		logger.debug("Sending report thorugh unicast left " + packet);
+
+		InetAddress currentLeftChannelIP = InetAddress
+				.getByName(this.leftChannels[0].getIpAddress());
+
+		// send Packet to left channel through UDP Connection
+		sendPacket(leftSocket, packet, currentLeftChannelIP,
+				this.leftChannels[0].getPortNumber());
+
+		if (packet.getGroup().equals(PacketGroup.SENSOR_DATA)) {
+
+			LoggingUtility.logMessage(this.getNodeId(), this.leftChannels[0].getId(),
+					MessageType.SND, packet.getType(), packet.getSrcNodeId()
+							+ ":" + packet.getValue());
+
+		} else if (packet.getGroup().equals(PacketGroup.QUERY)) {
+
+			LoggingUtility.logMessage(this.getNodeId(), this.leftChannels[0].getId(),
+					MessageType.SND, packet.getType(), packet.getValue());
+
+		} else {
+
+			logger.warn("Wrong type of packet to be sent");
+
+		}
+	}
+	
 	/* (non-Javadoc)
 	 * @see dk.dtu.imm.distributedsystems.projects.sensornetwork.common.components.sender.AbstractPortSender#handleOutgoingPacket(dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.Packet)
 	 */
@@ -63,7 +96,13 @@ public class SinkUdpPortSender extends AbstractNodeUdpPortSender {
 				
 				sendMulticastRight(packet);
 				
-			} else if (packet.getGroup().equals(PacketGroup.QUERY) || packet.getType().equals(PacketType.ALM)) {
+			} else if (packet.getGroup().equals(PacketGroup.QUERY)) {
+				
+				// send Report to Query without ACK (no TIMEOUT)
+				
+				sendReport(packet);
+					
+			} else if (packet.getType().equals(PacketType.ALM)) {
 				
 				sendUnicastLeft(packet);
 				

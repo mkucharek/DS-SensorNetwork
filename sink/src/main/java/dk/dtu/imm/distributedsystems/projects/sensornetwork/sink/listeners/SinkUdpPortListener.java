@@ -35,7 +35,6 @@ public final class SinkUdpPortListener extends AbstractUdpPortListener {
 				packet.getGroup().equals(PacketGroup.QUERY))) {
 			
 			logger.debug(packet + " accepted by listener");
-			transceiver.handlePacket(packet);
 			
 			if (packet.getGroup().equals(PacketGroup.COMMAND)) {
 				
@@ -43,7 +42,7 @@ public final class SinkUdpPortListener extends AbstractUdpPortListener {
 						getAssociatedChannelId(fromIpAddress, fromPortNumber),
 						MessageType.RCV,
 						packet.getType(), 
-						packet.getSrcNodeId() + ":" + packet.getValue());
+						packet.getValue());
 				
 				sendAck(fromIpAddress, fromPortNumber);
 				
@@ -51,16 +50,8 @@ public final class SinkUdpPortListener extends AbstractUdpPortListener {
 						getAssociatedChannelId(fromIpAddress, fromPortNumber),
 						MessageType.SND,
 						PacketType.ACK);
-			
-			} else if (packet.getGroup().equals(PacketGroup.QUERY)) {
-				
-				LoggingUtility.logMessage(this.getNodeId(),
-						getAssociatedChannelId(fromIpAddress, fromPortNumber),
-						MessageType.RCV,
-						packet.getType(), 
-						packet.getValue());
-				
-			} else { // ACK
+					
+			} else { // QUERY or ACK
 				
 				LoggingUtility.logMessage(this.getNodeId(),
 						getAssociatedChannelId(fromIpAddress, fromPortNumber),
@@ -68,6 +59,8 @@ public final class SinkUdpPortListener extends AbstractUdpPortListener {
 						packet.getType());
 			
 			}
+			
+			transceiver.handlePacket(packet);
 			
 		} else {
 			
