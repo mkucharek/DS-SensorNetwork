@@ -70,9 +70,16 @@ public class AdminUdpPortSender extends AbstractUdpPortSender {
 
 			if (packet.getGroup().equals(PacketGroup.COMMAND)) {
 
-				LoggingUtility.logMessage(this.getNodeId(), channel.getId(),
-						MessageType.SND, packet.getType(), packet.getValue());
+				if (packet.getGroup().equals(PacketGroup.COMMAND)) {
+					LoggingUtility.logMessage(this.getNodeId(), channel.getId(),
+							MessageType.SND, packet.getType(), packet.getValue());
 
+				} else if (packet.getGroup().equals(PacketGroup.QUERY)) {
+
+					LoggingUtility.logMessage(this.getNodeId(), channel.getId(),
+							MessageType.SND, packet.getType());
+				}
+				
 				timer = new Timer(ackTimeout, this);
 				this.ackObtained = false;
 				timer.start();
@@ -92,11 +99,6 @@ public class AdminUdpPortSender extends AbstractUdpPortSender {
 				logger.info("Timeout passed");
 
 				relatedAdmin.getUserInterface().showError(packet);
-
-			} else if (packet.getGroup().equals(PacketGroup.QUERY)) {
-
-				LoggingUtility.logMessage(this.getNodeId(), channel.getId(),
-						MessageType.SND, packet.getType());
 
 			} else {
 
