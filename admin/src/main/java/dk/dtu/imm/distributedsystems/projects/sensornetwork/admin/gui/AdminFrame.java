@@ -12,23 +12,30 @@ import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.Packet
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.PacketType;
 
 /**
+ * The Class AdminFrame.
  *
- * @author mkucharek
+ * @author Maciej Kucharek <a href="mailto:s091828 (at) student.dtu.dk">s091828 (at) student.dtu.dk</a>
  */
 public class AdminFrame extends javax.swing.JFrame {
 
-    /**
-	 * 
-	 */
+    /** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
+	
 	/**
-     * Creates new form AdminFrame
-     */
+	 * Creates new form AdminFrame.
+	 *
+	 * @param transceiver the transceiver
+	 */
     public AdminFrame(TransceiverComponent transceiver) {
     	this.transceiver = transceiver;
         initComponents();
     }
     
+    /**
+     * Show report.
+     *
+     * @param p the p
+     */
     public void showReport(Packet p) {
     	this.titleLabel.setText(p.getType().toString());
     	if (p.getValue().length() != 0) {
@@ -38,6 +45,11 @@ public class AdminFrame extends javax.swing.JFrame {
     	}
     }
     
+    /**
+     * Show alarm data.
+     *
+     * @param p the p
+     */
     public void showAlarmData(Packet p) {
     	// too verbose
     	//JOptionPane.showMessageDialog(jTabbedPane1, "Temperature in sensor " + p.getSrcNodeId() + " is now " + p.getValue() + "!", "Alert", JOptionPane.WARNING_MESSAGE);
@@ -52,6 +64,11 @@ public class AdminFrame extends javax.swing.JFrame {
     
     }
     
+    /**
+     * Show error.
+     *
+     * @param p the p
+     */
     public void showError(Packet p) {
     	
     	String msg = "Sink is not responding";
@@ -227,24 +244,44 @@ public class AdminFrame extends javax.swing.JFrame {
         pack();
     }
 
+    /**
+     * Max button action performed.
+     *
+     * @param evt the evt
+     */
     private void maxButtonActionPerformed(java.awt.event.ActionEvent evt) {
     	transceiver.handlePacket(new Packet("ADMIN", PacketType.MAX));
     	titleLabel.setText("MAX");
     	valueTextField.setText("Request pending...");
     }
 
+    /**
+     * Min button action performed.
+     *
+     * @param evt the evt
+     */
     private void minButtonActionPerformed(java.awt.event.ActionEvent evt) {
     	transceiver.handlePacket(new Packet("ADMIN", PacketType.MIN));
     	titleLabel.setText("MIN");
 		valueTextField.setText("Request pending...");
     }
 
+    /**
+     * Avg button action performed.
+     *
+     * @param evt the evt
+     */
     private void avgButtonActionPerformed(java.awt.event.ActionEvent evt) {
     	transceiver.handlePacket(new Packet("ADMIN", PacketType.AVG));
     	titleLabel.setText("AVG");
     	valueTextField.setText("Request pending...");
     }
 
+    /**
+     * Sets the button action performed.
+     *
+     * @param evt the new button action performed
+     */
     private void setButtonActionPerformed(java.awt.event.ActionEvent evt) {
         
     	if(setTextField.getText() == null) {
@@ -274,24 +311,58 @@ public class AdminFrame extends javax.swing.JFrame {
     }
 
     // core declaration
+    /** The transceiver. */
     private TransceiverComponent transceiver;
     
     // Variables declaration - do not modify
+    /** The alert label. */
     private javax.swing.JLabel alertLabel;
+    
+    /** The avg button. */
     private javax.swing.JButton avgButton;
+    
+    /** The button group1. */
     private javax.swing.ButtonGroup buttonGroup1;
+    
+    /** The j panel1. */
     private javax.swing.JPanel jPanel1;
+    
+    /** The j panel2. */
     private javax.swing.JPanel jPanel2;
+    
+    /** The j panel3. */
     private javax.swing.JPanel jPanel3;
+    
+    /** The j panel4. */
     private javax.swing.JPanel jPanel4;
+    
+    /** The j tabbed pane1. */
     private javax.swing.JTabbedPane jTabbedPane1;
+    
+    /** The max button. */
     private javax.swing.JButton maxButton;
+    
+    /** The min button. */
     private javax.swing.JButton minButton;
+    
+    /** The period button. */
     private javax.swing.JRadioButton periodButton;
+    
+    /** The set button. */
     private javax.swing.JButton setButton;
+    
+    /** The set label. */
     private javax.swing.JLabel setLabel;
+    
+    /** The set text field. */
     private javax.swing.JTextField setTextField;
+    
+    /** The threshold button. */
     private javax.swing.JRadioButton thresholdButton;
+    
+    /** The title label. */
     private javax.swing.JLabel titleLabel;
+    
+    /** The value text field. */
     private javax.swing.JTextField valueTextField;
 }

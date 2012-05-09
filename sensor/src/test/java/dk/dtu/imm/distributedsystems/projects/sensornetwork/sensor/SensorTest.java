@@ -8,8 +8,16 @@ import org.junit.Test;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.exceptions.NodeInitializationException;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.sensor.sender.UdpPortSender;
 
+/**
+ * The Class SensorTest.
+ *
+ * @author Maciej Kucharek <a href="mailto:s091828 (at) student.dtu.dk">s091828 (at) student.dtu.dk</a>
+ */
 public class SensorTest {
 	
+	/**
+	 * Test properties sensor11.
+	 */
 	@Test
 	public void testPropertiesSensor11() {
 		
@@ -23,9 +31,6 @@ public class SensorTest {
 		assertEquals("11", sensor11.getId());
 		assertEquals(10000, sensor11.getSensorComponent().getPeriod());
 		assertEquals(40, sensor11.getSensorComponent().getThreshold());
-		
-//		assertEquals(9911, ((AbstractUdpPortListener) sensor11.getTransceiverComponent().getLeftPortListener()).getServerSocket().getPort());
-//		assertEquals(9912, ((AbstractUdpPortListener) sensor11.getTransceiverComponent().getRightPortListener()).getServerSocket().getPort());
 		
 		assertEquals("0", (((UdpPortSender) sensor11.getTransceiverComponent().getPortSender()).getLeftChannels()[0].getId()));
 		
@@ -47,36 +52,4 @@ public class SensorTest {
 
 	}
 	
-//	@Test
-//	public void testPropertiesSensor21() {
-//		
-//		Sensor sensor21 = SensorUtility.getSensorInstance("sensor11.properties");
-//		
-//		assertEquals(sensor21.id, 21);
-//		assertEquals(sensor21.period, 10);
-//		assertEquals(sensor21.threshold, 40);
-//		
-//		assertEquals(sensor21.leftPort, 20121);
-//		assertEquals(sensor21.rightPort, 21121);
-//		
-//		assertEquals(sensor21.leftChannelIDs[0], 11);
-//		assertEquals(sensor21.leftChannelIDs[1], 12);
-//		assertEquals(sensor21.leftChannelIDs[2], 13);
-//		
-//		assertEquals(sensor21.leftChannelIPs[0], "192.168.1.111");
-//		assertEquals(sensor21.leftChannelIPs[1], "192.168.1.112");
-//		assertEquals(sensor21.leftChannelIPs[2], "192.168.1.113");
-//		
-//		assertEquals(sensor21.leftChannelPorts[0], 21111);
-//		assertEquals(sensor21.leftChannelPorts[1], 21112);
-//		assertEquals(sensor21.leftChannelPorts[2], 21113);
-//		
-//		assertEquals(sensor21.rightChannelIDs[0], -1);
-//
-//		assertEquals(sensor21.rightChannelIPs[0], "");
-//		
-//		assertEquals(sensor21.rightChannelPorts[0], -1);
-//
-//	}
-
 }

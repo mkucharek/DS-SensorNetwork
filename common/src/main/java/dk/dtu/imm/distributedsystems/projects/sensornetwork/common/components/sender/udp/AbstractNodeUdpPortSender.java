@@ -12,8 +12,12 @@ import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.logging.Loggi
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.MessageType;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.Packet;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.PacketGroup;
-import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.PacketType;
 
+/**
+ * The Class AbstractNodeUdpPortSender.
+ *
+ * @author Maciej Kucharek <a href="mailto:s091828 (at) student.dtu.dk">s091828 (at) student.dtu.dk</a>
+ */
 public abstract class AbstractNodeUdpPortSender extends AbstractUdpPortSender {
 
 	/** The server socket. */
@@ -30,17 +34,14 @@ public abstract class AbstractNodeUdpPortSender extends AbstractUdpPortSender {
 
 	/**
 	 * Instantiates a new sender.
-	 * 
-	 * @param portNumber
-	 *            the port number
-	 * @param buffer
-	 *            the buffer
-	 * @param leftChannels
-	 *            the left channels
-	 * @param rightChannels
-	 *            the right channels
-	 * @param ackTimeout
-	 *            the ack timeout
+	 *
+	 * @param nodeId the node id
+	 * @param leftSocket the left socket
+	 * @param rightSocket the right socket
+	 * @param buffer the buffer
+	 * @param leftChannels the left channels
+	 * @param rightChannels the right channels
+	 * @param ackTimeout the ack timeout
 	 */
 	public AbstractNodeUdpPortSender(String nodeId, DatagramSocket leftSocket,
 			DatagramSocket rightSocket, Queue<Packet> buffer,
@@ -57,15 +58,12 @@ public abstract class AbstractNodeUdpPortSender extends AbstractUdpPortSender {
 
 	/**
 	 * Send unicast left.
-	 * 
-	 * @param packet
-	 *            the packet
+	 *
+	 * @param packet the packet
 	 * @return true, if successful
-	 * @throws WrongPacketSizeException
-	 *             the wrong packet size exception
-	 * @throws IOException
-	 *             Signals that an I/O exception has occurred.
-	 * @throws InterruptedException
+	 * @throws WrongPacketSizeException the wrong packet size exception
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @throws InterruptedException the interrupted exception
 	 */
 	protected boolean sendUnicastLeft(Packet packet)
 			throws WrongPacketSizeException, IOException, InterruptedException {

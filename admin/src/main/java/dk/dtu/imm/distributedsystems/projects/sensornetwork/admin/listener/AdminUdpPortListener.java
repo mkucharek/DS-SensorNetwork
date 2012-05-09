@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 
-import dk.dtu.imm.distributedsystems.projects.sensornetwork.admin.AdminUtility;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.channels.Channel;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.components.listener.udp.AbstractUdpPortListener;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.components.transceiver.AbstractTransceiver;
@@ -14,10 +13,22 @@ import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.Packet
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.PacketGroup;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.PacketType;
 
+/**
+ * The Class AdminUdpPortListener.
+ */
 public final class AdminUdpPortListener extends AbstractUdpPortListener {
 
+	/** The transceiver. */
 	private AbstractTransceiver transceiver;
 	
+	/**
+	 * Instantiates a new admin udp port listener.
+	 *
+	 * @param nodeId the node id
+	 * @param relatedTransceiver the related transceiver
+	 * @param socket the socket
+	 * @param associatedChannels the associated channels
+	 */
 	public AdminUdpPortListener(String nodeId, AbstractTransceiver relatedTransceiver, DatagramSocket socket, Channel[] associatedChannels) {
 		super(nodeId, socket, associatedChannels);
 		this.transceiver = relatedTransceiver;
@@ -25,6 +36,9 @@ public final class AdminUdpPortListener extends AbstractUdpPortListener {
 		this.start();
 	}
 	
+	/* (non-Javadoc)
+	 * @see dk.dtu.imm.distributedsystems.projects.sensornetwork.common.components.listener.udp.AbstractUdpPortListener#handleIncomingPacket(dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.Packet, java.net.InetAddress, int)
+	 */
 	@Override
 	protected void handleIncomingPacket(Packet packet,
 			InetAddress fromIpAddress, int fromPortNumber) throws IOException {

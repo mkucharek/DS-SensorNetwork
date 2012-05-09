@@ -2,6 +2,10 @@ package dk.dtu.imm.distributedsystems.projects.sensornetwork.common.exceptions;
 
 /**
  * The Class ConnectionHandlerException.
+ * 
+ * Wraps a number of exceptions, such as SocketException, IOException, etc.
+ * Indicates that some serious connection problem has occured and the program is not
+ * able to continue.
  *
  * @author Maciej Kucharek <a href="mailto:s091828 (at) student.dtu.dk">s091828 (at) student.dtu.dk</a>
  */

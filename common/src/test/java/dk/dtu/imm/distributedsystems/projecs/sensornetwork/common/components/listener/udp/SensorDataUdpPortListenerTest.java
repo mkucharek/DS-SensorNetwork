@@ -22,25 +22,41 @@ import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.components.tr
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.Packet;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.PacketType;
 
+/**
+ * The Class SensorDataUdpPortListenerTest.
+ *
+ * @author Maciej Kucharek <a href="mailto:s091828 (at) student.dtu.dk">s091828 (at) student.dtu.dk</a>
+ */
 public class SensorDataUdpPortListenerTest {
 
+	/** The Constant ID. */
 	private static final String ID = "0";
 	
+	/** The Constant MAX_GUESS_PORT_ATTEMPTS. */
 	private static final int MAX_GUESS_PORT_ATTEMPTS = 5;
 
+	/** The Constant START_PORT_NUMBER. */
 	private static final int START_PORT_NUMBER = 21200;
 	
+	/** The port number. */
 	private static int portNumber = 9998;
 	
+	/** The channels. */
 	private Channel[] channels;
 	
+	/** The socket. */
 	private DatagramSocket socket;
 	
+	/** The transceiver. */
 	private DummyTransceiver transceiver;
 	
+	/** The listener. */
 	private TestableSensorDataUdpPortListener listener;
 	
 	
+	/**
+	 * Guess port.
+	 */
 	@BeforeClass
 	public static void guessPort() {
 		
@@ -58,6 +74,9 @@ public class SensorDataUdpPortListenerTest {
 		
 	}
 	
+	/**
+	 * Sets the up.
+	 */
 	@Before
 	public void setUp() {
 		
@@ -76,6 +95,9 @@ public class SensorDataUdpPortListenerTest {
 		
 	}
 	
+	/**
+	 * Clean up.
+	 */
 	@After
 	public void cleanUp() {
 		this.listener.interrupt();
@@ -84,6 +106,9 @@ public class SensorDataUdpPortListenerTest {
 		this.socket.close();
 	}
 	
+	/**
+	 * Test listener construction.
+	 */
 	@Test
 	public void testListenerConstruction() {
 		
@@ -95,6 +120,9 @@ public class SensorDataUdpPortListenerTest {
 		Assert.assertEquals(channels, this.listener.getAssociatedChannels());
 	}
 	
+	/**
+	 * Test handle data packet.
+	 */
 	@Test
 	public void testHandleDataPacket() {
 		

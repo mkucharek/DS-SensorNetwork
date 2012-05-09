@@ -19,27 +19,52 @@ import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.exceptions.Wr
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.Packet;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.PacketType;
 
+/**
+ * The Class UdpPortSenderTest.
+ *
+ * @author Maciej Kucharek <a href="mailto:s091828 (at) student.dtu.dk">s091828 (at) student.dtu.dk</a>
+ */
 public class UdpPortSenderTest {
 	
+	/** The sender. */
 	TestableUdpPortSender sender;
 	
+	/** The Constant ID. */
 	private static final String ID = "0";
+	
+	/** The Constant SLEEPVAL. */
 	private static final int SLEEPVAL = 200;
 	
+	/** The Constant MAX_GUESS_PORT_ATTEMPTS. */
 	private static final int MAX_GUESS_PORT_ATTEMPTS = 5;
 	
+	/** The Constant START_LEFT_PORT_NUMBER. */
 	private static final int START_LEFT_PORT_NUMBER = 21100;
+	
+	/** The Constant START_RIGHT_PORT_NUMBER. */
 	private static final int START_RIGHT_PORT_NUMBER = 21200;
 	
+	/** The left port number. */
 	private static int leftPortNumber = 9999;
+	
+	/** The right port number. */
 	private static int rightPortNumber = 9998;
 	
+	/** The left channels. */
 	Channel[] leftChannels;
+	
+	/** The right channels. */
 	Channel[] rightChannels;
 	
+	/** The left socket. */
 	DatagramSocket leftSocket;
+	
+	/** The right socket. */
 	DatagramSocket rightSocket;
 	
+	/**
+	 * Guess port.
+	 */
 	@BeforeClass
 	public static void guessPort() {
 		
@@ -70,6 +95,9 @@ public class UdpPortSenderTest {
 		
 	}
 	
+	/**
+	 * Before.
+	 */
 	@Before
 	public void before() {
 		
@@ -86,6 +114,9 @@ public class UdpPortSenderTest {
 		this.sender = new TestableUdpPortSender(ID, leftSocket, rightSocket, new LinkedList<Packet>(), leftChannels, rightChannels, SLEEPVAL);
 	}
 	
+	/**
+	 * Clean up.
+	 */
 	@After
 	public void cleanUp() {
 		// interrupt previously created Sender and therefore close the socket.
@@ -95,6 +126,9 @@ public class UdpPortSenderTest {
 		rightSocket.close();
 	}
 	
+	/**
+	 * Test data timeout.
+	 */
 	@Test
 	public void testDataTimeout() {
 		
@@ -117,6 +151,9 @@ public class UdpPortSenderTest {
 		
 	}
 	
+	/**
+	 * Test data.
+	 */
 	@Test
 	public void testData() {
 		
@@ -151,6 +188,9 @@ public class UdpPortSenderTest {
 		
 	}
 	
+	/**
+	 * Test alarm data.
+	 */
 	@Test
 	public void testAlarmData() {
 		
@@ -180,6 +220,9 @@ public class UdpPortSenderTest {
 		
 	}
 	
+	/**
+	 * Test alarm data time.
+	 */
 	@Test
 	public void testAlarmDataTime() {
 		
@@ -209,6 +252,9 @@ public class UdpPortSenderTest {
 		
 	}
 	
+	/**
+	 * Test alarm data timeout.
+	 */
 	@Test
 	public void testAlarmDataTimeout() {
 		

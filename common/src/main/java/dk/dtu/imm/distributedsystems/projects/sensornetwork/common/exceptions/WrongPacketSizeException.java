@@ -3,6 +3,8 @@ package dk.dtu.imm.distributedsystems.projects.sensornetwork.common.exceptions;
 /**
  * The Class WrongPacketSizeException.
  *
+ * Indicates that the packet that is to be sent is too big to fit in the DatagramSocket buffer.
+ * 
  * @author Maciej Kucharek <a href="mailto:s091828 (at) student.dtu.dk">s091828 (at) student.dtu.dk</a>
  */
 public class WrongPacketSizeException extends Exception {

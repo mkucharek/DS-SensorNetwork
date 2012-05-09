@@ -1,17 +1,22 @@
 package dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet;
 
+/**
+ * The Enum MessageType.
+ *
+ * @author Maciej Kucharek <a href="mailto:s091828 (at) student.dtu.dk">s091828 (at) student.dtu.dk</a>
+ */
 public enum MessageType {
 	
-	/** Outgoing message */
+	/** Outgoing message. */
 	SND,
 	
-	/** Incoming message */
+	/** Incoming message. */
 	RCV,
 	
-	/** Internally generated message*/
+	/** Internally generated message. */
 	GEN,
 	
-	/** Internal command */
+	/** Internal command. */
 	SET;
 
 }

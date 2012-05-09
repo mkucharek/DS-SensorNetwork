@@ -8,6 +8,8 @@ import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.Packet
 
 /**
  * The Class LoggingUtility.
+ * 
+ * Used for logging the messages to STDOUT as per requirements.
  *
  * @author Maciej Kucharek <a href="mailto:s091828 (at) student.dtu.dk">s091828 (at) student.dtu.dk</a>
  */

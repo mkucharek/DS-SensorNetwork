@@ -12,8 +12,16 @@ import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.Packet
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.PacketGroup;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.PacketType;
 
+/**
+ * The Class PacketTest.
+ *
+ * @author Maciej Kucharek <a href="mailto:s091828 (at) student.dtu.dk">s091828 (at) student.dtu.dk</a>
+ */
 public class PacketTest {
 
+	/**
+	 * Test various packets size.
+	 */
 	@Test
 	public void testVariousPacketsSize() {
 		
@@ -31,6 +39,9 @@ public class PacketTest {
 		
 	}
 	
+	/**
+	 * Test packet integrity.
+	 */
 	@Test
 	public void testPacketIntegrity() {
 		
@@ -44,6 +55,9 @@ public class PacketTest {
 		Assert.assertEquals(PacketGroup.SENSOR_DATA, p.getGroup());
 	}
 	
+	/**
+	 * Test illegal packet states.
+	 */
 	@Test
 	public void testIllegalPacketStates() {
 		
@@ -79,6 +93,11 @@ public class PacketTest {
 		
 	}
 	
+	/**
+	 * Test packet size.
+	 *
+	 * @param packet the packet
+	 */
 	private void testPacketSize(Packet packet) {
 		
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();

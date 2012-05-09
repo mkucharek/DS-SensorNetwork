@@ -17,7 +17,6 @@ import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.Messag
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.Packet;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.PacketGroup;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class AdminUdpPortSender.
  */

@@ -1,5 +1,4 @@
-package dk.dtu.imm.distributedsystems.projects.sensornetwork.admin.components
-;
+package dk.dtu.imm.distributedsystems.projects.sensornetwork.admin.components;
 
 import java.net.DatagramSocket;
 import java.net.SocketException;
@@ -16,12 +15,26 @@ import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.Packet
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.PacketType;
 
 
+/**
+ * The Class TransceiverComponent.
+ */
 public class TransceiverComponent extends AbstractOneChannelTransceiver {
 	
+	/** The right socket. */
 	protected DatagramSocket rightSocket;
 	
+	/** The admin. */
 	protected Admin admin;
 			
+	/**
+	 * Instantiates a new transceiver component.
+	 *
+	 * @param admin the admin
+	 * @param nodeId the node id
+	 * @param rightPortNumber the right port number
+	 * @param rightChannels the right channels
+	 * @param ackTimeout the ack timeout
+	 */
 	public TransceiverComponent(Admin admin, String nodeId, int rightPortNumber,
 			Channel[] rightChannels, int ackTimeout) {
 		super(nodeId, null, null);
@@ -43,6 +56,9 @@ public class TransceiverComponent extends AbstractOneChannelTransceiver {
 				ackTimeout));
 	}
 	
+	/* (non-Javadoc)
+	 * @see dk.dtu.imm.distributedsystems.projects.sensornetwork.common.components.transceiver.AbstractTransceiver#handlePacket(dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.Packet)
+	 */
 	@Override
 	public synchronized void handlePacket(Packet packet) {
 		
@@ -85,6 +101,9 @@ public class TransceiverComponent extends AbstractOneChannelTransceiver {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see dk.dtu.imm.distributedsystems.projects.sensornetwork.common.components.transceiver.AbstractOneChannelTransceiver#close()
+	 */
 	@Override
 	public void close() {
 		

@@ -5,7 +5,6 @@ import java.util.Scanner;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.channels.Channel;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.exceptions.NodeInitializationException;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.nodes.AbstractNode;
-import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.nodes.NodeType;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.sink.components.TransceiverComponent;
 
 /**

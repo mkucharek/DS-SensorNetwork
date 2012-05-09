@@ -13,17 +13,38 @@ import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.channels.Chan
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.exceptions.NodeInitializationException;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.nodes.NodeType;
 
+/**
+ * The Class AdminUtility.
+ *
+ * @author Maciej Kucharek <a href="mailto:s091828 (at) student.dtu.dk">s091828 (at) student.dtu.dk</a>
+ */
 public class AdminUtility {
 	
 	/** The Constant QUERY_TIMEOUT_MS. */
 	public static final int QUERY_TIMEOUT_MS = 1000;
 	
+	/** The Constant logger. */
 	protected final static Logger logger = LoggerFactory.getLogger(AdminUtility.class);
 
+	/**
+	 * Gets the admin instance.
+	 *
+	 * @param propertyFilePath the property file path
+	 * @return the admin instance
+	 * @throws NodeInitializationException the node initialization exception
+	 */
 	public static Admin getAdminInstance(String propertyFilePath) throws NodeInitializationException {
 		return getAdminInstance(propertyFilePath, false);
 	}
 	
+	/**
+	 * Gets the admin instance.
+	 *
+	 * @param propertyFilePath the property file path
+	 * @param fromClasspath the from classpath
+	 * @return the admin instance
+	 * @throws NodeInitializationException the node initialization exception
+	 */
 	public static Admin getAdminInstance(String propertyFilePath, boolean fromClasspath) throws NodeInitializationException {
 		
 		String errorMsg = "Cannot instanciate a Sensor using " + propertyFilePath + " file.";

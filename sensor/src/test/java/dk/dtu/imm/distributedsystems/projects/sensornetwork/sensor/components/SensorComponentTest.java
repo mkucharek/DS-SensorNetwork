@@ -14,21 +14,34 @@ import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.components.tr
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.Packet;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.sensor.SensorUtility;
 
+/**
+ * The Class SensorComponentTest.
+ *
+ * @author Maciej Kucharek <a href="mailto:s091828 (at) student.dtu.dk">s091828 (at) student.dtu.dk</a>
+ */
 public class SensorComponentTest {
 
+	/** The Constant ID. */
 	private static final String ID = "0";
 	
+	/** The Constant PERIOD. */
 	private static final int PERIOD = 100;
 	
+	/** The Constant THRESHOLD. */
 	private static final int THRESHOLD = 25;
 	
+	/** The Constant MAX_COUNT. */
 	private static final int MAX_COUNT = 25;
 	
-	@SuppressWarnings("unused")
+	/** The sensor component. */
 	private SensorComponent sensorComponent;
 	
+	/** The transceiver. */
 	private DummyTransceiver transceiver;
 	
+	/**
+	 * Sets the up.
+	 */
 	@Before
 	public void setUp() {
 		// setting up a dummy transceiver with no listeners nor sender
@@ -37,12 +50,18 @@ public class SensorComponentTest {
 		
 	}
 	
+	/**
+	 * Clean up.
+	 */
 	@After
 	public void cleanUp() {
 		this.transceiver.close();
 		this.sensorComponent.interrupt();
 	}
 	
+	/**
+	 * Test measurement count.
+	 */
 	@Test
 	public void testMeasurementCount() {
 		
@@ -64,6 +83,9 @@ public class SensorComponentTest {
 		
 	}
 	
+	/**
+	 * Test measurement values.
+	 */
 	@Test
 	public void testMeasurementValues() {
 		
