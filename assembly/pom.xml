@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>dk.dtu.imm.distributedsystems.projects</groupId>
+		<artifactId>sensornetwork</artifactId>
+		<version>1.0-SNAPSHOT</version>
+	</parent>
+
+	<groupId>dk.dtu.imm.distributedsystems.projects.sensornetwork</groupId>
+	<artifactId>assembly</artifactId>
+	<version>1.0-SNAPSHOT</version>
+
+	<packaging>pom</packaging>
+
+	<name>DS - Sensor Network :: Assembly</name>
+
+	<!-- NOTE: dependency on type=pom is here to allow to transitive dependency 
+		copy -->
+	<dependencies>
+
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>admin</artifactId>
+			<version>${project.parent.version}</version>
+			<type>zip</type>
+			<classifier>distribution</classifier>
+		</dependency>
+
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>sensor</artifactId>
+			<version>${project.parent.version}</version>
+			<type>zip</type>
+			<classifier>distribution</classifier>
+		</dependency>
+
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>sink</artifactId>
+			<version>${project.parent.version}</version>
+			<type>zip</type>
+			<classifier>distribution</classifier>
+		</dependency>
+
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<configuration>
+					<finalName>${project.parent.artifactId}-${project.version}</finalName>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>

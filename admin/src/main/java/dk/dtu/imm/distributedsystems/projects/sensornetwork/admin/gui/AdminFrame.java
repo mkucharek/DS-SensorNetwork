@@ -90,7 +90,7 @@ public class AdminFrame extends javax.swing.JFrame {
         setTitle("Admin Node Client ");
         setResizable(false);
 
-        jPanel1.setOpaque(false);
+//        jPanel1.setOpaque(false);
 
         titleLabel.setText("Click a button");
 
@@ -153,7 +153,7 @@ public class AdminFrame extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Report", jPanel1);
 
-        jPanel2.setOpaque(false);
+//        jPanel2.setOpaque(false);
 
         buttonGroup1.add(thresholdButton);
         thresholdButton.setText("Threshold");
