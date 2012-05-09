@@ -108,7 +108,6 @@
 
 					<configuration>
 						<finalName>${project.artifactId}-${project.version}</finalName>
-						<appendAssemblyId>false</appendAssemblyId>
 						<descriptors>
 							<descriptor>src/main/assembly/assembly.xml</descriptor>
 						</descriptors>

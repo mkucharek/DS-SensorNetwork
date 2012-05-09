@@ -18,8 +18,6 @@
 
 	<name>DS - Sensor Network :: Assembly</name>
 
-	<!-- NOTE: dependency on type=pom is here to allow to transitive dependency 
-		copy -->
 	<dependencies>
 
 		<dependency>
