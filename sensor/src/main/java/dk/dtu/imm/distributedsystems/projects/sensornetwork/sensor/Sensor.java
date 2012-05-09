@@ -58,9 +58,13 @@ public class Sensor extends AbstractNode {
 			return;
 		}
 		
+
 	    Scanner in = new Scanner(System.in);
 
-		in.next();
+	    String str = "";
+	    while (!"exit".equals(str)) {
+	    	str = in.next();
+	    }
 		in.close();
 
 		System.out.println("Done");

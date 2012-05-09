@@ -71,12 +71,11 @@ public class Admin extends AbstractNode
 			return;
 		}
 		
-		
 	    Scanner in = new Scanner(System.in);
-
-	    int i = 1;
-	    while (i != 0) {
-	    	in.next();
+	    
+	    String str = "";
+	    while (!"exit".equals(str)) {
+	    	str = in.next();
 	    }
 		in.close();
 
