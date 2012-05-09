@@ -15,6 +15,9 @@ import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.nodes.NodeTyp
 
 public class AdminUtility {
 	
+	/** The Constant QUERY_TIMEOUT_MS. */
+	public static final int QUERY_TIMEOUT_MS = 1000;
+	
 	protected final static Logger logger = LoggerFactory.getLogger(AdminUtility.class);
 
 	public static Admin getAdminInstance(String propertyFilePath) throws NodeInitializationException {

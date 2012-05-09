@@ -70,8 +70,10 @@ public class TransceiverComponent extends AbstractOneChannelTransceiver {
 
 				logger.debug("Response to Query packet received - sending it to UI"); 
 				
+				logger.debug("Passing information about QUERY received to sender");
+				((AdminUdpPortSender) this.getPortSender()).passQuery();
+				
 				admin.getUserInterface().showReport(packet);
-			
 			}
 						
 		} else if (packet.getGroup().equals(PacketGroup.ACKNOWLEDGEMENT)) {
