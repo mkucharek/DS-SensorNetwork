@@ -286,28 +286,41 @@ public class AdminFrame extends javax.swing.JFrame {
      */
     private void setButtonActionPerformed(java.awt.event.ActionEvent evt) {
         
-    	if(setTextField.getText() == null) {
-    		setLabel.setText("Please enter a value");
-    		return;
-    	}
+    	if (periodButton.isSelected() || thresholdButton.isSelected()) {
     	
-    	try {
-    		Integer.parseInt(setTextField.getText());
-    	} catch (NumberFormatException e) {
-    		// incorrect input
-    		setLabel.setText("Please choose a numeric value");
-    		return;
-    	}
+			if (setTextField.getText().equals("")) {
+				setLabel.setText("Please enter a value");
+				return;
+			}
+			
+			try {
+				Integer.parseInt(setTextField.getText());
+			} catch (NumberFormatException e) {
+				// incorrect input
+				setLabel.setText("Please choose an integer value");
+				return;
+			}
+			
+			if (Integer.parseInt(setTextField.getText()) <= 0 && periodButton.isSelected()) {
+				// negative integer value
+				setLabel.setText("Please choose a positive integer value for period");
+				return;    		
+			}
+			
+			// all set - perform desired action
+			if (periodButton.isSelected()) {
+				transceiver.handlePacket(new Packet("ADMIN", PacketType.PRD, setTextField.getText()));
+				setLabel.setText("Period changed to " + setTextField.getText());
+				setTextField.setText("");
+			} else if (thresholdButton.isSelected()) {
+				transceiver.handlePacket(new Packet("ADMIN", PacketType.THR, setTextField.getText()));
+				setLabel.setText("Threshold changed to " + setTextField.getText());
+				setTextField.setText("");
+			}
     	
-    	// all set - perform desired action
-    	if(periodButton.isSelected()) {
-    		transceiver.handlePacket(new Packet("ADMIN", PacketType.PRD, setTextField.getText()));
-    		setLabel.setText("Period changed to " + setTextField.getText());
-    		setTextField.setText("");
-    	} else if (thresholdButton.isSelected()) {
-    		transceiver.handlePacket(new Packet("ADMIN", PacketType.THR, setTextField.getText()));
-    		setLabel.setText("Threshold changed to " + setTextField.getText());
-    		setTextField.setText("");
+    	} else {
+    		setLabel.setText("Please specify type of command");
+    		return;
     	}
     	
     }

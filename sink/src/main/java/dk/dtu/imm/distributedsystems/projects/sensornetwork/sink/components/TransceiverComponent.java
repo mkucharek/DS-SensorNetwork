@@ -55,6 +55,11 @@ public class TransceiverComponent extends AbstractTwoChannelTransceiver {
 	}
 	
 	private synchronized String getMaxSensorValue() {
+		
+		if (sensorValuesMap.isEmpty()) {
+			return "";
+		}
+		
 		Integer maxValue = Integer.MIN_VALUE;
 		
 		for (Integer curInt: sensorValuesMap.values()) {
@@ -63,14 +68,15 @@ public class TransceiverComponent extends AbstractTwoChannelTransceiver {
 			}
 		}
 		
-		if (maxValue == Integer.MIN_VALUE) {
-			return "";
-		} else {
-			return Integer.toString(maxValue);
-		}
+		return Integer.toString(maxValue);
 	}
 	
 	private synchronized String getMinSensorValue() {
+		
+		if (sensorValuesMap.isEmpty()) {
+			return "";
+		}
+		
 		Integer minValue = Integer.MAX_VALUE;
 		
 		for (Integer curInt: sensorValuesMap.values()) {
@@ -79,27 +85,24 @@ public class TransceiverComponent extends AbstractTwoChannelTransceiver {
 			}
 		}
 		
-		if (minValue == Integer.MAX_VALUE) {
-			return "";
-		} else {
-			return Integer.toString(minValue);
-		}
+		return Integer.toString(minValue);
+
 	}
 	
 	private synchronized String getAvgSensorValue() {
+		
+		if (sensorValuesMap.isEmpty()) {
+			return "";
+		}
+		
 		Integer sum = 0;
 		
 		for (Integer curInt: sensorValuesMap.values()) {
-			if (curInt < sum) {
-				sum += curInt;
-			}
+			sum += curInt;
 		}
 		
-		if (sensorValuesMap.size() == 0) {
-			return "";
-		} else {
-			return Integer.toString(sum / sensorValuesMap.size());
-		}
+		return Integer.toString(sum / sensorValuesMap.size());
+
 	}
 	
 	@Override
