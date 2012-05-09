@@ -171,10 +171,12 @@ public class AdminFrame extends javax.swing.JFrame {
 
         buttonGroup1.add(periodButton);
         periodButton.setText("Period");
+        periodButton.setOpaque(false);
         jPanel4.add(periodButton);
 
         buttonGroup1.add(thresholdButton);
         thresholdButton.setText("Threshold");
+        thresholdButton.setOpaque(false);
         jPanel4.add(thresholdButton);
 
         org.jdesktop.layout.GroupLayout jPanel2Layout = new org.jdesktop.layout.GroupLayout(jPanel2);
