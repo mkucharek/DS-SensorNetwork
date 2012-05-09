@@ -12,6 +12,7 @@ import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.components.li
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.components.sender.AbstractPortSender;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.components.transceiver.AbstractTransceiver;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.Packet;
+import dk.dtu.imm.distributedsystems.projects.sensornetwork.common.packet.PacketType;
 import dk.dtu.imm.distributedsystems.projects.sensornetwork.sensor.SensorUtility;
 
 /**
@@ -80,6 +81,33 @@ public class SensorComponentTest {
 		
 		Assert.assertEquals(true, this.transceiver.getCallCounter() >= measurementCount - 1);
 		Assert.assertEquals(true, this.transceiver.getCallCounter() <= measurementCount + 1);
+		
+	}
+	
+	/**
+	 * Test measurement count.
+	 */
+	@Test
+	public void testChangeThr() {
+		
+		final int HUGE_THR = 100;
+		
+		// very high thr - should generate DAT
+		this.sensorComponent = new SensorComponent(ID, this.transceiver, PERIOD, HUGE_THR);
+		
+		// changing the thr immediately - should now generate ALM
+		this.sensorComponent.setThreshold(-HUGE_THR);
+		
+		try {
+			Thread.sleep(PERIOD/2*3);
+		} catch (InterruptedException e) {
+			Assert.fail();
+			e.printStackTrace();
+		}
+		
+		Assert.assertEquals(1, this.transceiver.getCallCounter());
+		
+		Assert.assertEquals(PacketType.ALM, this.transceiver.getLastPacket().getType());
 		
 	}
 	

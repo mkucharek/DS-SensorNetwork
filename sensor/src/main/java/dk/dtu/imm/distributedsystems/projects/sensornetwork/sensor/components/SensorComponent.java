@@ -16,9 +16,9 @@ public class SensorComponent extends Thread {
 
 	protected final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-	private int period;
+	private Integer period;
 	
-	private int threshold;
+	private Integer threshold;
 	
 	private String nodeId;
 
@@ -37,12 +37,16 @@ public class SensorComponent extends Thread {
 		this.start();
 	}
 
-	public synchronized void setPeriod(int p) {
-		this.period = p;
+	public void setPeriod(int p) {
+		synchronized (this.period) {
+			this.period = p;
+		}
 	}
 
-	public synchronized void setThreshold(int t) {
-		this.threshold = t;
+	public void setThreshold(int t) {
+		synchronized(this.threshold) {
+			this.threshold = t;
+		}
 		logger.debug("Threshold set to " + this.threshold);
 	}
 	
@@ -84,7 +88,7 @@ public class SensorComponent extends Thread {
 
 			measurement = getTemperature();
 
-			synchronized (this) {
+			synchronized (this.threshold) {
 				
 				logger.debug("New measurement - " + measurement + ", current threshold is " + threshold);
 				
