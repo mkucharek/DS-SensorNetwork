@@ -47,6 +47,12 @@ public class TransceiverComponent extends AbstractTwoChannelTransceiver {
 				new LinkedList<Packet>(), leftChannels, rightChannels,
 				ackTimeout));
 		
+		// set thread names
+		this.getLeftPortListener().setName("Sensor - Left Listener");
+		this.getRightPortListener().setName("Sensor - Right Listener");
+				
+		this.getPortSender().setName("Sink - Sender");
+		
 		this.sensor = sensor;
 	}
 	

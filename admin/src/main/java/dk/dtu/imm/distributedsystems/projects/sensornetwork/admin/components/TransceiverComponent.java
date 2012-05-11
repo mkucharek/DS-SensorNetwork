@@ -54,6 +54,12 @@ public class TransceiverComponent extends AbstractOneChannelTransceiver {
 		this.setSender(new AdminUdpPortSender(nodeId, this.rightSocket,
 				new LinkedList<Packet>(), admin, rightChannels,
 				ackTimeout));
+		
+		// set thread names
+		this.getPortListener().setName("Admin - Listener");
+		
+		this.getPortSender().setName("Admin - Sender");
+		
 	}
 	
 	/* (non-Javadoc)
