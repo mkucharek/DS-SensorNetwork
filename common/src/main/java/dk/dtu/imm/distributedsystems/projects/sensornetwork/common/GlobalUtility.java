@@ -44,15 +44,21 @@ public class GlobalUtility {
 
 		is = GlobalUtility.class.getClassLoader().getResourceAsStream(filename);
 		properties.load(is);
+		
+		is.close();
 
 		return properties;
 	}
 	
 	public static Properties getProperties(String filename) throws FileNotFoundException, IOException, URISyntaxException {
 
+	        InputStream is;
 		Properties properties = new Properties();
 		
-		properties.load(new FileInputStream(filename));
+		is = new FileInputStream(filename);
+		properties.load(is);
+		
+		is.close();
 
 		return properties;
 	}
