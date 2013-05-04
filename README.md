@@ -11,8 +11,6 @@ A resulting zip file containing all 3 nodes binaries can be found in assembly/ta
 How to start development in STS:
 
 - clone repository
-- open terminal/CMD/PowerShell and navigate to the directory containing project root directory
-- run: mvn eclipse:eclipse
 - open STS, click on File --> Import..
 - select "Existing Maven Projects"
 - choose project root directory
